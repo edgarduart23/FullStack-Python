@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h1>Listado de productos</h1>
+    
+    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar'  %}' ">AGREGAR</button> 
+    <br>
+    <div class="container-fluid"></div>
+        
+            
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Tipo</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for unProducto in productos %}
+                        <tr>
+                            <th scope="row">{{unProducto.id}}</th>
+                            <td>{{unProducto.descripcion}}</td>
+                            <td>{{unProducto.precio}}</td>
+                            <td> {% if unProducto.tipo == 'L' %}
+                                    LENTE
+                                 {% elif unProducto.tipo == 'E' %}
+                                    ESTUCHE                                    
+                                 {% else %}
+                                    GOTITAS
+                                 {% endif %}
+                            <td>
+                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar' unProducto.id %}'" >EDITAR</button> 
+                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:producto' unProducto.id %}'">DETALLES</button>
+                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unProducto.id %}'">ELIMINAR</button>  
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                </tbody>
+            </table>
+            
+          
+        
+    </div>
+{% endblock content %}
+
