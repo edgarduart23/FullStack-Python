@@ -1,0 +1,21 @@
+{% extends "usuarios/layout.html" %}
+
+{% block body %}
+<p>Ésta es la página de inicio, el usuario del sistema se debe loguear</p>
+
+    <h1>Log In</h1>
+
+    {% if mensaje %}
+        <div style="color: red"
+        >{{ mensaje }}</div>
+    {% endif %}
+
+    <form action="{% url 'usuarios:login' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+    </form>
+    <br>
+    <a href="{% url 'clinica:index' %}">Volver</a>
+{% endblock %}
