@@ -9,3 +9,15 @@ class Producto(models.Model):
     tipo = models.CharField(max_length=1, choices=TIPOS)
     def __str__(self):
         return f"{self.id} {self.descripcion} {self.precio} {self.tipo} "
+
+class Turnos(models.Model):
+    id = models.IntegerField()
+    Paciente = models.ForeignKey(paciente)
+    Doctor =models.ForeignKey(doctor)
+    FechaTurno = models.DateField()
+    HoraTurno = models.DateTimeField()
+    FechaAlta = models.DateField()
+    FechaBaja = models.DateField()
+
+    def _str_(self):
+        return f"{self.id} {self.Paciente} {self.Doctor} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
