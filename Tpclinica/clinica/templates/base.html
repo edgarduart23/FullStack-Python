@@ -31,20 +31,128 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          {% if not user.is_authenticated %}
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="{% url 'clinica:index' %}">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="#">Nosotros</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="#">Servicios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">Contacto</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'usuarios:login' %}">Login</a>     
+          </li>
+          {% endif %}
+          
+          {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">Administrar usuarios</a>
+              </li>
+            {% endif %}
+
+            {% if user.es_secretaria %}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Secretaria</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Menú 1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Menú 2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Menú 3</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Menú 4</a>
+              </li>
+            {% endif %}
+
+            {% if user.es_medico %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Médico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 4</a>
+            </li>
+            {% endif %}
+
+            {% if user.es_taller %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Taller</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 4</a>
+            </li>
+            {% endif %}
+
+            {% if user.es_ventas %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Ventas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 4</a>
+            </li>
+            {% endif %}
+
+            {% if user.es_gerencia %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Gerencia</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menú 4</a>
+            </li>
+            {% endif %}
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'usuarios:logout' %}">User: {{ user.username }} (logout)</a>
+            </li>            
+          {% endif %}
+          
         </ul>
       </div>
     </div>
@@ -52,6 +160,37 @@
 
   <!-- Page Content -->
   <div class="container">
+
+    {% if user.is_authenticated %}
+      <p>Bienvenido, {{ user.username }}.</p>
+
+      {% if user.es_medico %}
+        <h1>Es Médico</h1>
+        <h4>Panel de control paras medicos:</h4>
+        <ul>
+            <li>
+              <a href="#">Consultar turnos</a></li>
+              <a href="{% url 'admin:index' %}"></a>
+            <li><a href="#">Consultar historial medico por paciente</a></li>
+            <li><a href="#">Cargar datos al historial medico</a></li>
+            <!-- <li><a href="{% url 'admin:index' %}">Editar o eliminar historiales médicos</a></li> -->
+            <li><a href="#">Editar o eliminar historiales médicos</a></li>
+        </ul>
+      {% endif %}
+
+      {% if user.es_taller %}
+        <h1>Es Taller</h1>
+      {% endif %}
+
+      {% if user.es_ventas %}
+        <h1>Es Ventas</h1>
+      {% endif %}
+
+      {% if user.es_gerencia %}
+        <h1>Es Gerencia</h1>
+      {% endif %}
+
+    {% endif %}
 
     
 
