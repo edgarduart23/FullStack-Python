@@ -9,4 +9,7 @@ urlpatterns = [
     path('productos/agregar',  views.agregar, name="agregar"),
     path('productos/eliminar/<int:producto_id>',  views.eliminar, name="eliminar"),
     path('productos/actualizar/<int:producto_id>',  views.actualizar, name="actualizar"),
+    # path('turnos/crear', views.crearTurno , name = "crearTurno"),
+    # path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),
+    # path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
 ]
