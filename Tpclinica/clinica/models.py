@@ -7,6 +7,12 @@ class Producto(models.Model):
     precio = models.FloatField()
     TIPOS = (('L', 'Lente'), ('E', 'Estuche'), ('G', 'Gotita'))
     tipo = models.CharField(max_length=1, choices=TIPOS)
+    ENFOQUE = (('L', 'Lejos'), ('C', 'Cerca'))
+    enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank= True)
+    LADO = (('I', 'Izqierda'), ('D', 'Derecha'))
+    lado = models.CharField(max_length=1, choices=LADO, blank= True)
+    armazon = models.BooleanField(default=False)
+   
     def __str__(self):
         return f"{self.id} {self.descripcion} {self.precio} {self.tipo} "
 
