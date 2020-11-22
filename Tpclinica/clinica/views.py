@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Producto
+from .models import Producto, Paciente, Consulta
 from .form import ProductoCreate
 from django.http import HttpResponse
 # from .models import Turnos
@@ -98,6 +98,14 @@ def actualizar(request, producto_id):
 #         turno_form.save()
 #         return redirect('clinica:turnos')
 #      return render(request, 'actualizarturno.html', {'upload_form':turno_form })
+def pacientes(request):
+    return render(request, "pacientes.html", {
+        "pacientes": Paciente.objects.all()
+    })
 
-
-        
+def historial(request, paciente_id):
+    consultasTotales = Consulta.objects.all()
+    consultas = consultasTotales.filter(paciente_id=paciente_id)
+    return render(request, "historial.html",{
+        "consultas": consultas
+    })
