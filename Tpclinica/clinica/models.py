@@ -1,5 +1,5 @@
 from django.db import models
-from usuarios.models import PerfilVentas
+from usuarios.models import PerfilVentas, PerfilMedico
 
 
 # Create your models here.
@@ -88,3 +88,23 @@ class PedidoDetalle(models.Model):
             return f"{self.cantidad} {'unidades' if self.cantidad > 1 else 'unidad'}"
         def __str__(self):
             return self.producto.nombre
+
+class Paciente(models.Model):
+#    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
+    nombre = models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
+    direccion = models.CharField(max_length=60)
+    telefono = models.IntegerField()
+    email = models.EmailField()
+    def __str__(self):
+        return self.nombre
+    
+class Consulta(models.Model):
+#    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    motivo = models.CharField(max_length=150)
+    diagnostico = models.CharField(max_length=150)
+    tratamiento = models.CharField(max_length=150)
+    observacion = models.CharField(max_length=150)
+    def __str__(self):
+        return self.motivo

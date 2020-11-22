@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h1> Historial del Paciente: {{paciente_id}} : {{unaConsulta.Paciente.nombre}} {{unaConsulta.Paciente.apellido}} </h1>
+   
+    {% for unaConsulta in consultas %}
+    <tr>
+        <th scope="row">{{unaConsulta.paciente_id}}</th>
+        <td>{{unaConsulta.motivo}}</td>
+        <td>{{unaConsulta.diagnostico}}</td>
+        <td>{{unaConsulta.tratamiento}}</td>
+        <td>{{unaConsulta.observacion}}</td>
+        <td>
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:pacientes' %}'" >EDITAR</button> 
+            <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pacientes' %}'">DETALLES</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:pacientes' %}'">ELIMINAR</button>  
+            
+        </td>
+    </tr>
+{% endfor %}  
+    
+          <a href="{% url 'clinica:pacientes' %}" class="btn btn-primary">VOLVER</a>
+        
+    
+        
+        
+           
+        
+    
+    
+{% endblock content %}
