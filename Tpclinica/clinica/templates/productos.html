@@ -16,6 +16,10 @@
                     <th scope="col">Descripcion</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Tipo</th>
+                    <th scope="col">Enfoque</th>
+                    <th scope="col">Lado</th>
+                    <th scope="col">ARMAZON</th>
+                    
                 </tr>
                 </thead>
                 <tbody>
@@ -31,6 +35,29 @@
                                  {% else %}
                                     GOTITAS
                                  {% endif %}
+                            <td>{% if unProducto.enfoque == 'L' %}
+                                    LEJOS
+                                    {% elif uunProducto.enfoque == 'C' %}
+                                    CERCA
+                                    {% else %}
+                                    ------------                                 
+                                    {% endif %}
+                            </td>
+                            <td>{% if unProducto.lado == 'I' %}
+                                IZQUIERDA
+                                {% elif uunProducto.lado == 'D' %}
+                                DERECHA
+                                {% else %}
+                                ------------  
+                                {% endif %}
+                            </td>
+                            <td>{% if unProducto.armazon == True %}
+                                SI
+                                
+                                {% else %}
+                                NO  
+                                {% endif %}
+                            </td>
                             <td>
                                 <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar' unProducto.id %}'" >EDITAR</button> 
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:producto' unProducto.id %}'">DETALLES</button>

@@ -1,21 +1,49 @@
 {% extends "usuarios/layout.html" %}
-
+{% load static %}
 {% block body %}
-<p>Ésta es la página de inicio, el usuario del sistema se debe loguear</p>
+<!-- p>Ésta es la página de inicio, el usuario del sistema se debe loguear</p>
 
     <h1>Log In</h1>
-
+-->
     {% if mensaje %}
         <div style="color: red"
         >{{ mensaje }}</div>
     {% endif %}
+    <main role="main" class="container my-auto">
+        <div class="row">
+            <div id="login" class="col-lg-4 offset-lg-4 col-md-6 offset-md-3
+                col-12">
+                <h2 class="text-center">Bienvenido de nuevo</h2>
+                <img class="img-fluid mx-auto d-block rounded"
+                    src="{% static 'img/logo.jpg' %}" />
 
-    <form action="{% url 'usuarios:login' %}" method="post">
+                <form>
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input id="usuario" name="usuario"
+                            class="form-control" type="text"
+                            placeholder="usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="contraseña">Contraseña</label>
+                        <input id="contraseña" name="contraseña"
+                            class="form-control" type="contraseña"
+                            placeholder="Contraseña">
+                    </div>
+                    <button type="submit"  class="btn btn-primary mb-2"> Entrar</button>
+                    <button type="button" class="btn btn-primary mb-2" onclick="location.href='{% url 'clinica:productos' %}'">Volver</button>  
+                    
+                </form>
+            </div>
+        </div>
+ <!--   <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
         <input type="submit" value="Login">
     </form>
     <br>
-    <a href="{% url 'clinica:index' %}">Volver</a>
+
+    <a href="{% url 'clinica:productos' %}" class="btn btn-primary">VOLVER</a>
+   -->
 {% endblock %}
