@@ -45,19 +45,27 @@ class Producto(models.Model):
 
 #     def _str_(self):
 #         return f"{self.id} {self.Paciente} {self.Doctor} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
-
+class Paciente(models.Model):
+#    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
+    nombre = models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
+    direccion = models.CharField(max_length=60)
+    telefono = models.IntegerField()
+    email = models.EmailField()
+    def __str__(self):
+        return self.nombre
+    
 
 class Pedido(models.Model):
     vendedor = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_perfiltaller",blank=True,null=True)
-    #paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
     fecha = models.DateField( default= None)
-    def __str__(self):
-        return f"{self.paciente.nombre} {self.paciente.apellido}"
+
     def verSubTotal(self):
         return f"$ {self.subtotal}"
 
@@ -89,16 +97,7 @@ class PedidoDetalle(models.Model):
         def __str__(self):
             return self.producto.nombre
 
-class Paciente(models.Model):
-#    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
-    nombre = models.CharField(max_length=30)
-    apellido = models.CharField(max_length=30)
-    direccion = models.CharField(max_length=60)
-    telefono = models.IntegerField()
-    email = models.EmailField()
-    def __str__(self):
-        return self.nombre
-    
+
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
