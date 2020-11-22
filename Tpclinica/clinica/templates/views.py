@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Producto, Paciente, Consulta, , Pedido, PedidoDetalle
+from .models import Producto, Pedido, PedidoDetalle
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
-
+from django.http import HttpResponse
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -99,17 +98,7 @@ def actualizar(request, producto_id):
 #         turno_form.save()
 #         return redirect('clinica:turnos')
 #      return render(request, 'actualizarturno.html', {'upload_form':turno_form })
-def pacientes(request):
-    return render(request, "pacientes.html", {
-        "pacientes": Paciente.objects.all()
-    })
 
-def historial(request, paciente_id):
-    consultasTotales = Consulta.objects.all()
-    consultas = consultasTotales.filter(paciente_id=paciente_id)
-    return render(request, "historial.html",{
-        "consultas": consultas
-    })
 def pedidos(request):
     return render(request, "pedidos.html", {
         "pedidos": Pedido.objects.all()
@@ -156,6 +145,6 @@ def actualizar_pedido(request, pedido_id):
      pedido_form = ProductoCreate(request.POST or None, instance = pedido_sel)
      if pedido_form.is_valid():
         pedido_form.save()
-        return redirect('clinica:pedidos')
+        return redirect('clinica:productos')
      return render(request, 'agregar.html', {'upload_form':pedido_form })
         
