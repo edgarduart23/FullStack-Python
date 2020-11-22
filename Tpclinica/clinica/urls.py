@@ -12,4 +12,10 @@ urlpatterns = [
     # path('turnos/crear', views.crearTurno , name = "crearTurno"),
     # path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),
     # path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
+    path('pedidos',  views.pedidos, name="pedidos"),
+    path('pedidos/<int:pedido_id>',  views.pedido, name="pedido"),
+    path('pedidos/agregar',  views.agregar_pedido, name="agregar_pedido"),
+    path('pedidos/eliminar/<int:pedido_id>',  views.eliminar_pedido, name="eliminar_pedido"),
+    path('pedidos/actualizar/<int:pedido_id>',  views.actualizar_pedido, name="actualizar_pedido"),
+    
 ]

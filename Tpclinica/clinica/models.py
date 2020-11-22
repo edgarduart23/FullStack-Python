@@ -1,6 +1,7 @@
 from django.db import models
 from usuarios.models import PerfilVentas
 
+
 # Create your models here.
 
 class Producto(models.Model):
@@ -54,7 +55,7 @@ class Pedido(models.Model):
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
-    fecha_venta = models.DateField( blank=True, null=True)
+    fecha = models.DateField( default= None)
     def __str__(self):
         return f"{self.paciente.nombre} {self.paciente.apellido}"
     def verSubTotal(self):

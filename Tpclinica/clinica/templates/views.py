@@ -145,6 +145,6 @@ def actualizar_pedido(request, pedido_id):
      pedido_form = ProductoCreate(request.POST or None, instance = pedido_sel)
      if pedido_form.is_valid():
         pedido_form.save()
-        return redirect('clinica:pedidos')
+        return redirect('clinica:productos')
      return render(request, 'agregar.html', {'upload_form':pedido_form })
         
