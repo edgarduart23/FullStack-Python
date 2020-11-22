@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Producto, Paciente, Consulta, , Pedido, PedidoDetalle
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
 
 # from .models import Turnos
