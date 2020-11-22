@@ -9,7 +9,7 @@
         <div style="color: red"
         >{{ mensaje }}</div>
     {% endif %}
-    <main role="main" class="container my-auto">
+     <main role="main" class="container my-auto">
         <div class="row">
             <div id="login" class="col-lg-4 offset-lg-4 col-md-6 offset-md-3
                 col-12">
@@ -17,26 +17,28 @@
                 <img class="img-fluid mx-auto d-block rounded"
                     src="{% static 'img/logo.jpg' %}" />
 
-                <form>
+                <form action="{% url 'usuarios:login' %}" method="post">
+                    {% csrf_token %}
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
-                        <input id="usuario" name="usuario"
+                        <input id="username" name="username"
                             class="form-control" type="text"
-                            placeholder="usuario">
+                            placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="contraseña">Contraseña</label>
-                        <input id="contraseña" name="contraseña"
-                            class="form-control" type="contraseña"
-                            placeholder="Contraseña">
+                        <input id="contraseña" name="password"
+                            class="form-control" type="password"
+                            placeholder="Password">
                     </div>
-                    <button type="submit"  class="btn btn-primary mb-2"> Entrar</button>
+                    <button type="submit"  value="Login" class="btn btn-primary mb-2"> Entrar</button>
                     <button type="button" class="btn btn-primary mb-2" onclick="location.href='{% url 'clinica:productos' %}'">Volver</button>  
                     
                 </form>
             </div>
         </div>
- <!--   <form action="{% url 'usuarios:login' %}" method="post">
+        
+<!--   <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">

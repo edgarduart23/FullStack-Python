@@ -8,9 +8,9 @@ class Producto(models.Model):
     TIPOS = (('L', 'Lente'), ('E', 'Estuche'), ('G', 'Gotita'))
     tipo = models.CharField(max_length=1, choices=TIPOS)
     ENFOQUE = (('L', 'Lejos'), ('C', 'Cerca'))
-    enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank= True)
+    enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank= True, null=True)
     LADO = (('I', 'Izqierda'), ('D', 'Derecha'))
-    lado = models.CharField(max_length=1, choices=LADO, blank= True)
+    lado = models.CharField(max_length=1, choices=LADO, blank= True, null=True)
     armazon = models.BooleanField(default=False)
    
     def __str__(self):
