@@ -78,7 +78,7 @@ class PedidoDetalle(models.Model):
         else:
             if pedido.subtotal:
                 pedido.subtotal += self.total
-            else
+            else:
                 pedido.subtotal = self.total
         producto.save()
         pedido.save()
