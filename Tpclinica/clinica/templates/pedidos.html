@@ -17,8 +17,7 @@
                     <th scope="col">Estado</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Subtotal</th>
-                    <th scope="col">Lado</th>
-                    <th scope="col">ARMAZON</th>
+                    
                     
                 </tr>
                 </thead>
@@ -31,9 +30,7 @@
                             <td>{{unPedido.fecha}}</td>
                             
                             <td>
-                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unProducto.id %}'" >EDITAR</button> 
-                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pedido' unProducto.id %}'">DETALLES</button>
-                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar_pedido' unProducto.id %}'">ELIMINAR</button>  
+                                
                                 
                             </td>
                         </tr>
