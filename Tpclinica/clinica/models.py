@@ -97,7 +97,6 @@ class PedidoDetalle(models.Model):
         def __str__(self):
             return self.producto.nombre
 
-
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
