@@ -1,14 +1,27 @@
 {% extends "usuarios/layout.html" %}
 {% load static %}
 {% block body %}
+<<<<<<< HEAD
     
     <main role="main" class="container my-auto">
+=======
+<!-- p>Ésta es la página de inicio, el usuario del sistema se debe loguear</p>
+
+    <h1>Log In</h1>
+-->
+    {% if mensaje %}
+        <div style="color: red"
+        >{{ mensaje }}</div>
+    {% endif %}
+     <main role="main" class="container my-auto">
+>>>>>>> 6709f0baa68c6eb3aca1e8a855145b90c6979599
         <div class="row">
             <div id="login" class="col-lg-4 offset-lg-4 col-md-6 offset-md-3
                 col-12">
                 <h2 class="text-center">Bienvenido de nuevo</h2>
                 <img class="img-fluid mx-auto d-block rounded"
                     src="{% static 'img/logo.jpg' %}" />
+<<<<<<< HEAD
                 <br>
                 {% if mensaje %}
                 <div class="text-danger text-sm-center">{{ mensaje }}</div>
@@ -38,6 +51,31 @@
             </div>
         </div>
  <!--   <form action="{% url 'usuarios:login' %}" method="post">
+=======
+
+                <form action="{% url 'usuarios:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input id="username" name="username"
+                            class="form-control" type="text"
+                            placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="contraseña">Contraseña</label>
+                        <input id="contraseña" name="password"
+                            class="form-control" type="password"
+                            placeholder="Password">
+                    </div>
+                    <button type="submit"  value="Login" class="btn btn-primary mb-2"> Entrar</button>
+                    <button type="button" class="btn btn-primary mb-2" onclick="location.href='{% url 'clinica:productos' %}'">Volver</button>  
+                    
+                </form>
+            </div>
+        </div>
+        
+<!--   <form action="{% url 'usuarios:login' %}" method="post">
+>>>>>>> 6709f0baa68c6eb3aca1e8a855145b90c6979599
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
@@ -45,6 +83,10 @@
     </form>
     <br>
 
+<<<<<<< HEAD
     <a class="btn btn-primary" href="{% url 'usuarios:index' %}">Volver</a>
+=======
+    <a href="{% url 'clinica:productos' %}" class="btn btn-primary">VOLVER</a>
+>>>>>>> 6709f0baa68c6eb3aca1e8a855145b90c6979599
    -->
 {% endblock %}
