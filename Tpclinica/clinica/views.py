@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Producto
-from .form import ProductoCreate
 from django.http import HttpResponse
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
+
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -98,6 +99,63 @@ def actualizar(request, producto_id):
 #         turno_form.save()
 #         return redirect('clinica:turnos')
 #      return render(request, 'actualizarturno.html', {'upload_form':turno_form })
+def pacientes(request):
+    return render(request, "pacientes.html", {
+        "pacientes": Paciente.objects.all()
+    })
+
+def historial(request, paciente_id):
+    consultasTotales = Consulta.objects.all()
+    consultas = consultasTotales.filter(paciente_id=paciente_id)
+    return render(request, "historial.html",{
+        "consultas": consultas
+    })
+def pedidos(request):
+    return render(request, "pedidos.html", {
+        "pedidos": Pedido.objects.all()
+    })
+
+def pedido(request, pedido_id):
+        unPedido = Pedido.objects.get(id=pedido_id)
+        return render(request, "pedido.html",{
+            "pedido": unPedido
+        })
+
+def agregar_pedido(request):
+    upload  = PedidoCreate()
+    if request.method == 'POST':
+        upload = PedidoCreate(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.save()
+            return redirect('clinica:pedidos')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
+    else:
+        return render(request, 'agregar_pedido.html', {'upload_form':upload})
 
 
+
+def eliminar_pedido(request, pedido_id):
+    pedido_id= int(pedido_id)
+    try:
+        pedido_sel = Pedido.objects.get(id = pedido_id)
+        
+    except Pedido.DoesNotExist:
+        return redirect('clinica:pedidos')
+    pedido_sel.delete()
+    return render(request, "eliminar_pedido.html")
+
+
+
+def actualizar_pedido(request, pedido_id):
+     pedido_id = int(pedido_id)
+     try:
+         pedido_sel = Pedido.objects.get(id = pedido_id)
+     except Pedido.DoesNotExist:
+         return redirect('index')
+     pedido_form = ProductoCreate(request.POST or None, instance = pedido_sel)
+     if pedido_form.is_valid():
+        pedido_form.save()
+        return redirect('clinica:pedidos')
+     return render(request, 'agregar.html', {'upload_form':pedido_form })
         
