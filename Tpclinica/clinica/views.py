@@ -8,6 +8,7 @@ from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
 
 # Create your views here.
 def index(request):
+    #De acuerdo al perfil debemos redeireccionarlo
     return render(request, "index.html")
 
 
