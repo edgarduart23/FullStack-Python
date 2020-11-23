@@ -124,6 +124,7 @@ def pedido(request, pedido_id):
         })
 
 def agregar_pedido(request):
+    
     upload  = PedidoCreate()
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)

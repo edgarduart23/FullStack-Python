@@ -58,7 +58,7 @@ class Paciente(models.Model):
     
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="usuarios_perfiltaller",blank=True,null=True)
+    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
