@@ -34,5 +34,5 @@ class PedidoCreate(forms.ModelForm):
 class PedidoDetalleCreate(forms.ModelForm):
     class Meta:
         model = PedidoDetalle
-        fields = '__all__'
+        fields = ('producto', 'cantidad')
         

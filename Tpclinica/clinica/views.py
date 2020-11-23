@@ -132,7 +132,8 @@ def agregar_pedido(request):
         if upload.is_valid():
             
             upload.save()
-            return redirect('clinica:pedidos')
+            
+            return render(request, 'agregar_item.html', {'upload_form':upload})
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
@@ -171,11 +172,12 @@ def pedido_items(request, pedido_id):
 
 def agregar_item(request, pedido_id):
     unPedido = Pedido.objects.get(id=pedido_id)
-    upload  = PedidoDetalle()
+    upload  = PedidoDetalleCreate()
+    upload.initial['pedido_id'] = 4
     if request.method == 'POST':
-        upload = PedidoCreate(request.POST, request.FILES)
+        upload = PedidoDetalleCreate(request.POST, request.FILES)
         if upload.is_valid():
-            upload.pedido_id = unPedido.id
+            
             upload.save()
             return redirect('clinica:pedidos')
         else:

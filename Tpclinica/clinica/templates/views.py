@@ -116,7 +116,7 @@ def agregar_pedido(request):
         upload = PedidoCreate(request.POST, request.FILES)
         if upload.is_valid():
             upload.save()
-            return redirect('clinica:pedidos')
+            return render(request, 'pedido_items.html', {'upload_form':upload})
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
