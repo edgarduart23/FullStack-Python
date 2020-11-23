@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h1>Items del pedido N° {{pedido.id}}</h1>
+    
+    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_item' pedido.id  %}' ">AGREGAR</button> 
+   
+   
+    <div class="container-fluid"></div>
+        
+            
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Nro Pedido</th>
+                    <th scope="col">Nro. Producto</th>
+                    
+                    
+                </tr>
+                </thead>
+                <tbody>
+                    {% for unItem in items %}
+                        <tr>
+                            <th scope="row">{{unItem.id}}</th>
+                            <td>{{unItem.cantidad}}</td>
+                            <td>{{unItem.total}}</td>
+                            <td>{{unItem.pedido_id}}</td>
+                            <td>{{unItem.producto_id}}</td>
+                            <td>
+                                
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                </tbody>
+            </table>
+            
+            
+    </div>
+{% endblock content %}
+

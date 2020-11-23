@@ -18,6 +18,7 @@ class ConsultaCreate(forms.ModelForm):
     class Meta:
         model = Consulta
         fields = '__all__'
+        
 class PedidoCreate(forms.ModelForm):
     class Meta:
         model = Pedido

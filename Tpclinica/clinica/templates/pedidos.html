@@ -46,7 +46,10 @@
                             <td>{{unPedido.fecha}}</td>
                             
                             <td>
-                                
+                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
+                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pedido' unPedido.id %}'">DETALLES</button>
+                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unPedido.id %}'">ELIMINAR</button> 
+                                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' unPedido.id %}'">AGREGAR ITEM</button>       
                                 
                             </td>
                         </tr>

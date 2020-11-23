@@ -58,7 +58,7 @@ class Paciente(models.Model):
     
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="usuarios_perfiltaller",blank=True,null=True)
+    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
@@ -66,7 +66,7 @@ class Pedido(models.Model):
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
     fecha = models.DateField( default= None)
-
+    
     def verSubTotal(self):
         return f"$ {self.subtotal}"
 
@@ -75,7 +75,7 @@ class PedidoDetalle(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, blank=True, null=True)
     cantidad = models.PositiveIntegerField( default=1)
     total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True)
-    def save(self, *args, **kwargs):
+    """def save(self, *args, **kwargs):
         self.total = self.producto.precio * Decimal(self.cantidad)  
         producto = Producto.objects.get(id=self.producto.id)
         pedido = Pedido.objects.get(id=self.pedido.id)
@@ -94,9 +94,9 @@ class PedidoDetalle(models.Model):
         pedido.save()
         super().save(*args, **kwargs)
         def obtenerCantidad(self):
-            return f"{self.cantidad} {'unidades' if self.cantidad > 1 else 'unidad'}"
+            return f"{self.cantidad} {'unidades' if self.cantidad > 1 else 'unidad'}
         def __str__(self):
-            return self.producto.nombre
+            return self.producto.nombre"""
 
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
@@ -107,3 +107,5 @@ class Consulta(models.Model):
     observacion = models.CharField(max_length=150)
     def __str__(self):
         return self.motivo
+
+
