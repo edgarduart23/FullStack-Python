@@ -4,6 +4,7 @@ from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -129,6 +130,7 @@ def agregar_pedido(request):
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)
         if upload.is_valid():
+            
             upload.save()
             return redirect('clinica:pedidos')
         else:
