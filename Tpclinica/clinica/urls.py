@@ -11,6 +11,9 @@ urlpatterns = [
     path('productos/actualizar/<int:producto_id>',  views.actualizar, name="actualizar"),
     path('pacientes',  views.pacientes, name="pacientes"),
     path('historial/<int:paciente_id>',  views.historial, name="historial"),
+    path('historial/agregar_consulta',  views.agregar_consulta, name="agregar_consulta"),
+    path('historial/eliminar_consulta/<int:consulta_id>',  views.eliminar_consulta, name="eliminar_consulta"),
+    path('historial/modificar_consulta/<int:consulta_id>',  views.modificar_consulta, name="modificar_consulta"),
 
     # path('turnos/crear', views.crearTurno , name = "crearTurno"),
     # path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),

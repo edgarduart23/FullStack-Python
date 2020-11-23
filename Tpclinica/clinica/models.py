@@ -100,7 +100,8 @@ class PedidoDetalle(models.Model):
 
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+")
+    fecha = models.DateTimeField(null=True, blank=True)
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
     tratamiento = models.CharField(max_length=150)

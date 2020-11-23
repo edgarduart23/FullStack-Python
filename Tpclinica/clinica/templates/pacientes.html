@@ -2,7 +2,7 @@
 
 {% block content %}
     <br>
-    <h1>Listado de pacientes</h1>
+    <h1>Pacientes asignados al Dr. </h1>
     
     <br>
     <div class="container-fluid"></div>
@@ -30,9 +30,7 @@
                             <td>{{unPaciente.telefono}}</td>
                             <td>{{unPaciente.email}}</td>
                             <td>
-                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:pacientes' %}'" >EDITAR</button> 
-                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pacientes' %}'">DETALLES</button>
-                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:pacientes' %}'">ELIMINAR</button>  
+                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:historial' unPaciente.id %}'">Ver Historial</button>
                                 
                             </td>
                         </tr>
