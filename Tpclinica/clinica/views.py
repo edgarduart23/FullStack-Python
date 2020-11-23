@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
