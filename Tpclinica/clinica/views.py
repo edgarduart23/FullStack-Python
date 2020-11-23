@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate
-
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 # from .models import Turnos
 # from .form import TurnosCreate
 
 # Create your views here.
 def index(request):
+    #De acuerdo al perfil debemos redeireccionarlo
     return render(request, "index.html")
 
 
@@ -160,10 +163,12 @@ def pedido(request, pedido_id):
         })
 
 def agregar_pedido(request):
+    
     upload  = PedidoCreate()
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)
         if upload.is_valid():
+            
             upload.save()
             return redirect('clinica:pedidos')
         else:
@@ -197,3 +202,22 @@ def actualizar_pedido(request, pedido_id):
         return redirect('clinica:pedidos')
      return render(request, 'agregar.html', {'upload_form':pedido_form })
         
+def pedido_items(request, pedido_id):
+     unPedido = Pedido.objects.get(id=pedido_id)
+     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id )
+     return render(request, 'pedido_items.html', {'pedido':unPedido, 'items':items})
+
+def agregar_item(request, pedido_id):
+    unPedido = Pedido.objects.get(id=pedido_id)
+    upload  = PedidoDetalle()
+    if request.method == 'POST':
+        upload = PedidoCreate(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.pedido_id = unPedido.id
+            upload.save()
+            return redirect('clinica:pedidos')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
+    else:
+        return render(request, 'agregar_item.html', {'upload_form':upload})
+

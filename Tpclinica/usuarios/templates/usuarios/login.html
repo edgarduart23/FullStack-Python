@@ -1,44 +1,43 @@
 {% extends "usuarios/layout.html" %}
 {% load static %}
 {% block body %}
-<!-- p>Ésta es la página de inicio, el usuario del sistema se debe loguear</p>
-
-    <h1>Log In</h1>
--->
-    {% if mensaje %}
-        <div style="color: red"
-        >{{ mensaje }}</div>
-    {% endif %}
-     <main role="main" class="container my-auto">
+    
+    <main role="main" class="container my-auto">
         <div class="row">
             <div id="login" class="col-lg-4 offset-lg-4 col-md-6 offset-md-3
                 col-12">
                 <h2 class="text-center">Bienvenido de nuevo</h2>
                 <img class="img-fluid mx-auto d-block rounded"
                     src="{% static 'img/logo.jpg' %}" />
-
+                <br>
+                {% if mensaje %}
+                <div class="text-danger text-sm-center">{{ mensaje }}</div>
+                {% endif %}
                 <form action="{% url 'usuarios:login' %}" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="usuario">Usuario</label>
-                        <input id="username" name="username"
-                            class="form-control" type="text"
-                            placeholder="Username">
+                        <!-- <label for="usuario">Usuario</label> -->
+                        <input class="form-control" type="text" name="username" placeholder="Username">
+                            
                     </div>
                     <div class="form-group">
-                        <label for="contraseña">Contraseña</label>
-                        <input id="contraseña" name="password"
+                        <!-- <label for="contraseña">Contraseña</label> -->
+                        <input class="form-control" type="password" name="password" placeholder="Password">
+                        <!-- <input id="contraseña" name="contraseña"
                             class="form-control" type="password"
-                            placeholder="Password">
+                            placeholder="Contraseña"> -->
                     </div>
-                    <button type="submit"  value="Login" class="btn btn-primary mb-2"> Entrar</button>
-                    <button type="button" class="btn btn-primary mb-2" onclick="location.href='{% url 'clinica:productos' %}'">Volver</button>  
-                    
+                    <div class="text-center">
+                        <input class="btn btn-primary" type="submit" value="Login">
+                        <!-- <button type="submit"  class="btn btn-primary mb-2"> Entrar</button> -->
+                        <!-- <button type="button" class="btn btn-primary mb-2" onclick="location.href='{% url 'clinica:productos' %}'">Volver</button> -->
+                        <!-- <button type="button" class="btn btn-primary mb-2" href="{% url 'usuarios:index' %}">Volver</button> -->
+                        <a class="btn btn-primary" href="{% url 'usuarios:index' %}">Volver</a>
+                    </div>   
                 </form>
             </div>
         </div>
-        
-<!--   <form action="{% url 'usuarios:login' %}" method="post">
+ <!--   <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
@@ -46,6 +45,6 @@
     </form>
     <br>
 
-    <a href="{% url 'clinica:productos' %}" class="btn btn-primary">VOLVER</a>
+    <a class="btn btn-primary" href="{% url 'usuarios:index' %}">Volver</a>
    -->
 {% endblock %}

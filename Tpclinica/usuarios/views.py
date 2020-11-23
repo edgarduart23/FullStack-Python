@@ -31,7 +31,7 @@ def login_view(request):
             # Hacemos el login manualmente
             login(request, user)
             # Y le redireccionamos al index
-            return HttpResponseRedirect(reverse("usuarios:index"))
+            return HttpResponseRedirect(reverse("clinica:index"))
         else:
             # De lo contrario, regrese la página de inicio de sesión nuevamente con un nuevo contexto            
             return render(request, "usuarios/login.html", {

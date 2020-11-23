@@ -1,7 +1,7 @@
 from django import forms
 from .models import  Producto, Consulta, Pedido, PedidoDetalle
 # from.models import Turnos
-
+from usuarios.models import User
 
 class ProductoCreate(forms.ModelForm):
     class Meta:
@@ -22,6 +22,11 @@ class PedidoCreate(forms.ModelForm):
     class Meta:
         model = Pedido
         fields = '__all__'
+        #exclude=('vendedor',)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['vendedor'].queryset = User.objects.filter(es_ventas=True)
+    
         
 
 class PedidoDetalleCreate(forms.ModelForm):
