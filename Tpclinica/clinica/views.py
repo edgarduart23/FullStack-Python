@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate
 
 # from .models import Turnos
 # from .form import TurnosCreate
@@ -105,11 +105,49 @@ def pacientes(request):
     })
 
 def historial(request, paciente_id):
+# habria q agregar un if 
+    paciente = Paciente.objects.get(id=paciente_id)
     consultasTotales = Consulta.objects.all()
     consultas = consultasTotales.filter(paciente_id=paciente_id)
     return render(request, "historial.html",{
-        "consultas": consultas
+        "consultas": consultas,
+        "paciente": paciente,
     })
+
+def agregar_consulta(request):
+    upload  = ConsultaCreate()
+    if request.method == 'POST':
+        upload = ConsultaCreate(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.save()
+            return redirect('clinica:pacientes')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pacientes'}}">Recargar</a>""")
+    else:
+        return render(request, 'agregar_consulta.html', {'upload_form':upload})
+
+def eliminar_consulta(request, consulta_id):
+    consulta_id= int(consulta_id)
+    try:
+        consulta_sel = Consulta.objects.get(id = consulta_id)
+        
+    except Consulta.DoesNotExist:
+        return redirect('clinica:pacientes')
+    consulta_sel.delete()
+    return render(request, "eliminar_consulta.html")
+
+def modificar_consulta(request, consulta_id):
+     consulta_id = int(consulta_id)
+     try:
+         consulta_sel = Consulta.objects.get(id = consulta_id)
+     except Consulta.DoesNotExist:
+         return redirect('pacientes')
+     consulta_form = ConsultaCreate(request.POST or None, instance = consulta_sel)
+     if consulta_form.is_valid():
+        consulta_form.save()
+        return redirect('clinica:pacientes')
+     return render(request, 'agregar_consulta.html', {'upload_form':consulta_form })
+
 def pedidos(request):
     return render(request, "pedidos.html", {
         "pedidos": Pedido.objects.all()

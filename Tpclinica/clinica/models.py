@@ -48,8 +48,8 @@ class Producto(models.Model):
 
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_perfiltaller",blank=True,null=True)
-    #paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    #vendedor = models.ForeignKey(request.user,on_delete=models.SET_NULL,related_name="usuarios_perfiltaller",blank=True,null=True)
+    #paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente")
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
@@ -101,10 +101,11 @@ class Paciente(models.Model):
     
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+")
+    fecha = models.DateTimeField(null=True, blank=True)
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
     tratamiento = models.CharField(max_length=150)
     observacion = models.CharField(max_length=150)
     def __str__(self):
-        return self.motivo
+        return f"Fecha: {self.fecha}. Paciente: {self.paciente}   "

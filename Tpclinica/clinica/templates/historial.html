@@ -2,25 +2,41 @@
 
 {% block content %}
     <br>
-    <h1> Historial del Paciente: {{paciente_id}} : {{unaConsulta.Paciente.nombre}} {{unaConsulta.Paciente.apellido}} </h1>
-   
+    <h1> Historial del Paciente: {{paciente.nombre}} {{paciente.apellido}}  </h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Motivo Consulta</th>
+            <th scope="col">Diagnostico</th>
+            <th scope="col">Tratamiento</th>
+            <th scope="col">Observacion</th>
+
+            
+        </tr>
+        </thead>
+        <tbody>
+  
     {% for unaConsulta in consultas %}
     <tr>
-        <th scope="row">{{unaConsulta.paciente_id}}</th>
+        <th scope="row">{{unaConsulta.fecha}}</th>
         <td>{{unaConsulta.motivo}}</td>
         <td>{{unaConsulta.diagnostico}}</td>
         <td>{{unaConsulta.tratamiento}}</td>
         <td>{{unaConsulta.observacion}}</td>
         <td>
-            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:pacientes' %}'" >EDITAR</button> 
-            <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pacientes' %}'">DETALLES</button>
-            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:pacientes' %}'">ELIMINAR</button>  
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:modificar_consulta' unaConsulta.id %}'" >EDITAR</button> 
+            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar_consulta' unaConsulta.id %}'">ELIMINAR</button>  
             
         </td>
     </tr>
-{% endfor %}  
-    
+    {% endfor %}  
+</tbody>
+</table>
+
           <a href="{% url 'clinica:pacientes' %}" class="btn btn-primary">VOLVER</a>
+          <a href="{% url 'clinica:agregar_consulta' %}" class="btn btn-secondary">NUEVA CONSULTA</a>
+
         
     
         
