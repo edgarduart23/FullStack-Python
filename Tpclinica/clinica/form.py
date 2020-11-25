@@ -1,5 +1,5 @@
 from django import forms
-from .models import  Producto, Consulta, Pedido, PedidoDetalle
+from .models import  Producto, Consulta, Pedido, PedidoDetalle, Turnos
 # from.models import Turnos
 from usuarios.models import User
 
@@ -7,11 +7,12 @@ class ProductoCreate(forms.ModelForm):
     class Meta:
         model = Producto
         fields = '__all__'
-        
-# class TurnosCreate(forms.ModelForm):
-#     class Meta:
-#         model = Turnos
-#         field = '__all__'
+#_________________________________________________________________________________________     
+class TurnosCreate(forms.ModelForm):
+    class Meta:
+        model = Turnos
+        fields = '__all__'
+#________________________________________________________________________
 
 class ConsultaCreate(forms.ModelForm):
     class Meta:
