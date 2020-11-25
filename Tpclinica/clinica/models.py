@@ -35,17 +35,7 @@ class Producto(models.Model):
     #     nombre = models.CharField(max_length = 120)
     # )
 
-# class Turnos(models.Model):
-#     id = models.IntegerField()
-#     Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE)
-#     Doctor =models.ForeignKey(Doctor,  on_delete=models.CASCADE)
-#     FechaTurno = models.DateField()
-#     HoraTurno = models.DateTimeField()
-#     FechaAlta = models.DateField()
-#     FechaBaja = models.DateField()
 
-#     def _str_(self):
-#         return f"{self.id} {self.Paciente} {self.Doctor} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
 class Paciente(models.Model):
 #    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
     nombre = models.CharField(max_length=30)
@@ -109,4 +99,16 @@ class Consulta(models.Model):
     def __str__(self):
         return self.motivo
 
+##################################################### Turnos
+class Turnos(models.Model):
+     Paciente = models.ForeignKey(Paciente, on_delete=models.SET_NULL,related_name="clinica_pacienteId",blank=False,null=True)
+     Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
+     FechaTurno = models.DateField()
+     HoraTurno = models.DateTimeField()
+     FechaAlta = models.DateField(auto_now=True)
+     FechaBaja = models.DateField(blank=True)
+
+     def _str_(self):
+         return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
+########################################################
 
