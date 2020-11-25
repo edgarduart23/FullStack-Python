@@ -32,15 +32,16 @@
                     {% for unPedido in pedidos %}
                         <tr>
                             <th scope="row">{{unPedido.id}}</th>
-                            <td> {% if unPedido.tipo_pago == 'T' %}
-                                Tarjeta de credito
-                             {% elif unProducto.tipo_pago == 'B' %}
-                                Billetera virtual  
-                            {% elif unProducto.tipo_pago == 'E' %}
-                                Efectivo                                   
-                             {% else %}
-                             Debito
-                             {% endif %}</td>
+                            <td> 
+                                {% if unPedido.tipo_pago == 'T' %}
+                                    Tarjeta de credito
+                                {% elif unProducto.tipo_pago == 'B' %}
+                                    Billetera virtual  
+                                {% elif unProducto.tipo_pago == 'E' %}
+                                    Efectivo                                   
+                                {% else %}
+                                    Debito
+                                {% endif %}</td>
                              <td>{% if unPedido.estado == 'PD' %}
                                 Pedido
                              {% elif unPedido.estado == 'PT' %}

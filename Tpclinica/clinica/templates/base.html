@@ -206,7 +206,7 @@
         {% if user.is_authenticated %}
             {% if user.is_superuser %}
               <li >
-                <a href="{% url 'admin:index' %}">Administrar usuarios</a>
+                <a href="{% url 'admin:index' %}">Administrar Sistema</a>
               </li>
               <li >
                 <a href="{% url 'clinica:productos' %}">ABM Productos</a>
@@ -223,12 +223,6 @@
               <li >
                 <a href="#">Menú 2</a>
               </li>
-              <li >
-                <a href="#">Menú 3</a>
-              </li>
-              <li >
-                <a href="#">Menú 4</a>
-              </li>
             {% endif %}
 
             {% if user.es_medico %}
@@ -238,15 +232,6 @@
             <li >
               <a href="#">Menú 1</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_taller %}
@@ -254,16 +239,10 @@
               <a href="#">Taller</a>
             </li>
             <li >
-              <a href="#">Menú 1</a>
+              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
             <li >
               <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
             </li>
             {% endif %}
 
@@ -274,32 +253,11 @@
             <li >
               <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_gerencia %}
             <li >
               <a href="#">Gerencia</a>
-            </li>
-            <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
             </li>
             {% endif %}
             
@@ -322,7 +280,7 @@
     </nav>
   
     <div class="container">
-      
+
     {% block content %} {% endblock content %}
  
 

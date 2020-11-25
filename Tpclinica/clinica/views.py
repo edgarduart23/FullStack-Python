@@ -166,15 +166,14 @@ def pedido(request, pedido_id):
         })
 
 def agregar_pedido(request):
-    
-    upload  = PedidoCreate()
+    #instanciar la fecha actual
+    upload  = PedidoCreate(initial={'vendedor': request.user, 'estado': 'PT', 'subtotal': 0, 'fecha': '01/01/2020'})
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)
-        if upload.is_valid():
-            
+        if upload.is_valid():            
             upload.save()
-            
-            return render(request, 'agregar_item.html', {'upload_form':upload})
+            return redirect('clinica:pedidos')
+            # return render(request, 'agregar_item.html', {'upload_form':upload})
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
@@ -233,11 +232,11 @@ class formAgregarProducto(forms.Form):
     
 
 def detalle_pedido(request, pedido_id):
-     unPedido = Pedido.objects.get(id=pedido_id)
-     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
-     #hay que obtener sólo los productos que no están en el pedido
-     productos_disponibles = Producto.objects.all()
-     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+    unPedido = Pedido.objects.get(id=pedido_id)
+    items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+    #hay que obtener sólo los productos que no están en el pedido
+    productos_disponibles = Producto.objects.all()
+    return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
      
 def agregar_producto(request, pedido_id):
     unPedido = Pedido.objects.get(id=pedido_id)
