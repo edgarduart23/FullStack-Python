@@ -156,7 +156,7 @@ def modificar_consulta(request, consulta_id):
 
 def pedidos(request):
     return render(request, "pedidos.html", {
-        "pedidos": Pedido.objects.all()
+        "pedidos": Pedido.objects.all().order_by('-id')
     })
 
 def pedido(request, pedido_id):
