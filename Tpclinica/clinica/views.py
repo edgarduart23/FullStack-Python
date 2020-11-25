@@ -211,7 +211,8 @@ def pedido_items(request, pedido_id):
 def agregar_item(request, pedido_id):
     unPedido = Pedido.objects.get(id=pedido_id)
     upload  = PedidoDetalleCreate()
-    upload.initial['pedido_id'] = 4
+    
+    
     if request.method == 'POST':
         upload = PedidoDetalleCreate(request.POST, request.FILES)
         if upload.is_valid():
