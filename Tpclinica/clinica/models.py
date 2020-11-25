@@ -1,5 +1,7 @@
 from django.db import models
 from usuarios.models import User
+import datetime
+
 #  PerfilVentas, PerfilMedico
 
 
@@ -48,14 +50,14 @@ class Paciente(models.Model):
     
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
+    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=False,null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=False,null=False)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
-    fecha = models.DateField( default= None)
+    fecha = models.DateField( default= datetime.datetime.today)
     
     def verSubTotal(self):
         return f"$ {self.subtotal}"
