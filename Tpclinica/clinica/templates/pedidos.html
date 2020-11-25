@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <br>
-    <h1>Listado de pedidos</h1>
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' 0 %}'">AGREGAR ITEM</button>       
+    <br>    
     <!-- <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_pedido'  %}' ">AGREGAR</button>  -->
     <br>
     <div class="container-fluid"></div>
-        
+        <div class="panel panel-default">
+            <div class="panel-heading">Listado de Pedidos
+                <!-- <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:index' %}'">Volver</button>  -->
+            <div class="pull-right ">
+                <a class="btn btn-confirm btn-sm" href="{% url 'clinica:agregar_pedido' %}">
+                  <i class="fa fa-plus"></i>
+                <b>Nuevo Pedido</b></a>
+              </div>
+            </div>
+
+            <div class="panel-body">
             
             <table class="table table-striped">
                 <thead>
@@ -16,9 +24,8 @@
                     <th scope="col">Tipo de pago</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Fecha</th>
-                    <th scope="col">Subtotal</th>
-                    
-                    
+                    <th scope="col">Subtotal</th>                  
+                    <th scope="col">Editar</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,17 +53,28 @@
                             <td>{{unPedido.fecha}}</td>
                             
                             <td>
-                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
+                                <!-- <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pedido' unPedido.id %}'">DETALLES</button>
-                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unPedido.id %}'">ELIMINAR</button> 
-                                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' unPedido.id %}'">AGREGAR ITEM</button>       
+                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unPedido.id %}'">ELIMINAR</button>  -->
+                                <!-- <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' unPedido.id %}'">AGREGAR ITEM</button>        -->
+                                <!-- <a href="{% url 'clinica:detalle_pedido' unPedido.id %}">
+                                    Agregar Producto
+                                </a>  -->
                                 
                             </td>
+
+                            <td >
+                                <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                              </td>
+                  
                         </tr>
                     {% endfor %}    
                 </tbody>
             </table>
-            
+        </div>
+    </div>
           
         
     </div>
