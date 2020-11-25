@@ -18,4 +18,11 @@
         <button type="submit" class="btn btn-primary">CONFIRMAR</button>
         <a href="{% url 'clinica:pedidos' %}" class="btn btn-danger">CANCELAR</a>
     </form>
+
+    <!-- <form action="{% url 'clinica:pedidos' %}" method = 'POST' >
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form> -->
+    
 {% endblock content %}

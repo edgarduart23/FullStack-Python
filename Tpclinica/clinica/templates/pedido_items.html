@@ -2,18 +2,24 @@
 
 {% block content %}
     <br>
-    <h1>Items del pedido N° {{pedido.id}}</h1>
+    <!-- <h1>Items del pedido N° {{pedido.id}}</h1> -->
     
-    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_item' pedido.id  %}' ">AGREGAR</button> 
+    <!-- <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_item' pedido.id  %}' ">AGREGAR</button>  -->
    
-   
-    <div class="container-fluid"></div>
-        
+
+   <br>
+    <div class="container-fluid"></div>       
             
+    <div class="panel panel-default">
+        <div class="panel-heading">Productos del pedido
+            <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:pedidos' %}'">Volver</button> 
+        </div>
+        <div class="panel-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Producto</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
                     <th scope="col">Nro Pedido</th>
@@ -26,6 +32,7 @@
                     {% for unItem in items %}
                         <tr>
                             <th scope="row">{{unItem.id}}</th>
+                            <td>{{unItem.producto.descripcion}}</td>
                             <td>{{unItem.cantidad}}</td>
                             <td>{{unItem.total}}</td>
                             <td>{{unItem.pedido_id}}</td>
@@ -38,8 +45,34 @@
                     {% endfor %}    
                 </tbody>
             </table>
-            
-            
+        </div>
     </div>
+            
+        <br>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Agregar producto</div>
+            <div class="panel-body">
+                <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
+                    {% csrf_token %}
+                    <label for="">Productos:</label>
+                    <select class="form-control" name="productos">
+                        {% for producto in productos_disponibles %}
+                            <option value="{{ producto.id }}">{{ producto }}</option>            
+                        {% endfor %}
+                    </select>                    
+<br>
+                    <div class="form-group">
+                        <label for="usr">Cantidad:</label>
+                        <input type="number" name="cantidad" class="form-control" id="usr" required>
+                      </div>
+
+                    <!-- {{ form }} -->
+                    <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+            <br><br>
 {% endblock content %}
 

@@ -5,6 +5,7 @@ from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCre
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django import forms
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -102,6 +103,8 @@ def actualizar(request, producto_id):
 #         turno_form.save()
 #         return redirect('clinica:turnos')
 #      return render(request, 'actualizarturno.html', {'upload_form':turno_form })
+
+
 def pacientes(request):
     return render(request, "pacientes.html", {
         "pacientes": Paciente.objects.all()
@@ -205,14 +208,14 @@ def actualizar_pedido(request, pedido_id):
         
 def pedido_items(request, pedido_id):
      unPedido = Pedido.objects.get(id=pedido_id)
-     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id )
-     return render(request, 'pedido_items.html', {'pedido':unPedido, 'items':items})
+     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+     f = formAgregarProducto()
+     return render(request, 'pedido_items.html', {'pedido':unPedido, 'items':items, 'form':f})
 
 def agregar_item(request, pedido_id):
     unPedido = Pedido.objects.get(id=pedido_id)
-    upload  = PedidoDetalleCreate()
-    
-    
+    upload  = PedidoDetalleCreate(instance=unPedido)
+    # upload.initial['pedido_id'] = 4
     if request.method == 'POST':
         upload = PedidoDetalleCreate(request.POST, request.FILES)
         if upload.is_valid():
@@ -222,5 +225,34 @@ def agregar_item(request, pedido_id):
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
+        f=formAgregarProducto();
         return render(request, 'agregar_item.html', {'upload_form':upload})
 
+class formAgregarProducto(forms.Form):
+    cantidad = forms.IntegerField(label="Cantidad")
+    
+
+def detalle_pedido(request, pedido_id):
+     unPedido = Pedido.objects.get(id=pedido_id)
+     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+     #hay que obtener sólo los productos que no están en el pedido
+     productos_disponibles = Producto.objects.all()
+     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+     
+def agregar_producto(request, pedido_id):
+    unPedido = Pedido.objects.get(id=pedido_id)
+    detalle_item = PedidoDetalle()
+    detalle_item.pedido = unPedido    
+    
+    if request.method == 'POST':
+        detalle_item.producto = Producto.objects.get(id=int(request.POST["productos"]))
+        detalle_item.cantidad = int(request.POST["cantidad"])
+        detalle_item.save()
+        # hay que actualizar el Total del pedido
+        items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+        #hay que obtener sólo los productos que no están en el pedido
+        productos_disponibles = Producto.objects.all()
+        return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+        # return HttpResponseRedirect(reverse("detalle_pedido", args=(pedido_id)))
+    else:
+        return render(request, "pedido_items.html", {})

@@ -33,4 +33,7 @@ class PedidoDetalleCreate(forms.ModelForm):
     class Meta:
         model = PedidoDetalle
         fields = ('producto', 'cantidad')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
