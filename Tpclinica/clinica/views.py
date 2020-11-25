@@ -3,9 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django import forms
+import datetime
+
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -166,15 +168,24 @@ def pedido(request, pedido_id):
         })
 
 def agregar_pedido(request):
-    
+    #instanciar la fecha actual
     upload  = PedidoCreate()
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)
         if upload.is_valid():
-            
-            upload.save()
-            
-            return render(request, 'agregar_item.html', {'upload_form':upload})
+            f = upload.save(commit=False)
+            f.vendedor = request.user
+            # f.fecha = datetime.datetime.today
+            f.subtotal = float(100)
+            f.save()
+            pedido = Pedido.objects.last()
+            # return redirect('clinica:pedidos')
+            # return redirect('clinica:pedido_items', pedido_id=pedido.id)
+            # return render(request, 'agregar_item.html', {'upload_form':upload})
+            # return HttpResponseRedirect(reverse("clinica:pedido_items", args=(pedido.id)))
+            # return reverse_lazy('clinica:pedido_items', kwargs={'pedido_id': pedido.id})
+
+            # return redirect("pedido_items", pedido_id=pedido.id)
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:

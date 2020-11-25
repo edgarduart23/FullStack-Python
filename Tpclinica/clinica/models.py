@@ -65,7 +65,7 @@ class Pedido(models.Model):
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
-    fecha = models.DateField( default= None)
+    fecha = models.DateField( default= datetime.datetime.today)
     
     def verSubTotal(self):
         return f"$ {self.subtotal}"
