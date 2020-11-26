@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block extrahead %}
+
+{{ filter.media }}
+{% endblock %}
+{% block content %}
+<br>
+<h1>Reporte de Asistencias</h1>
+<br>
+
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for turno in filter.qs %}
+    <li>{{ turno.Paciente }} -  - {{ turno.Asistencia }}</li>
+  {% endfor %}
+  </ul>
+
+{% endblock content %}

@@ -1,5 +1,7 @@
 from django.db import models
 from usuarios.models import User
+from django.urls import reverse
+
 #  PerfilVentas, PerfilMedico
 
 
@@ -109,4 +111,14 @@ class Consulta(models.Model):
     def __str__(self):
         return self.motivo
 
+#  viaje de seba con los generic views 
+class Turnos(models.Model):
+    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE)
+    FechaTurno = models.DateField()
+    HoraTurno = models.TimeField()
+    Opciones = (('P', 'Pendiente'), ('A', 'Asistió'), ('F', 'Faltó'))
+    Asistencia = models.CharField(max_length=1, choices=Opciones, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('clinica:turnos-detail', kwargs={'pk':self.id})
 
