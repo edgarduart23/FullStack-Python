@@ -218,10 +218,10 @@
                 <a href="#">Secretaria</a>
               </li>
               <li >
-                <a href="#">Menú 1</a>
+                <a href="{% url 'clinica:turnos' %}">Turnos</a>
               </li>
               <li >
-                <a href="#">Menú 2</a>
+                <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
             {% endif %}
 
@@ -230,7 +230,13 @@
               <a href="#">Médico</a>
             </li>
             <li >
-              <a href="#">Menú 1</a>
+              <a href="{% url 'clinica:turnos' %}">Turnos</a>
+            </li>
+            <li >
+              <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
+            </li>
+            <li >
+              <a href="{% url 'clinica:historial' %}">Historia Clínica</a>
             </li>
             {% endif %}
 
