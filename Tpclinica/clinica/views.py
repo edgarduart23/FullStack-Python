@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
+from django import forms
+
 import django_filters
 from .filters import TurnosFilter
 import datetime

@@ -1,10 +1,7 @@
 from django.db import models
 from usuarios.models import User
-<<<<<<< HEAD
 from django.urls import reverse
-=======
 import datetime
->>>>>>> 34fd97b59f54a124e3acb41eae4372aea5311193
 
 #  PerfilVentas, PerfilMedico
 
@@ -55,7 +52,7 @@ class Paciente(models.Model):
 
 class Pedido(models.Model):
     vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=False,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=False,null=False)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=False,null=True)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
@@ -96,7 +93,7 @@ class PedidoDetalle(models.Model):
 
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+")
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+", blank=False,null=True)
     fecha = models.DateTimeField(null=True, blank=True)
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
@@ -107,15 +104,15 @@ class Consulta(models.Model):
 
 #  viaje de seba con los generic views 
 class Turnos(models.Model):
-    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE)
-    Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
+    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
+#    Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
 
     FechaTurno = models.DateField()
     HoraTurno = models.TimeField()
     Opciones = (('P', 'Pendiente'), ('A', 'Asistió'), ('F', 'Faltó'))
     Asistencia = models.CharField(max_length=1, choices=Opciones, blank=True, null=True)
-    FechaAlta = models.DateField(auto_now=True)
-    FechaBaja = models.DateField(blank=True)
+#    FechaAlta = models.DateField(auto_now=True)
+#    FechaBaja = models.DateField(blank=True)
 
     def _str_(self):
         return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"

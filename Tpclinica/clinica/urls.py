@@ -24,7 +24,7 @@ urlpatterns = [
     path('pedidos/actualizar/<int:pedido_id>',  views.actualizar_pedido, name="actualizar_pedido"),
     path('pedidos/pedido_items/<int:pedido_id>/',  views.pedido_items, name="pedido_items"),
 #  viaje de seba con los generic views 
-    path('turnoss/', views.TurnosListView.as_view(), name='turnos'),
+    path('turnos/', views.TurnosListView.as_view(), name='turnos'),
     path('turnos/<int:pk>', views.TurnoDetailView.as_view(), name='turnos-detail'),
     path('turnos/create/', TurnoCreate.as_view(), name='turno-create'),
     path('turnos/<int:pk>/update/', TurnoUpdate.as_view(), name='turno-update'),
@@ -37,7 +37,7 @@ urlpatterns = [
     path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
     
     ################################################################### Turnos
-    path ('turnos',views.turnos, name="turnos"),
+    #path ('turnos',views.turnos, name="turnos"),
     path('turnos/crear', views.crearTurno , name = "crearTurno"),
     path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),
     path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
