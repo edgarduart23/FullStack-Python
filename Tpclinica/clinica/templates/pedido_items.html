@@ -8,7 +8,35 @@
    
 
    <br>
-    <div class="container-fluid"></div>       
+   <div class="container-fluid"></div>       
+   <br>
+   <div class="panel panel-default">
+       <div class="panel-heading">Detalle del Pedido</div>
+        <div class="panel-body">
+            {{ formPedido.as_p }}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Agregar producto</div>
+        <div class="panel-body">
+            <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
+                {% csrf_token %}
+                <label for="">Productos:</label>
+                <select class="form-control" name="productos">
+                    {% for producto in productos_disponibles %}
+                        <option value="{{ producto.id }}">{{ producto }}</option>            
+                    {% endfor %}
+                </select>                    
+                <br>
+                <div class="form-group">
+                    <label for="usr">Cantidad:</label>
+                    <input type="number" name="cantidad" class="form-control" value="1" id="usr" required>
+                    </div>
+                <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
+            </form>
+        </div>
+</div>
             
     <div class="panel panel-default">
         <div class="panel-heading">Productos del pedido
@@ -19,27 +47,27 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Producto</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
-                    <th scope="col">Total</th>
+                    <th scope="col">SubTotal</th>
                     <th scope="col">Nro Pedido</th>
-                    <th scope="col">Nro. Producto</th>
-                    
-                    
+                    <th scope="col">Nro. Producto</th>                    
                 </tr>
                 </thead>
                 <tbody>
                     {% for unItem in items %}
                         <tr>
                             <th scope="row">{{unItem.id}}</th>
+                            <td>{{unItem.producto.tipo}}</td>
                             <td>{{unItem.producto.descripcion}}</td>
+                            <td>{{unItem.total}}</td>
                             <td>{{unItem.cantidad}}</td>
                             <td>{{unItem.total}}</td>
                             <td>{{unItem.pedido_id}}</td>
                             <td>{{unItem.producto_id}}</td>
                             <td>
-                                
-                                
                             </td>
                         </tr>
                     {% endfor %}    
@@ -47,31 +75,8 @@
             </table>
         </div>
     </div>
-            
-        <br>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">Agregar producto</div>
-            <div class="panel-body">
-                <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
-                    {% csrf_token %}
-                    <label for="">Productos:</label>
-                    <select class="form-control" name="productos">
-                        {% for producto in productos_disponibles %}
-                            <option value="{{ producto.id }}">{{ producto }}</option>            
-                        {% endfor %}
-                    </select>                    
-<br>
-                    <div class="form-group">
-                        <label for="usr">Cantidad:</label>
-                        <input type="number" name="cantidad" class="form-control" id="usr" required>
-                      </div>
-
-                    <!-- {{ form }} -->
-                    <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
-                </form>
-            </div>
-        </div>
+           
+        
     </div>
             <br><br>
 {% endblock content %}

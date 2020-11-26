@@ -2,9 +2,9 @@
 
 {% block content %}
     <br>
-    <h1>Listado de productos</h1>
+    <h1>Lista de Turnos</h1>
     
-    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar'  %}' ">AGREGAR</button> 
+    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:crearTurno'  %}' ">AGREGAR</button> 
     <br>
     <div class="container-fluid"></div>
         
@@ -14,7 +14,7 @@
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">Paciente</th>
-                    <th scope="col">Doctor</th>
+                    <th scope="col">Medico</th>
                     <th scope="col">FechaTurno</th>
                     <th scope="col">HoraTurno</th>
                     <th scope="col">AltaTurno</th>
@@ -27,7 +27,7 @@
                             <th scope="row">{{unturno.id}}</th>
                             <td>{{unTurno.id}}</td>
                             <td>{{unTurno.Paciente}}</td>
-                            <td>{{unTurno.Doctor}}</td>
+                            <td>{{unTurno.Medico}}</td>
                             <td>{{unTurno.FechaTurno}}</td>
                             <td>{{unTurno.HoraTurno}}</td>
                             <td>{{unTurno.AltaTurno}}</td>
@@ -36,7 +36,7 @@
                             
                             <td>
                                 <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar' unTurno.id %}'" >EDITAR</button> 
-                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:producto' unTurno.id %}'">DETALLES</button>
+                                <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:crear' unTurno.id %}'">DETALLES</button>
                                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unTurno.id %}'">ELIMINAR</button>  
                                 
                             </td>

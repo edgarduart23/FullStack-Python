@@ -15,9 +15,7 @@ urlpatterns = [
     path('historial/eliminar_consulta/<int:consulta_id>',  views.eliminar_consulta, name="eliminar_consulta"),
     path('historial/modificar_consulta/<int:consulta_id>',  views.modificar_consulta, name="modificar_consulta"),
 
-    # path('turnos/crear', views.crearTurno , name = "crearTurno"),
-    # path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),
-    # path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
+    
     path('pedidos',  views.pedidos, name="pedidos"),
     path('pedidos/<int:pedido_id>',  views.pedido, name="pedido"),
     path('pedidos/agregar',  views.agregar_pedido, name="agregar_pedido"),
@@ -28,4 +26,11 @@ urlpatterns = [
     path('pedidos/detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name="detalle_pedido"),
     path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
     
+    ################################################################### Turnos
+    path ('turnos',views.turnos, name="turnos"),
+    path('turnos/crear', views.crearTurno , name = "crearTurno"),
+    path('turnos/actualizar/<int:turno_id>', views.actualizarTurno, name = "actualizarTurno"),
+    path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
+
+    ##################################################################
 ]
