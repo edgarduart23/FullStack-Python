@@ -24,10 +24,29 @@ class PedidoCreate(forms.ModelForm):
         model = Pedido
         fields = '__all__'
         # para la creación no se necesitan
-        exclude=('vendedor', 'estado', 'subtotal', 'fecha')
+        # exclude=('vendedor', 'estado', 'subtotal', 'fecha')
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['vendedor'].disabled = True
+        self.fields['subtotal'].disabled = True
+        self.fields['estado'].disabled = True
+        self.fields['fecha'].disabled = True
         # self.fields['vendedor'].queryset = User.objects.filter(es_ventas=True)
+
+class PedidoView(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = '__all__'
+        # para la creación no se necesitan
+        # exclude=('vendedor', 'estado', 'subtotal', 'fecha')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['vendedor'].disabled = True
+        self.fields['paciente'].disabled = True
+        self.fields['tipo_pago'].disabled = True
+        self.fields['estado'].disabled = True
+        self.fields['subtotal'].disabled = True
+        self.fields['fecha'].disabled = True
     
 class PedidoUpdate(forms.ModelForm):
     class Meta:

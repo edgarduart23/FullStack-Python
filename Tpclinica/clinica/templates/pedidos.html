@@ -21,6 +21,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Paciente</th>
                     <th scope="col">Tipo de pago</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Fecha</th>
@@ -32,6 +33,8 @@
                     {% for unPedido in pedidos %}
                         <tr>
                             <th scope="row">{{unPedido.id}}</th>
+                            <td> {{ unPedido.paciente}}
+                            </td> 
                             <td> 
                                 {% if unPedido.tipo_pago == 'T' %}
                                     Tarjeta de credito
@@ -42,27 +45,30 @@
                                 {% else %}
                                     Debito
                                 {% endif %}</td>
-                             <td>{% if unPedido.estado == 'PD' %}
-                                Pedido
-                             {% elif unPedido.estado == 'PT' %}
-                                Pendiente
-                            {% elif unPedido.estado == 'TL' %}
-                                Taller                                   
-                             {% else %}
-                                Finalizado
-                             {% endif %}</td>
-                            <td>{{unPedido.fecha}}</td>
-                            
                             <td>
-                                <!-- <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
+                                {% if unPedido.estado == 'PD' %}
+                                    Pedido
+                                {% elif unPedido.estado == 'PT' %}
+                                    Pendiente
+                                {% elif unPedido.estado == 'TL' %}
+                                    Taller                                   
+                                {% else %}
+                                    Finalizado
+                                {% endif %}
+                            </td>
+                            <td>{{unPedido.fecha}}</td>
+                            <td>{{unPedido.subtotal}}</td>
+                            
+                            <!--<td>
+                                 <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pedido' unPedido.id %}'">DETALLES</button>
                                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unPedido.id %}'">ELIMINAR</button>  -->
                                 <!-- <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' unPedido.id %}'">AGREGAR ITEM</button>        -->
                                 <!-- <a href="{% url 'clinica:detalle_pedido' unPedido.id %}">
                                     Agregar Producto
-                                </a>  -->
+                                </a>  
                                 
-                            </td>
+                            </td>-->
 
                             <td >
                                 <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
