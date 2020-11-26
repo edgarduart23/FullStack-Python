@@ -1,6 +1,10 @@
 from django.db import models
 from usuarios.models import User
+<<<<<<< HEAD
 from django.urls import reverse
+=======
+import datetime
+>>>>>>> 34fd97b59f54a124e3acb41eae4372aea5311193
 
 #  PerfilVentas, PerfilMedico
 
@@ -37,17 +41,7 @@ class Producto(models.Model):
     #     nombre = models.CharField(max_length = 120)
     # )
 
-# class Turnos(models.Model):
-#     id = models.IntegerField()
-#     Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE)
-#     Doctor =models.ForeignKey(Doctor,  on_delete=models.CASCADE)
-#     FechaTurno = models.DateField()
-#     HoraTurno = models.DateTimeField()
-#     FechaAlta = models.DateField()
-#     FechaBaja = models.DateField()
 
-#     def _str_(self):
-#         return f"{self.id} {self.Paciente} {self.Doctor} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
 class Paciente(models.Model):
 #    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
     nombre = models.CharField(max_length=30)
@@ -60,14 +54,14 @@ class Paciente(models.Model):
     
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
+    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=False,null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=False,null=False)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
     ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
-    fecha = models.DateField( default= None)
+    fecha = models.DateField( default= datetime.datetime.today)
     
     def verSubTotal(self):
         return f"$ {self.subtotal}"
@@ -114,10 +108,17 @@ class Consulta(models.Model):
 #  viaje de seba con los generic views 
 class Turnos(models.Model):
     Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE)
+    Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
+
     FechaTurno = models.DateField()
     HoraTurno = models.TimeField()
     Opciones = (('P', 'Pendiente'), ('A', 'Asistió'), ('F', 'Faltó'))
     Asistencia = models.CharField(max_length=1, choices=Opciones, blank=True, null=True)
+    FechaAlta = models.DateField(auto_now=True)
+    FechaBaja = models.DateField(blank=True)
+
+    def _str_(self):
+        return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
 
     def get_absolute_url(self):
         return reverse('clinica:turnos-detail', kwargs={'pk':self.id})

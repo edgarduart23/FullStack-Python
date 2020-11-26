@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <br>
-    <h1>Listado de productos</h1>
-    
-    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar' %}' ">AGREGAR</button> 
+{% block content %}    
+    <div class="container-fluid"></div>
     <br>
     <div class="container-fluid"></div>
-        
+        <div class="panel panel-default">
+            <div class="panel-heading">Listado de Productos
+                <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:index' %}'">Volver</button> 
+            </div>
+            <div class="panel-body">
             
             <table class="table table-striped">
                 <thead>
@@ -18,7 +19,8 @@
                     <th scope="col">Tipo</th>
                     <th scope="col">Enfoque</th>
                     <th scope="col">Lado</th>
-                    <th scope="col">ARMAZON</th>
+                    <th scope="col">Armazón</th>                  
+                    <th scope="col">Editar</th>
                     
                 </tr>
                 </thead>
@@ -58,17 +60,23 @@
                                 NO  
                                 {% endif %}
                             </td>
-                            <td>
+                            <!-- <td>
                                 <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar' unProducto.id %}'" >EDITAR</button> 
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:producto' unProducto.id %}'">DETALLES</button>
                                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unProducto.id %}'">ELIMINAR</button>  
                                 
-                            </td>
+                            </td> -->
+                            <td >
+                                <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:producto' unProducto.id %}'">                       
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                              </td>
                         </tr>
                     {% endfor %}    
                 </tbody>
             </table>
-            
+        </div>
+    </div>
           
         
     </div>

@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 import django_filters
 from .filters import TurnosFilter
+import datetime
 
 # from .models import Turnos
 # from .form import TurnosCreate
@@ -69,45 +70,52 @@ def actualizar(request, producto_id):
         return redirect('clinica:productos')
      return render(request, 'agregar.html', {'upload_form':producto_form })
 
+####################################################################################################
+def turnos (request):
+     return render(request, "turnos.html", {
+        "turno": Turnos.objects.all()
+    })
+       
 
+def crearTurno(request):
+    upload  = TurnosCreate()
+    if request.method == 'POST':
+        upload = TurnosCreate(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.save()
+            return redirect('clinica:turnos')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:turnos'}}">reload</a>""")
+    else:
+        return render(request, 'agregarturno.html', {'upload_form':upload})
+
+
+
+def borrarTurno(request, turno_id):
+    turno_id = int(turno_id)
+    try:
+        turno_elegido = Turnos.objects.get(id = turno_id)
         
-# def crearTurno(request):
-#     upload  = TurnosCreate()
-#     if request.method == 'POST':
-#         upload = TurnosCreate(request.POST, request.FILES)
-#         if upload.is_valid():
-#             upload.save()
-#             return redirect('clinica:turnos')
-#         else:
-#             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:turnos'}}">reload</a>""")
-#     else:
-#         return render(request, 'agregarturno.html', {'upload_form':upload})
+    except Turnos.DoesNotExist:
+        return redirect('clinica:turnos')
+    turno_elegido.delete()
+    return render(request, "eliminarturno.html")
 
 
 
-# def borrarTurno(request, turno_id):
-#     turno_id = int(turno_id)
-#     try:
-#         turno_elegido = Turnos.objects.get(id = turno_id)
-        
-#     except Turnos.DoesNotExist:
-#         return redirect('clinica:turnos')
-#     turno_elegido.delete()
-#     return render(request, "eliminarturno.html")
+def actualizarTurno(request, turno_id):
+    turno_id = int(turno_id)
+    try:
+        turno_elegido = Producto.objects.get(id = turno_id)
+    except Turnos.DoesNotExist:
+        return redirect('index')
+    turno_form = TurnosCreate(request.POST or None, instance = turno_elegido)
+    if turno_form.is_valid():
+        turno_form.save()
+        return redirect('clinica:turnos')
+    return render(request, 'actualizarturno.html', {'upload_form':turno_form })
 
-
-
-# def actualizarTurno(request, turno_id):
-#      turno_id = int(turno_id)
-#      try:
-#          turno_elegido = Producto.objects.get(id = turno_id)
-#      except Turnos.DoesNotExist:
-#          return redirect('index')
-#      turno_form = TurnosCreate(request.POST or None, instance = turno_elegido)
-#      if turno_form.is_valid():
-#         turno_form.save()
-#         return redirect('clinica:turnos')
-#      return render(request, 'actualizarturno.html', {'upload_form':turno_form })
+#########################################################################################################
 def pacientes(request):
 #    usuario = {'usuario': request.User} 
 # NO me deja pasar nunca igual...
@@ -164,7 +172,7 @@ def modificar_consulta(request, consulta_id):
 
 def pedidos(request):
     return render(request, "pedidos.html", {
-        "pedidos": Pedido.objects.all()
+        "pedidos": Pedido.objects.all().order_by('-id')
     })
 
 def pedido(request, pedido_id):
@@ -174,14 +182,24 @@ def pedido(request, pedido_id):
         })
 
 def agregar_pedido(request):
-    
+    #instanciar la fecha actual
     upload  = PedidoCreate()
     if request.method == 'POST':
         upload = PedidoCreate(request.POST, request.FILES)
         if upload.is_valid():
-            
-            upload.save()
-            return redirect('clinica:pedidos')
+            f = upload.save(commit=False)
+            f.vendedor = request.user
+            # f.fecha = datetime.datetime.today
+            f.subtotal = float(100)
+            f.save()
+            pedido = Pedido.objects.last()
+            # return redirect('clinica:pedidos')
+            # return redirect('clinica:pedido_items', pedido_id=pedido.id)
+            # return render(request, 'agregar_item.html', {'upload_form':upload})
+            # return HttpResponseRedirect(reverse("clinica:pedido_items", args=(pedido.id)))
+            # return reverse_lazy('clinica:pedido_items', kwargs={'pedido_id': pedido.id})
+
+            # return redirect("pedido_items", pedido_id=pedido.id)
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
@@ -215,21 +233,24 @@ def actualizar_pedido(request, pedido_id):
         
 def pedido_items(request, pedido_id):
      unPedido = Pedido.objects.get(id=pedido_id)
-     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id )
-     return render(request, 'pedido_items.html', {'pedido':unPedido, 'items':items})
+     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+     f = formAgregarProducto()
+     return render(request, 'pedido_items.html', {'pedido':unPedido, 'items':items, 'form':f})
 
 def agregar_item(request, pedido_id):
     unPedido = Pedido.objects.get(id=pedido_id)
-    upload  = PedidoDetalle()
+    upload  = PedidoDetalleCreate(instance=unPedido)
+    # upload.initial['pedido_id'] = 4
     if request.method == 'POST':
-        upload = PedidoCreate(request.POST, request.FILES)
+        upload = PedidoDetalleCreate(request.POST, request.FILES)
         if upload.is_valid():
-            upload.pedido_id = unPedido.id
+            
             upload.save()
             return redirect('clinica:pedidos')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pedidos'}}">reload</a>""")
     else:
+        f=formAgregarProducto();
         return render(request, 'agregar_item.html', {'upload_form':upload})
 
 #  viaje de seba con los generic views 
@@ -280,3 +301,31 @@ def turnos_reporte(request):
     filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
     return render(request, 'clinica/turnos-reporte.html', {'filter': filter})
 
+class formAgregarProducto(forms.Form):
+    cantidad = forms.IntegerField(label="Cantidad")
+    
+
+def detalle_pedido(request, pedido_id):
+    unPedido = Pedido.objects.get(id=pedido_id)
+    items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+    #hay que obtener sólo los productos que no están en el pedido
+    productos_disponibles = Producto.objects.all()
+    return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+     
+def agregar_producto(request, pedido_id):
+    unPedido = Pedido.objects.get(id=pedido_id)
+    detalle_item = PedidoDetalle()
+    detalle_item.pedido = unPedido    
+    
+    if request.method == 'POST':
+        detalle_item.producto = Producto.objects.get(id=int(request.POST["productos"]))
+        detalle_item.cantidad = int(request.POST["cantidad"])
+        detalle_item.save()
+        # hay que actualizar el Total del pedido
+        items = PedidoDetalle.objects.filter(pedido_id=unPedido.id)
+        #hay que obtener sólo los productos que no están en el pedido
+        productos_disponibles = Producto.objects.all()
+        return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+        # return HttpResponseRedirect(reverse("detalle_pedido", args=(pedido_id)))
+    else:
+        return render(request, "pedido_items.html", {})

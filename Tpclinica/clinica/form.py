@@ -9,11 +9,12 @@ class ProductoCreate(forms.ModelForm):
     class Meta:
         model = Producto
         fields = '__all__'
-        
-# class TurnosCreate(forms.ModelForm):
-#     class Meta:
-#         model = Turnos
-#         field = '__all__'
+#_________________________________________________________________________________________     
+class TurnosCreate(forms.ModelForm):
+    class Meta:
+        model = Turnos
+        fields = '__all__'
+#________________________________________________________________________
 
 class ConsultaCreate(forms.ModelForm):
     class Meta:
@@ -27,16 +28,28 @@ class PedidoCreate(forms.ModelForm):
     class Meta:
         model = Pedido
         fields = '__all__'
-        #exclude=('vendedor',)
+        # para la creación no se necesitan
+        exclude=('vendedor', 'estado', 'subtotal', 'fecha')
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['vendedor'].queryset = User.objects.filter(es_ventas=True)
-           
+        # self.fields['vendedor'].queryset = User.objects.filter(es_ventas=True)
+    
+class PedidoUpdate(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = '__all__'
+        # para update solo cambia el estado
+        # exclude=('vendedor', 'paciente', 'tipo_pago', 'subtotal', 'fecha')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)        
 
 class PedidoDetalleCreate(forms.ModelForm):
     class Meta:
         model = PedidoDetalle
-        fields = '__all__'
+        fields = ('producto', 'cantidad')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
 class Turno_Form(forms.ModelForm):
     class Meta:
