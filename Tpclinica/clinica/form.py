@@ -48,7 +48,14 @@ class PedidoView(forms.ModelForm):
         self.fields['subtotal'].disabled = True
         self.fields['fecha'].disabled = True
     
-        
+class PedidoUpdate(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = '__all__'
+        # para update solo cambia el estado
+        # exclude=('vendedor', 'paciente', 'tipo_pago', 'subtotal', 'fecha')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)               
 
 class PedidoDetalleCreate(forms.ModelForm):
     class Meta:
