@@ -15,7 +15,7 @@
             </tr>
             {% endfor %}
         </table>
-        <button type="submit" class="btn btn-primary">CONFIRMAR</button>
+        <button href="{% url 'clinica:turnos' %}" type="submit" class="btn btn-primary">CONFIRMAR</button>
         <a href="{% url 'clinica:turnos' %}" class="btn btn-danger">CANCELAR</a>
     </form>
 {% endblock content %}
