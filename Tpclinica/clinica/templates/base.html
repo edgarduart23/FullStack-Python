@@ -168,6 +168,24 @@
     </div>
   </nav> -->
 
+<!-- 
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Logotipo</a>
+  </div>
+
+  Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra 
+       <div class="collapse navbar-collapse navbar-ex1-collapse">
+ -->
+
+
     <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -219,12 +237,6 @@
                 <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
               <li >
-                <a href="#">Menú 3</a>
-              </li>
-              <li >
-                <a href="#">Menú 4</a>
-              </li>
-              <li >
                 <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
             {% endif %}
@@ -239,15 +251,6 @@
             <li >
               <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_taller %}
@@ -255,16 +258,7 @@
               <a href="#">Taller</a>
             </li>
             <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
+              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
             {% endif %}
 
@@ -275,32 +269,11 @@
             <li >
               <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_gerencia %}
             <li >
               <a href="#">Gerencia</a>
-            </li>
-            <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
             </li>
             {% endif %}
             
