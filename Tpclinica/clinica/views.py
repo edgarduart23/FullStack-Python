@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -162,9 +162,14 @@ def modificar_consulta(request, consulta_id):
      return render(request, 'agregar_consulta.html', {'upload_form':consulta_form })
 
 def pedidos(request):
-    return render(request, "pedidos.html", {
-        "pedidos": Pedido.objects.all().order_by('-id')
-    })
+    if request.user.es_ventas:
+        return render(request, "pedidos.html", {
+            "pedidos": Pedido.objects.filter(vendedor=request.user).order_by('-id')
+        })
+    if request.user.es_taller:
+        return render(request, "pedidos.html", {
+            "pedidos": Pedido.objects.filter(estado='PT').order_by('-id')
+        })
 
 def pedido(request, pedido_id):
         unPedido = Pedido.objects.get(id=pedido_id)
