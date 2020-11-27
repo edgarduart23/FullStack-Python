@@ -10,3 +10,12 @@
 .navbar-brand:hover{color: #c8c9c4;}
 
 .glyphicon{color: #ffffff;}
+
+.container_gallery{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin:auto;
+}
