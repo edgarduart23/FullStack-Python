@@ -19,19 +19,8 @@ class Producto(models.Model):
     lado = models.CharField(max_length=1, choices=LADO,blank= True, null=True)
     armazon = models.BooleanField(default=False)
     
-    def __str__(self):        
-        if self.tipo == 'L':
-            enfoque = 'Cerca'
-            if self.enfoque=='L':
-                enfoque = 'Lejos'
-            lado = 'Der.'
-            if self.lado=='I':
-                lado = 'Izq.'
-            armazon = 's/armazón'
-            if self.armazon:
-                armazon = 'c/armazón'
-            return f"{self.id} - Lente {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
-        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio} "
+    def __str__(self):
+        return f"{self.id} {self.descripcion} {self.precio} {self.tipo} "
 
 # class Paciente(models.Model):
 #     nombre = models.CharField(max_length = 120)
