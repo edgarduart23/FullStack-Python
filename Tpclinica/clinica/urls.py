@@ -25,7 +25,8 @@ urlpatterns = [
     path('pedidos/pedido_items/<int:pedido_id>/agregar_item', views.agregar_item, name="agregar_item"),
     path('pedidos/detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name="detalle_pedido"),
     path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
-    
+    path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
+
     ################################################################### Turnos
     path ('turnos',views.turnos, name="turnos"),
     path('turnos/crear', views.crearTurno , name = "crearTurno"),
