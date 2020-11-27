@@ -1,45 +1,124 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <br>
-    <!-- <h1>Items del pedido N° {{pedido.id}}</h1> -->
-    
     <!-- <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_item' pedido.id  %}' ">AGREGAR</button>  -->
-   
 
+   <div class="container-fluid"></div>       
    <br>
-    <div class="container-fluid"></div>       
+   <div class="panel panel-default">
+       <div class="panel-heading">Detalle del Pedido
+           <div class="btn-group pull-right">
+               <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:pedidos' %}'">Volver</button> 
+            </div>
+        </div>
+       
+        <div class="panel-body">
+            <!-- {{ formPedido.as_p }} -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Vendedor</th>
+                        <th>Paciente</th>
+                        <th>F.Pago</th>
+                        <th>Estado</th>
+                        <th>SubTotal</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{unItem.id}}</th>
+                        <td>{{pedido.vendedor}}</td>
+                        <td>{{pedido.paciente}}</td>
+                        <td>{% if pedido.tipo_pago == 'T' %}
+                            Tarjeta de credito
+                            {% elif pedido.tipo_pago == 'B' %}
+                                Billetera virtual  
+                            {% elif pedido.tipo_pago == 'E' %}
+                                Efectivo                                   
+                            {% else %}
+                                Debito
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if pedido.estado == 'PD' %}
+                                Pedido
+                            {% elif pedido.estado == 'PT' %}
+                                Pendiente
+                            {% elif pedido.estado == 'TL' %}
+                                Taller                                   
+                            {% else %}
+                                Desconocido
+                            {% endif %}
+                        </td>
+                        <td>{{pedido.subtotal}}</td>
+                        <td>{{pedido.fecha}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        <!-- </div> -->
+    <!-- </div> -->
+
+    {% if user.es_ventas and pedido.estado == 'PT' %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Agregar producto</div>
+        <div class="panel-body">
+            <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
+                {% csrf_token %}
+                <label for="">Productos:</label>
+                <select class="form-control" name="productos">
+                    {% for producto in productos_disponibles %}
+                        <option value="{{ producto.id }}">{{ producto }}</option>            
+                    {% endfor %}
+                </select>                    
+                <br>
+                <div class="form-group">
+                    <label for="usr">Cantidad:</label>
+                    <input type="number" name="cantidad" class="form-control" value="1" id="usr" required>
+                    </div>
+                <button type="submit" class="btn btn-primary btn-xs">Agregar</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
             
     <div class="panel panel-default">
-        <div class="panel-heading">Productos del pedido
-            <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:pedidos' %}'">Volver</button> 
+        <div class="panel-heading">Productos del pedido           
         </div>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Nro Pedido</th>
-                    <th scope="col">Nro. Producto</th>
-                    
-                    
+                    <th >#</th>
+                    <th >Tipo</th>
+                    <th >Descripción</th>
+                    <th >Precio</th>
+                    <th >Cantidad</th>
+                    <th >SubTotal</th>
+                    <th >Pedido Id</th>
+                    <th >Producto Id</th>                    
+                    <th >Eliminar</th>                    
                 </tr>
                 </thead>
                 <tbody>
                     {% for unItem in items %}
                         <tr>
                             <th scope="row">{{unItem.id}}</th>
+                            <td>{{unItem.producto.tipo}}</td>
                             <td>{{unItem.producto.descripcion}}</td>
+                            <td>{{unItem.total}}</td>
                             <td>{{unItem.cantidad}}</td>
                             <td>{{unItem.total}}</td>
                             <td>{{unItem.pedido_id}}</td>
                             <td>{{unItem.producto_id}}</td>
-                            <td>
-                                
-                                
+                            <td >
+                                <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
+                                  <i class="fa fa-edit"></i>
+                                </button> -->
+                                <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}    
@@ -47,32 +126,9 @@
             </table>
         </div>
     </div>
-            
-        <br>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">Agregar producto</div>
-            <div class="panel-body">
-                <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
-                    {% csrf_token %}
-                    <label for="">Productos:</label>
-                    <select class="form-control" name="productos">
-                        {% for producto in productos_disponibles %}
-                            <option value="{{ producto.id }}">{{ producto }}</option>            
-                        {% endfor %}
-                    </select>                    
-<br>
-                    <div class="form-group">
-                        <label for="usr">Cantidad:</label>
-                        <input type="number" name="cantidad" class="form-control" id="usr" required>
-                      </div>
-
-                    <!-- {{ form }} -->
-                    <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
-                </form>
-            </div>
-        </div>
+           
+</div>
+</div>
     </div>
-            <br><br>
 {% endblock content %}
 

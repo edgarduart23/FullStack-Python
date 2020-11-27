@@ -21,54 +21,69 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Paciente</th>
                     <th scope="col">Tipo de pago</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Subtotal</th>                  
-                    <th scope="col">Editar</th>
+                    <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                     {% for unPedido in pedidos %}
                         <tr>
                             <th scope="row">{{unPedido.id}}</th>
+                            <td> {{ unPedido.paciente}}
+                            </td> 
                             <td> 
                                 {% if unPedido.tipo_pago == 'T' %}
                                     Tarjeta de credito
-                                {% elif unProducto.tipo_pago == 'B' %}
+                                {% elif unPedido.tipo_pago == 'B' %}
                                     Billetera virtual  
-                                {% elif unProducto.tipo_pago == 'E' %}
+                                {% elif unPedido.tipo_pago == 'E' %}
                                     Efectivo                                   
                                 {% else %}
                                     Debito
                                 {% endif %}</td>
-                             <td>{% if unPedido.estado == 'PD' %}
-                                Pedido
-                             {% elif unPedido.estado == 'PT' %}
-                                Pendiente
-                            {% elif unPedido.estado == 'TL' %}
-                                Taller                                   
-                             {% else %}
-                                Finalizado
-                             {% endif %}</td>
-                            <td>{{unPedido.fecha}}</td>
-                            
                             <td>
-                                <!-- <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
+                                {% if unPedido.estado == 'PD' %}
+                                    Pedido
+                                {% elif unPedido.estado == 'PT' %}
+                                    Pendiente
+                                {% elif unPedido.estado == 'TL' %}
+                                    Taller                                   
+                                {% else %}
+                                    Desconocido
+                                {% endif %}
+                            </td>
+                            <td>{{unPedido.fecha}}</td>
+                            <td>{{unPedido.subtotal}}</td>
+                            
+                            <!--<td>
+                                 <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:actualizar_pedido' unPedido.id %}'" >EDITAR</button> 
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:pedido' unPedido.id %}'">DETALLES</button>
                                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar' unPedido.id %}'">ELIMINAR</button>  -->
                                 <!-- <button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pedido_items' unPedido.id %}'">AGREGAR ITEM</button>        -->
                                 <!-- <a href="{% url 'clinica:detalle_pedido' unPedido.id %}">
                                     Agregar Producto
-                                </a>  -->
+                                </a>  
                                 
-                            </td>
+                            </td>-->
 
                             <td >
-                                <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
+                                <!-- <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
                                   <i class="fa fa-edit"></i>
-                                </button>
-                              </td>
+                                </button> -->
+                                <div class="text-center">
+                                    <a href="{% url 'clinica:detalle_pedido' unPedido.id %}" title="Editar">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                    <a href="{% url 'clinica:eliminar_pedido' unPedido.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres eliminar el pedido?');">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </td>
                   
                         </tr>
                     {% endfor %}    

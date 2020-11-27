@@ -27,7 +27,25 @@ class PedidoCreate(forms.ModelForm):
         exclude=('vendedor', 'estado', 'subtotal', 'fecha')
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # self.fields['vendedor'].disabled = True
+        # self.fields['subtotal'].disabled = True
+        # self.fields['estado'].value = 'PT'
+        # self.fields['estado'].disabled = True
+        # self.fields['fecha'].disabled = True
         # self.fields['vendedor'].queryset = User.objects.filter(es_ventas=True)
+
+class PedidoView(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = '__all__'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['vendedor'].disabled = True
+        self.fields['paciente'].disabled = True
+        self.fields['tipo_pago'].disabled = True
+        self.fields['estado'].disabled = True
+        self.fields['subtotal'].disabled = True
+        self.fields['fecha'].disabled = True
     
 class PedidoUpdate(forms.ModelForm):
     class Meta:
@@ -36,7 +54,7 @@ class PedidoUpdate(forms.ModelForm):
         # para update solo cambia el estado
         # exclude=('vendedor', 'paciente', 'tipo_pago', 'subtotal', 'fecha')
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+        super().__init__(*args, **kwargs)               
 
 class PedidoDetalleCreate(forms.ModelForm):
     class Meta:
