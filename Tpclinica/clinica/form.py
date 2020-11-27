@@ -7,6 +7,12 @@ class ProductoCreate(forms.ModelForm):
     class Meta:
         model = Producto
         fields = '__all__'
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if (self.instance.tipo== 'L'):
+    #         self.fields['enfoque'].disabled = False
+    #         self.fields['lado'].disabled = False
+    #         self.fields['armazon'].disabled = False
 #_________________________________________________________________________________________     
 class TurnosCreate(forms.ModelForm):
     class Meta:
