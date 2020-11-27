@@ -1,0 +1,12 @@
+
+.navbar {
+    background-color: #333333;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+    min-height: 50px;
+}
+.nav-link{color: #ffffff;}
+.nav-link:hover{color: #c8c9c4;}
+.navbar-brand{color: #ffffff;}
+.navbar-brand:hover{color: #c8c9c4;}
+
+.glyphicon{color: #ffffff;}
