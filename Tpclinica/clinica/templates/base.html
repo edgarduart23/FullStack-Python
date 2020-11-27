@@ -218,12 +218,6 @@
               <li >
                 <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
-              <li >
-                <a href="#">Menú 3</a>
-              </li>
-              <li >
-                <a href="#">Menú 4</a>
-              </li>
             {% endif %}
 
             {% if user.es_medico %}
@@ -236,15 +230,6 @@
             <li >
               <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_taller %}
@@ -252,16 +237,7 @@
               <a href="#">Taller</a>
             </li>
             <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
+              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
             {% endif %}
 
@@ -272,32 +248,11 @@
             <li >
               <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_gerencia %}
             <li >
               <a href="#">Gerencia</a>
-            </li>
-            <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
             </li>
             {% endif %}
             
