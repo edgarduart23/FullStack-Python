@@ -171,11 +171,11 @@ def pedidos(request):
             "pedidos": Pedido.objects.filter(estado='PT').order_by('-id')
         })
 
-def pedido(request, pedido_id):
-        unPedido = Pedido.objects.get(id=pedido_id)
-        return render(request, "pedido.html",{
-            "pedido": unPedido
-        })
+def pedido(request, pedido_id):    
+    unPedido = Pedido.objects.get(id=pedido_id)
+    return render(request, "pedido.html",{
+        "pedido": unPedido
+    })
 
 def agregar_pedido(request):
     #instanciar la fecha actual
