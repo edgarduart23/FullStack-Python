@@ -112,6 +112,7 @@ def actualizarTurno(request, turno_id):
     return render(request, 'actualizarturno.html', {'upload_form':turno_form })
 
 #########################################################################################################
+
 def pacientes(request):
     return render(request, "pacientes.html", {
         "pacientes": Paciente.objects.all()
