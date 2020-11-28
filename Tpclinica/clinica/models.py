@@ -13,15 +13,26 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=100)
     precio = models.FloatField()
     TIPOS = (('L', 'Lente'), ('E', 'Estuche'), ('G', 'Gotita'))
-    tipo = models.CharField(max_length=1, choices=TIPOS)
+    tipo = models.CharField(max_length=1, choices=TIPOS,default='L')
     ENFOQUE = (('L', 'Lejos'), ('C', 'Cerca'))
     enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank= True, null=True)
     LADO = (('I', 'Izqierda'), ('D', 'Derecha'))
-    lado = models.CharField(max_length=1, choices=LADO, blank= True, null=True)
+    lado = models.CharField(max_length=1, choices=LADO,blank= True, null=True)
     armazon = models.BooleanField(default=False)
-   
-    def __str__(self):
-        return f"{self.id} {self.descripcion} {self.precio} {self.tipo} "
+    
+    def __str__(self):        
+        if self.tipo == 'L':
+            enfoque = 'Cerca'
+            if self.enfoque=='L':
+                enfoque = 'Lejos'
+            lado = 'Der.'
+            if self.lado=='I':
+                lado = 'Izq.'
+            armazon = 's/armazón'
+            if self.armazon:
+                armazon = 'c/armazón'
+            return f"{self.id} - Lente {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
+        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}
 
 # class Paciente(models.Model):
 #     nombre = models.CharField(max_length = 120)
@@ -52,14 +63,14 @@ class Paciente(models.Model):
     
 
 class Pedido(models.Model):
-    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=False,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=False,null=True)
+    vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente",blank=True,null=True)
     TIPO_PAGO = (('T', 'Tarjeta de credito'),('B', 'Billetera virtual'),('E', 'Efectivo'),('D', 'Debito'))
     tipo_pago = models.CharField(max_length=1,default='E',choices=TIPO_PAGO)
-    ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'),('FP', 'Finalizado'))
+    ESTADO = (('PT', 'Pendiente'),('PD', 'Pedido'),('TL', 'Taller'))
     estado = models.CharField( max_length=2,default='PD',choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10,decimal_places=2,default=0.0,blank=True, null=True)
-    fecha = models.DateTimeField( default= timezone.now())
+    fecha = models.DateField( default= timezone.now())
     
     def verSubTotal(self):
         return f"$ {self.subtotal}"

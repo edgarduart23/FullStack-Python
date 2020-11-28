@@ -1,82 +1,90 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 {% load static %}
 {% block content %}
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
 
-        <!-- Header -->
-        <header class="bg-primary text-center py-4 mb-4">
-            <div class="container">
-            <h1 class="font-weight-light text-white">CLINICA OFTALMOLOGICA</h1>
-            </div>
-        </header>
-        
-        <!-- Page Content -->
+    <!-- Header -->
+    <header class="bg-primary text-center py-4 mb-4">
         <div class="container">
-            <div class="row">
+            <h1 class="font-weight-light text-white">CLINICA OFTALMOLOGICA</h1>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container_gallery">
+        <div class="row">
             <!-- Team Member 1 -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                <img src="{% static 'img/admin.png' %}"  class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">ADMINISTRADOR</h5>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button> 
-                    
-                </div>
+                    <img src="{% static 'img/admin.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">ADMINISTRADOR</h5>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button>
+
+                    </div>
                 </div>
             </div>
             <!-- Team Member 2 -->
-           
+
             <!-- Team Member 3 -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                <img src="{% static 'img/doctor.png' %}" class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">MEDICO</h5>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button> 
-                </div>
+                    <img src="{% static 'img/doctor.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">MEDICO</h5>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button>
+                    </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                <img src="{% static 'img/secretaria.png' %}" class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">SECRETARIA</h5>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button> 
-                </div>
+                    <img src="{% static 'img/secretaria.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">SECRETARIA</h5>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button>
+                    </div>
                 </div>
             </div>
-           
+
             <!-- Team Member 4 -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                <img src="{% static 'img/adminpropic.png' %}"  class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">TECNICO</h5>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button> 
-                </div>
+                    <img src="{% static 'img/adminpropic.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">TECNICO</h5>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button>
+                    </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-0 shadow">
-                <img src="{% static 'img/vendedor.png' %}"  class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">VENDEDOR</h5>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button> 
-                </div>
+                    <img src="{% static 'img/vendedor.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">VENDEDOR</h5>
+                        <button type="button" class="btn btn-primary"
+                            onclick="location.href='{% url 'usuarios:login' %}' ">ENTRAR</button>
+                    </div>
                 </div>
             </div>
-            </div>
-            <!-- /.row -->
-        
         </div>
-  <!-- /.container -->
-
-            
-
-        <!-- Main Content Here -->
+        <!-- /.row -->
 
     </div>
-    <!-- /.container-fluid -->
+    <!-- /.container -->
+
+
+
+    <!-- Main Content Here -->
+
+</div>
+<!-- /.container-fluid -->
 {% endblock content %}

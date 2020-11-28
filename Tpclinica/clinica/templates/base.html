@@ -19,6 +19,7 @@
   <!-- Custom styles for this template -->
   <link href="{% static 'css/small-business.css' %}" rel="stylesheet">
 
+<<<<<<< HEAD
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery.min.js"></script>
@@ -26,6 +27,11 @@
   
   {% block extrahead %}
   {% endblock %}
+=======
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+>>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
 
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -202,15 +208,12 @@
           <li >
             <a href="#">Contacto</a>
           </li>
-          <!-- <li >
-            <a href="{% url 'usuarios:login' %}">Login</a>     
-          </li> -->
         {% endif %}
 
         {% if user.is_authenticated %}
             {% if user.is_superuser %}
               <li >
-                <a href="{% url 'admin:index' %}">Administrar Sistema</a>
+                <a href="{% url 'admin:index' %}">Administrar usuarios</a>
               </li>
               <li >
                 <a href="{% url 'clinica:productos' %}">ABM Productos</a>
@@ -227,6 +230,9 @@
               <li >
                 <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
+              <li >
+                <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
+              </li>
             {% endif %}
 
             {% if user.es_medico %}
@@ -239,18 +245,15 @@
             <li >
               <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
             </li>
+<<<<<<< HEAD
             
+=======
+>>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
             {% endif %}
 
             {% if user.es_taller %}
             <li >
               <a href="#">Taller</a>
-            </li>
-            <li >
-              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
             </li>
             {% endif %}
 
@@ -273,7 +276,7 @@
               <a href="{% url 'usuarios:logout' %}">User: {{ user.username }} (logout)</a>
             </li>             -->
           {% endif %}
-
+          
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if not user.is_authenticated %}
@@ -288,12 +291,18 @@
     </nav>
   
     <div class="container">
+<<<<<<< HEAD
 
     <div class="container">
       {% block content %}
       {% endblock %}
   </div>
    
+=======
+      
+    {% block content %} {% endblock content %}
+ 
+>>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
 
   </div>
   <!-- /.container -->

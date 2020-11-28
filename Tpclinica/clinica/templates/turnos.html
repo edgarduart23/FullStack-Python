@@ -17,6 +17,7 @@
 <br>
 <div class="container-fluid"></div>
     
+<<<<<<< HEAD
         
         <table class="table table-striped">
             <thead>
@@ -41,6 +42,36 @@
                         <td>{{unTurno.HoraTurno}}</td>
                         <td>{{unTurno.AltaTurno}}</td>
                         <td>{{unTurno.BajaTurno}}</td>
+=======
+    <button type="button" class="btn btn-success" onclick="{% url 'clinica:crearTurno' %}" >AGREGAR</button> 
+    <br>
+    <div class="container-fluid"></div>
+        
+            
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Paciente</th
+                    <th scope="col">Medico</th>
+                    <th scope="col">FechaTurno</th>
+                    <th scope="col">HoraTurno</th>
+                    <th scope="col">AltaTurno</th>
+                    <th scope="col">BajaTurno</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for unTurno in turnos %}
+                        <tr>
+                            <th scope="row">{{unturno.id}}</th>
+                            <td>{{unTurno.id}}</td>
+                            <td>{{unTurno.Paciente}}</td>
+                            <td>{{unTurno.Medico}}</td>
+                            <td>{{unTurno.FechaTurno}}</td>
+                            <td>{{unTurno.HoraTurno}}</td>
+                            <td>{{unTurno.AltaTurno}}</td>
+                            <td>{{unTurno.BajaTurno}}</td>
+>>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
 
                         
                         <td>
