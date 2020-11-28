@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 import datetime
+#from django.contrib.auth.decorators import login_required
 
 # from .models import Turnos
 # from .form import TurnosCreate
@@ -16,7 +17,7 @@ def index(request):
     #De acuerdo al perfil debemos redeireccionarlo
     return render(request, "index.html")
 
-
+#@login_required(redirect_field_name='usuarios:login')
 def productos(request):
     return render(request, "productos.html", {
         "productos": Producto.objects.all()
