@@ -32,7 +32,7 @@ class Producto(models.Model):
             if self.armazon:
                 armazon = 'c/armazón'
             return f"{self.id} - Lente {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
-        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}
+        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}"
 
 # class Paciente(models.Model):
 #     nombre = models.CharField(max_length = 120)
@@ -124,7 +124,7 @@ class Turnos(models.Model):
     Opciones = (('P', 'Pendiente'), ('A', 'Asistió'), ('F', 'Faltó'))
     Asistencia = models.CharField(max_length=1, choices=Opciones, blank=True, null=True)
 #    FechaAlta = models.DateField(auto_now=True)
-#    FechaBaja = models.DateField(blank=True)
+#    FechaBaja = models.DateField(blank=True,null=True)
 
     def _str_(self):
         return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"

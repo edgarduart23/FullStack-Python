@@ -1,14 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-<<<<<<< HEAD
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate, Turno_Form
 from django.urls import reverse, reverse_lazy
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
-=======
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
->>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
