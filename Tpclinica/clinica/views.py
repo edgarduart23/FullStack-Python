@@ -357,8 +357,7 @@ def agregar_producto(request, pedido_id):
         return HttpResponseRedirect(reverse("clinica:detalle_pedido", args=(pedido_id,)))
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
     else:
-<<<<<<< HEAD
-        return render(request, "pedido_items.html", {'formPedido': formPedido})
+        return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
 
 class PacienteCreate(generic.CreateView): 
     model = Paciente
@@ -378,8 +377,6 @@ class PacienteUpdate(generic.UpdateView):
 class PacienteDelete(generic.DeleteView):
     model = Paciente
     success_url = reverse_lazy('clinica:pacientes')
-=======
-        return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
     
 def eliminar_producto(request, detalle_pedido_id):
     detalle = PedidoDetalle.objects.get(id=int(detalle_pedido_id))
@@ -457,4 +454,3 @@ def eliminar_producto(request, detalle_pedido_id):
 #     {% endfor %}
 # </ul>
 
->>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
