@@ -336,9 +336,9 @@ def detalle_pedido(request, pedido_id):
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
     #hay que obtener sólo los productos que no están en el pedido
     # Product.objects.exclude(id__in=existing)
-    # productos_disponibles = Producto.objects.all()
-    productosPedido = Producto.objects.filter(id__in=items.productos.id)
-    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+    productos_disponibles = Producto.objects.all()
+    # productosPedido = Producto.objects.filter(id__in=items.productos.id)
+    # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
 
     # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
@@ -368,9 +368,9 @@ def agregar_producto(request, pedido_id):
         items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
         #hay que obtener sólo los productos que no están en el pedido
         # Product.objects.exclude(id__in=existing)
-        # productos_disponibles = Producto.objects.all()
-        productosPedido = Producto.objects.filter(id__in=items.productos.id)
-        productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+        productos_disponibles = Producto.objects.all()
+        # productosPedido = Producto.objects.filter(id__in=items.productos.id)
+        # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
 
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
         return HttpResponseRedirect(reverse("clinica:detalle_pedido", args=(pedido_id,)))
@@ -405,9 +405,9 @@ def eliminar_producto(request, detalle_pedido_id):
     detalle.delete()
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
     # Product.objects.exclude(id__in=existing)
-    # productos_disponibles = Producto.objects.all()
-    productosPedido = Producto.objects.filter(id__in=items.productos.id)
-    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+    productos_disponibles = Producto.objects.all()
+    # productosPedido = Producto.objects.filter(id__in=items.productos.id)
+    # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
     
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
 
