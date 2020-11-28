@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clinica',
     'usuarios',
-    "bootstrap4",
+    "bootstrap3",
     "bootstrap_datepicker_plus",
     'django_filters',
 ]

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
+
 {% block extrahead %}
 
 {{ form.media }}
@@ -9,7 +11,7 @@
   {% block content %}
   <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      {% bootstrap_form form %}
       <input type="submit" value="Save">
   </form>
   {% endblock %}

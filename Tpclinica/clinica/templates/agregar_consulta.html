@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 
 {% block extrahead %}
 {{ upload_form.media }}
 {% endblock %}
+
 {% block content %}
 <br>
 
@@ -11,12 +13,8 @@
     <form method = 'POST' enctype="multipart/form-data">
         {% csrf_token %}
         <table class = 'w-50 table table-light' style="border-radius:10px;">
-            {% for field in upload_form %}
-            <tr>
-                <th>{{field.label}}</th>
-                <td>{{ field }}</td>
-            </tr>
-            {% endfor %}
+            {% bootstrap_form upload_form %}
+
         </table>
         <button type="submit" class="btn btn-primary">CONFIRMAR</button>
         <a href="{% url 'clinica:pacientes' %}" class="btn btn-danger">CANCELAR</a>

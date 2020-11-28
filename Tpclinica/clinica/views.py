@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate, Turno_Form
 from django.urls import reverse, reverse_lazy
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
@@ -282,7 +282,7 @@ class TurnoCreate(CreateView):
     
     def get_form(self):
         form = super().get_form()
-        form.fields['FechaTurno'].widget = DatePickerInput()
+        form.fields['FechaTurno'].widget = DatePickerInput(format='%d/%m/%Y')
         form.fields['HoraTurno'].widget = TimePickerInput()
         return form
     
@@ -336,3 +336,22 @@ def agregar_producto(request, pedido_id):
         # return HttpResponseRedirect(reverse("detalle_pedido", args=(pedido_id)))
     else:
         return render(request, "pedido_items.html", {'formPedido': formPedido})
+
+class PacienteCreate(generic.CreateView): 
+    model = Paciente
+    fields = ['nombre', 'apellido', 'direccion', 'telefono', 'email',]
+
+
+class PacienteUpdate(generic.UpdateView):
+    model = Paciente
+    fields = [
+        'nombre',
+        'apellido',
+        'direccion',
+        'telefono',
+        'email',
+    ]
+
+class PacienteDelete(generic.DeleteView):
+    model = Paciente
+    success_url = reverse_lazy('clinica:pacientes')

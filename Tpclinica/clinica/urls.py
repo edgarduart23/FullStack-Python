@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import TurnoCreate, TurnoDelete, TurnoUpdate
+from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate
 from . import views
 
 app_name= "clinica"
@@ -43,4 +43,7 @@ urlpatterns = [
     path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
 
     ##################################################################
+    path('pacientes/create', views.PacienteCreate.as_view(), name='paciente_create'),
+	path('pacientes/update/<int:pk>', views.PacienteUpdate.as_view(), name='paciente_update'),
+	path('pacientes/delete/<int:pk>', views.PacienteDelete.as_view(), name='paciente_delete'),
 ]
