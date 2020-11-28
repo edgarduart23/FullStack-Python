@@ -1,11 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, ConsultaCreate, Turno_Form
+from django.urls import reverse, reverse_lazy
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.views import generic
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
+
+import django_filters
+from .filters import TurnosFilter
 import datetime
 #from django.contrib.auth.decorators import login_required
 
@@ -115,6 +126,11 @@ def actualizarTurno(request, turno_id):
 #########################################################################################################
 
 def pacientes(request):
+#    usuario = {'usuario': request.User} 
+# NO me deja pasar nunca igual...
+#    if not usuario==True:
+# Aca hay un problema con la url del httpresponse para volver a loguearse si no es medico
+#        return HttpResponse("""Usted no es medico. Si lo es vuelva a <a href = " {{ url : 'usuarios:loguin'}}">loguearse</a> loguearse""")
     return render(request, "pacientes.html", {
         "pacientes": Paciente.objects.all()
     })
@@ -137,7 +153,7 @@ def agregar_consulta(request):
             upload.save()
             return redirect('clinica:pacientes')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pacientes'}}">Recargar</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'clinica:pacientes' }}" >Recargar</a>""")
     else:
         return render(request, 'agregar_consulta.html', {'upload_form':upload})
 
@@ -247,6 +263,54 @@ def agregar_item(request, pedido_id):
         f=formAgregarProducto();
         return render(request, 'agregar_item.html', {'upload_form':upload})
 
+#  viaje de seba con los generic views 
+class TurnosListView(generic.ListView):
+    model = Turnos
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        turnos_filtered_list = TurnosFilter(self.request.GET, queryset=qs)
+        return turnos_filtered_list.qs
+
+class TurnoDetailView(generic.DetailView):
+    model = Turnos
+    context_object_name= 'turnos'
+    queryset= Turnos.objects.all()
+
+#    def get_context_data(self, **kwargs):
+#        context = super().get_context_data(**kwargs)
+#        context["turnos_list"] = Turnos.objects.all()
+#        return context
+    
+    def get_object(self):
+        turno= super().get_object()
+        turno.save()
+        return turno
+    
+
+class TurnoCreate(CreateView):
+    model = Turnos
+    fields = ['Paciente', 'HoraTurno', 'FechaTurno', 'Asistencia']
+    
+    def get_form(self):
+        form = super().get_form()
+        form.fields['FechaTurno'].widget = DatePickerInput(format='%d/%m/%Y')
+        form.fields['HoraTurno'].widget = TimePickerInput()
+        return form
+    
+
+class TurnoUpdate(UpdateView):
+    model = Turnos
+    fields = ['Paciente', 'HoraTurno', 'FechaTurno', 'Asistencia']
+
+class TurnoDelete(DeleteView):
+    model = Turnos
+    success_url = reverse_lazy('clinica:turnos')
+
+def turnos_reporte(request):
+    filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
+    return render(request, 'clinica/turnos-reporte.html', {'filter': filter})
+
 class formAgregarProducto(forms.Form):
     cantidad = forms.IntegerField(label="Cantidad")
     
@@ -292,6 +356,25 @@ def agregar_producto(request, pedido_id):
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
     else:
         return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+
+class PacienteCreate(generic.CreateView): 
+    model = Paciente
+    fields = ['nombre', 'apellido', 'direccion', 'telefono', 'email',]
+
+
+class PacienteUpdate(generic.UpdateView):
+    model = Paciente
+    fields = [
+        'nombre',
+        'apellido',
+        'direccion',
+        'telefono',
+        'email',
+    ]
+
+class PacienteDelete(generic.DeleteView):
+    model = Paciente
+    success_url = reverse_lazy('clinica:pacientes')
     
 def eliminar_producto(request, detalle_pedido_id):
     detalle = PedidoDetalle.objects.get(id=int(detalle_pedido_id))

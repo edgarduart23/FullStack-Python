@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -9,7 +10,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Clínica Polotic</title>
+
+  <title>Clinica Polotic</title>
 
   <!-- Bootstrap core CSS -->
   <!-- <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> -->
@@ -17,9 +19,19 @@
   <!-- Custom styles for this template -->
   <link href="{% static 'css/small-business.css' %}" rel="stylesheet">
 
+<<<<<<< HEAD
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  {% block extrahead %}
+  {% endblock %}
+=======
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+>>>>>>> 76b87f2c619c5c97bb23608b73a53a74760971df
 
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -275,9 +287,12 @@
     </nav>
   
     <div class="container">
-      
-    {% block content %} {% endblock content %}
- 
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+  </div>
+   
 
   </div>
   <!-- /.container -->

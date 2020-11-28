@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Lista de todos los turnos</h1>
+  <a href="{% url 'clinica:turno-create' %}" class="btn btn-primary">CREAR NUEVO TURNO</a>
+
+  {% if turnos_list %}
+  <ul>
+    {% for turnos in turnos_list %}
+      <li>
+        <a href="{{ turnos.get_absolute_url }}">{{ turnos.Paciente }}</a> ({{turnos.FechaTurno}}{{turnos.HoraTurno}})
+      </li>
+
+      <td>
+        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:turno-update' turnos.id %}'" >EDITAR</button> 
+        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:turno-delete' turnos.id %}'">ELIMINAR</button>  
+        
+    </td>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>No hay turnos pendientes</p>
+  {% endif %}       
+{% endblock %}
