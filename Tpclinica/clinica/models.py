@@ -61,6 +61,8 @@ class Paciente(models.Model):
     def __str__(self):
         return self.nombre
     
+    def get_absolute_url(self):
+        return reverse('clinica:pacientes-detail', kwargs={'pk':self.id})    
 
 class Pedido(models.Model):
     vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)

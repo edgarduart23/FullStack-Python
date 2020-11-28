@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Lista de todos los turnos</h1>
+<a href="{% url 'clinica:turno-create' %}" class="btn btn-primary">CREAR NUEVO TURNO</a>
+
+<ul>
+    {% for turnos in latest %}
+        <li>{{ turnos.FechaTurno }}: {{ turnos.Paciente }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

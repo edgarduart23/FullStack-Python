@@ -20,6 +20,8 @@ from .filters import TurnosFilter
 import datetime
 #from django.contrib.auth.decorators import login_required
 
+from django.views.generic.dates import YearArchiveView, MonthArchiveView
+
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -134,6 +136,16 @@ def pacientes(request):
     return render(request, "pacientes.html", {
         "pacientes": Paciente.objects.all()
     })
+
+class PacienteDetailView(generic.DetailView):
+    model = Paciente
+    context_object_name= 'paciente'
+    queryset= Paciente.objects.all()
+
+    def get_object(self):
+        paciente= super().get_object()
+        paciente.save()
+        return paciente
 
 def historial(request, paciente_id):
 # habria q agregar un if 
@@ -452,3 +464,16 @@ def eliminar_producto(request, detalle_pedido_id):
 #     {% endfor %}
 # </ul>
 
+
+class TurnosYearArchiveView(YearArchiveView):
+    queryset = Turnos.objects.all()
+    date_field = "FechaTurno"
+    make_object_list = True
+    allow_future = True
+
+
+
+class TurnosMonthArchiveView(MonthArchiveView):
+    queryset = Turnos.objects.all()
+    date_field = "FechaTurno"
+    allow_future = True
