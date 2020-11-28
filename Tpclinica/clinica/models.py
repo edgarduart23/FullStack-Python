@@ -31,7 +31,7 @@ class Producto(models.Model):
             if self.armazon:
                 armazon = 'c/armazón'
             return f"{self.id} - Lente {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
-        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}
+        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}"
 
 # class Paciente(models.Model):
 #     nombre = models.CharField(max_length = 120)

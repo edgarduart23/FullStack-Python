@@ -163,14 +163,16 @@ def modificar_consulta(request, consulta_id):
      return render(request, 'agregar_consulta.html', {'upload_form':consulta_form })
 
 def pedidos(request):
-    if request.user.es_ventas:
-        return render(request, "pedidos.html", {
-            "pedidos": Pedido.objects.filter(vendedor=request.user).order_by('-id')
-        })
-    if request.user.es_taller:
-        return render(request, "pedidos.html", {
-            "pedidos": Pedido.objects.filter(estado='PT').order_by('-id')
-        })
+    if request.user.is_authenticated:
+        if request.user.es_ventas:
+            return render(request, "pedidos.html", {
+                "pedidos": Pedido.objects.filter(vendedor=request.user).order_by('-id')
+            })
+        if request.user.es_taller:
+            return render(request, "pedidos.html", {
+                "pedidos": Pedido.objects.filter(estado='PT').order_by('-id')
+            })
+    return redirect('clinica:index')
 
 def pedido(request, pedido_id):    
     unPedido = Pedido.objects.get(id=pedido_id)
@@ -257,7 +259,11 @@ def detalle_pedido(request, pedido_id):
     #     formPedido.fields['estado'].disabled = False
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
     #hay que obtener sólo los productos que no están en el pedido
-    productos_disponibles = Producto.objects.all()
+    # Product.objects.exclude(id__in=existing)
+    # productos_disponibles = Producto.objects.all()
+    productosPedido = Producto.objects.filter(id__in=items.productos.id)
+    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+
     # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
      
@@ -285,7 +291,11 @@ def agregar_producto(request, pedido_id):
         # formPedido.fields['estado'].disabled = False
         items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
         #hay que obtener sólo los productos que no están en el pedido
-        productos_disponibles = Producto.objects.all()
+        # Product.objects.exclude(id__in=existing)
+        # productos_disponibles = Producto.objects.all()
+        productosPedido = Producto.objects.filter(id__in=items.productos.id)
+        productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
         return HttpResponseRedirect(reverse("clinica:detalle_pedido", args=(pedido_id,)))
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
@@ -298,8 +308,12 @@ def eliminar_producto(request, detalle_pedido_id):
     unPedido.subtotal = float(unPedido.subtotal) - float(round(detalle.total, 2))
     unPedido.save()
     detalle.delete()
-    productos_disponibles = Producto.objects.all()
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
+    # Product.objects.exclude(id__in=existing)
+    # productos_disponibles = Producto.objects.all()
+    productosPedido = Producto.objects.filter(id__in=items.productos.id)
+    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+    
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
 
 
