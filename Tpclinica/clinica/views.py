@@ -465,11 +465,12 @@ def eliminar_producto(request, detalle_pedido_id):
 
 
 class TurnosYearArchiveView(YearArchiveView):
+
     queryset = Turnos.objects.all()
     date_field = "FechaTurno"
     make_object_list = True
     allow_future = True
-
+        
 
 
 class TurnosMonthArchiveView(MonthArchiveView):
