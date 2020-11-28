@@ -2,21 +2,13 @@
 
 {% block content %}
     <br>
-    <h1>Codigo de Producto: {{producto.id}}</h1>
-    <ul class="list-group">
-        <li class="list-group-item">{{producto.descripcion}}</li>
-        <li class="list-group-item">{{producto.precio}}</li>
-        <li class="list-group-item">{{producto.tipo}}</li>
-        
-      </ul>
+    <h1>Código del Pedido: {{pedido.id}}</h1>
     
-          <a href="{% url 'clinica:productos' %}" class="btn btn-primary">VOLVER</a>
-        
-    
-        
-        
-           
-        
+    <form action="{% url 'clinica:state' pedido.id %}" method = 'POST'>
+        {{ form }}
+        <button type="submit" class="btn btn-primary btn-xs">Guardar</button>
+        <a href="{% url 'clinica:pedidos' %}" class="btn btn-primary btn-xs">VOLVER</a>
+    </form>
     
     
 {% endblock content %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}    
-{% if user.es_secretaria or user.es_medico %}
+{% if user.is_superuser %}
 
     <div class="container-fluid"></div>
     <br>
