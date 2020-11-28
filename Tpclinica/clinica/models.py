@@ -1,5 +1,6 @@
 from django.db import models
 from usuarios.models import User
+from django.urls import reverse
 import datetime
 from django.utils import timezone
 
@@ -60,6 +61,8 @@ class Paciente(models.Model):
     def __str__(self):
         return self.nombre
     
+    def get_absolute_url(self):
+        return reverse('clinica:pacientes-detail', kwargs={'pk':self.id})    
 
 class Pedido(models.Model):
     vendedor = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="user",blank=True,null=True)
@@ -104,7 +107,7 @@ class PedidoDetalle(models.Model):
 
 class Consulta(models.Model):
 #    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+")
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+", blank=False,null=True)
     fecha = models.DateTimeField(null=True, blank=True)
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
@@ -113,16 +116,21 @@ class Consulta(models.Model):
     def __str__(self):
         return self.motivo
 
-##################################################### Turnos
+#  viaje de seba con los generic views 
 class Turnos(models.Model):
-     Paciente = models.ForeignKey(Paciente, on_delete=models.SET_NULL,related_name="clinica_pacienteId",blank=False,null=True)
-     Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
-     FechaTurno = models.DateField()
-     HoraTurno = models.DateTimeField()
-     FechaAlta = models.DateField(auto_now=True)
-     FechaBaja = models.DateField(blank=True)
+    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
+#    Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
 
-     def _str_(self):
-         return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
-########################################################
+    FechaTurno = models.DateField()
+    HoraTurno = models.TimeField()
+    Opciones = (('P', 'Pendiente'), ('A', 'Asistió'), ('F', 'Faltó'))
+    Asistencia = models.CharField(max_length=1, choices=Opciones, blank=True, null=True)
+#    FechaAlta = models.DateField(auto_now=True)
+#    FechaBaja = models.DateField(blank=True,null=True)
+
+    def _str_(self):
+        return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
+
+    def get_absolute_url(self):
+        return reverse('clinica:turnos-detail', kwargs={'pk':self.id})
 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    {% for date in date_list %}
+        <li>{{ date|date }}</li>
+    {% endfor %}
+</ul>
+
+<div>
+    <h1>Todos los turnos del año: {{ year|date:"Y" }}</h1>
+    {% for obj in object_list %}
+        <p>
+            {{ obj.Paciente }} - {{ obj.FechaTurno|date:"F j, Y" }}
+        </p>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clinica',
     'usuarios',
+    "bootstrap3",
+    "bootstrap_datepicker_plus",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
