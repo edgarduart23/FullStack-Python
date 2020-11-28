@@ -21,6 +21,8 @@ import datetime
 
 from django.views.generic.dates import YearArchiveView, MonthArchiveView
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # from .models import Turnos
 # from .form import TurnosCreate
 
@@ -28,7 +30,6 @@ from django.views.generic.dates import YearArchiveView, MonthArchiveView
 def index(request):
     #De acuerdo al perfil debemos redeireccionarlo
     return render(request, "index.html")
-
 
 def productos(request):
     return render(request, "productos.html", {
@@ -370,18 +371,12 @@ def agregar_producto(request, pedido_id):
 
 class PacienteCreate(generic.CreateView): 
     model = Paciente
-    fields = ['nombre', 'apellido', 'direccion', 'telefono', 'email',]
+    fields = '__all__'
 
 
 class PacienteUpdate(generic.UpdateView):
     model = Paciente
-    fields = [
-        'nombre',
-        'apellido',
-        'direccion',
-        'telefono',
-        'email',
-    ]
+    fields = '__all__'
 
 class PacienteDelete(generic.DeleteView):
     model = Paciente
@@ -464,8 +459,10 @@ def eliminar_producto(request, detalle_pedido_id):
 # </ul>
 
 
-class TurnosYearArchiveView(YearArchiveView):
-
+class TurnosYearArchiveView(LoginRequiredMixin, YearArchiveView):
+    login_url =  'usuarios:login'
+    redirect_field_name = 'redirect_to'
+    
     queryset = Turnos.objects.all()
     date_field = "FechaTurno"
     make_object_list = True

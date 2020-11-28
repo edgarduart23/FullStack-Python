@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}    
+{% if user.es_secretaria or user.es_medico %}
+
     <div class="container-fluid"></div>
     <br>
     <div class="container-fluid"></div>
@@ -97,5 +99,11 @@
           
         
     </div>
+{% else %}
+<div class="row d-flex justify-content-center">
+    <div class="col-8">
+        <h1 class="text-center my-5 lead">No tienes permisos. </h1>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}
-

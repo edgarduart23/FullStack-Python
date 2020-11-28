@@ -52,7 +52,7 @@ class Producto(models.Model):
 
 
 class Paciente(models.Model):
-#    medico = models.ForeignKey(PerfilMedico,on_delete=models.SET_NULL,related_name="usuarios_perfilmedico",blank=True,null=True)
+    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="medico-paciente+",blank=True,null=True)
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     direccion = models.CharField(max_length=60)
@@ -106,7 +106,7 @@ class PedidoDetalle(models.Model):
             return self.producto.nombre"""
 
 class Consulta(models.Model):
-#    medico = models.ForeignKey(PerfilVentas,on_delete=models.SET_NULL,related_name="usuarios_medico",blank=True,null=True)
+    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="doctor-consulta+",blank=True,null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name="clinica_paciente.nombre+", blank=False,null=True)
     fecha = models.DateTimeField(null=True, blank=True)
     motivo = models.CharField(max_length=150)
