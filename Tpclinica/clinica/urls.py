@@ -20,7 +20,8 @@ urlpatterns = [
 
     
     path('pedidos',  views.pedidos, name="pedidos"),
-    path('pedidos/<int:pedido_id>',  views.pedido, name="pedido"),
+    path('pedidos/<int:pedido_id>', views.pedido, name="pedido"),
+    path('pedidos/<int:pedido_id>',  views.cambioDeEstado, name="cambioDeEstado"),
     path('pedidos/agregar',  views.agregar_pedido, name="agregar_pedido"),
     path('pedidos/eliminar/<int:pedido_id>',  views.eliminar_pedido, name="eliminar_pedido"),
     path('pedidos/actualizar/<int:pedido_id>',  views.actualizar_pedido, name="actualizar_pedido"),

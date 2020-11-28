@@ -2,12 +2,17 @@
 
 {% block content %}
     <br>
-    <h1>Código del Pedido: {{pedido.id}}</h1>
+    <!-- <h1>Código del Pedido: {{pedido.id}}</h1> -->
     
-    <form action="{% url 'clinica:state' pedido.id %}" method = 'POST'>
-        {{ form }}
+    <form action="" method = 'POST'>
+        {% for field in form %}
+            <tr>
+                <th>{{field.label}}</th>
+                <td>{{ field }}</td>
+            </tr>
+        {% endfor %}
         <button type="submit" class="btn btn-primary btn-xs">Guardar</button>
-        <a href="{% url 'clinica:pedidos' %}" class="btn btn-primary btn-xs">VOLVER</a>
+        <a href="{% url 'clinica:pedidos' %}" class="btn btn-primary btn-xs">Volver</a>
     </form>
     
     

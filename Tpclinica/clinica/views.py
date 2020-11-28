@@ -337,9 +337,9 @@ def detalle_pedido(request, pedido_id):
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
     #hay que obtener sólo los productos que no están en el pedido
     # Product.objects.exclude(id__in=existing)
-    productos_disponibles = Producto.objects.all()
-    # productosPedido = Producto.objects.filter(id__in=items.productos.id)
-    # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+    # productos_disponibles = Producto.objects.all()
+    productosPedido = items.values_list('producto')
+    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
 
     # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
@@ -368,16 +368,37 @@ def agregar_producto(request, pedido_id):
         # formPedido.fields['estado'].disabled = False
         items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
         #hay que obtener sólo los productos que no están en el pedido
-        # Product.objects.exclude(id__in=existing)
-        productos_disponibles = Producto.objects.all()
-        # productosPedido = Producto.objects.filter(id__in=items.productos.id)
-        # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+        productosPedido = items.values_list('producto')
+        productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
 
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles,'formPedido': formPedido})
         return HttpResponseRedirect(reverse("clinica:detalle_pedido", args=(pedido_id,)))
         # return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
     else:
         return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
+
+def cambioDeEstado(request, pedido_id):
+    # Recuperamos la instancia de la persona
+    instancia = Pedido.objects.get(id=pedido_id)
+
+    # Creamos el formulario con los datos de la instancia
+    form = PedidoCreate(instance=instancia)
+
+    # Comprobamos si se ha enviado el formulario
+    if request.method == "POST":
+        # Actualizamos el formulario con los datos recibidos
+        form = PedidoCreate(request.POST, instance=instancia)
+        # Si el formulario es válido...
+        if form.is_valid():
+            # Guardamos el formulario pero sin confirmarlo,
+            # así conseguiremos una instancia para manejarla
+            instancia = form.save(commit=False)
+            # Podemos guardarla cuando queramos
+            instancia.save()
+            return redirect('clinica:pedidos')
+
+    # Si llegamos al final renderizamos el formulario
+    return render(request, "pedido.html", {'form': form})
 
 class PacienteCreate(generic.CreateView): 
     model = Paciente
@@ -399,10 +420,8 @@ def eliminar_producto(request, detalle_pedido_id):
     unPedido.save()
     detalle.delete()
     items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by('-id')
-    # Product.objects.exclude(id__in=existing)
-    productos_disponibles = Producto.objects.all()
-    # productosPedido = Producto.objects.filter(id__in=items.productos.id)
-    # productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+    productosPedido = items.values_list('producto')
+    productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
     
     return render(request, 'pedido_items.html', {'pedido': unPedido, 'items': items, 'productos_disponibles': productos_disponibles})
 
