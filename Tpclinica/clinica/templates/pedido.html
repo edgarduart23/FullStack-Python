@@ -2,21 +2,18 @@
 
 {% block content %}
     <br>
-    <h1>Codigo de Producto: {{producto.id}}</h1>
-    <ul class="list-group">
-        <li class="list-group-item">{{producto.descripcion}}</li>
-        <li class="list-group-item">{{producto.precio}}</li>
-        <li class="list-group-item">{{producto.tipo}}</li>
-        
-      </ul>
+    <!-- <h1>Código del Pedido: {{pedido.id}}</h1> -->
     
-          <a href="{% url 'clinica:productos' %}" class="btn btn-primary">VOLVER</a>
-        
-    
-        
-        
-           
-        
+    <form  method = 'POST'>
+        {% for field in form %}
+            <tr>
+                <th>{{field.label}}</th>
+                <td>{{ field }}</td>
+            </tr>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-xs">Guardar</button>
+        <a href="{% url 'clinica:pedidos' %}" class="btn btn-primary btn-xs">Volver</a>
+    </form>
     
     
 {% endblock content %}

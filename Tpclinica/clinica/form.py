@@ -29,6 +29,9 @@ class ConsultaCreate(forms.ModelForm):
         widgets = {
             'fecha' : DatePickerInput(format='%d/%m/%Y'),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
 
 class PedidoCreate(forms.ModelForm):
     class Meta:
@@ -54,7 +57,7 @@ class PedidoView(forms.ModelForm):
         self.fields['vendedor'].disabled = True
         self.fields['paciente'].disabled = True
         self.fields['tipo_pago'].disabled = True
-        self.fields['estado'].disabled = True
+        # self.fields['estado'].disabled = True
         self.fields['subtotal'].disabled = True
         self.fields['fecha'].disabled = True
     
@@ -87,5 +90,8 @@ class Turno_Form(forms.ModelForm):
 class Paciente_Form(forms.ModelForm):
     class Meta:
         model = Paciente
-        fields = ['nombre', 'apellido', 'direccion', 'telefono', 'email',]
+        fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico=True)

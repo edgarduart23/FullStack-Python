@@ -51,7 +51,9 @@
                                 {% elif unPedido.estado == 'PT' %}
                                     Pendiente
                                 {% elif unPedido.estado == 'TL' %}
-                                    Taller                                   
+                                    Taller                  
+                                {% elif unPedido.estado == 'FL' %}
+                                    Finalizado                 
                                 {% else %}
                                     Desconocido
                                 {% endif %}
@@ -74,14 +76,20 @@
                                 <!-- <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
                                   <i class="fa fa-edit"></i>
                                 </button> -->
-                                <div class="text-center">
+                                <div class="text-left">
+                                    <a href="{% url 'clinica:cambioDeEstado' unPedido.id %}" title="Cambiar Estado">
+                                        <i class="fa fa-history"></i>
+                                    </a>
+
                                     <a href="{% url 'clinica:detalle_pedido' unPedido.id %}" title="Editar">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
+                                    {% if unPedido.estado == 'PT' %}
                                     <a href="{% url 'clinica:eliminar_pedido' unPedido.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres eliminar el pedido?');">
-                                        <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-trash-o"></i>
                                     </a>
+                                    {% endif %}
                                 </div>
                             </td>
                   

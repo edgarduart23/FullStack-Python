@@ -47,7 +47,9 @@
                             {% elif pedido.estado == 'PT' %}
                                 Pendiente
                             {% elif pedido.estado == 'TL' %}
-                                Taller                                   
+                                Taller
+                            {% elif pedido.estado == 'FL' %}
+                                Finalizado
                             {% else %}
                                 Desconocido
                             {% endif %}
@@ -116,9 +118,11 @@
                                 <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
                                   <i class="fa fa-edit"></i>
                                 </button> -->
+                                {% if pedido.estado == 'PT' %}
                                 <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% empty %}
