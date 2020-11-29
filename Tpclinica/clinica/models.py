@@ -13,7 +13,7 @@ from django.utils import timezone
 class Producto(models.Model):
     descripcion = models.CharField(max_length=100)
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    TIPOS = (("L", "Lente"), ("E", "Estuche"), ("G", "Gotita"))
+    TIPOS = (("L", "Lente"), ("E", "Estuche"), ("G", "Gotita"), ('A', 'Accesorios'))
     tipo = models.CharField(max_length=1, choices=TIPOS, default="L")
     ENFOQUE = (("L", "Lejos"), ("C", "Cerca"))
     enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank=True, null=True)
@@ -22,7 +22,14 @@ class Producto(models.Model):
     armazon = models.BooleanField(default=False)
 
     def __str__(self):
+        if self.tipo == 'E':
+            tipo = 'Estuche'
+        if self.tipo == 'G':
+            tipo =  'Gotita'
+        if self.tipo == 'A':
+            tipo = 'Accesorios'
         if self.tipo == "L":
+            tipo = 'Lente'
             enfoque = "Cerca"
             if self.enfoque == "L":
                 enfoque = "Lejos"
@@ -32,11 +39,18 @@ class Producto(models.Model):
             armazon = "s/armazón"
             if self.armazon:
                 armazon = "c/armazón"
-            return f"{self.id} - Lente {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
-        return f"{self.id} - {self.tipo} {self.descripcion} ${self.precio}"
+            return f"{self.id} - {tipo} {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
+        return f"{self.id} - {tipo} {self.descripcion} ${self.precio}"
     
     def productoView(self):
+        if self.tipo == 'E':
+            tipo = 'Estuche'
+        if self.tipo == 'G':
+            tipo =  'Gotita'
+        if self.tipo == 'A':
+            tipo = 'Accesorios'
         if self.tipo == "L":
+            tipo = 'Lente'
             enfoque = "Cerca"
             if self.enfoque == "L":
                 enfoque = "Lejos"
@@ -46,8 +60,8 @@ class Producto(models.Model):
             armazon = "s/armazón"
             if self.armazon:
                 armazon = "c/armazón"
-            return f"Lente {enfoque} {lado} {armazon} {self.descripcion} "
-        return f"{self.tipo} {self.descripcion} "
+            return f"{tipo} {enfoque} {lado} {armazon} {self.descripcion} "
+        return f"{tipo} {self.descripcion} "
 
 
 # class Paciente(models.Model):
@@ -110,10 +124,10 @@ class Pedido(models.Model):
     )
     estado = models.CharField(max_length=2, default="PT", choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    fecha = models.DateField(default=timezone.now())
+    fecha = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def verSubTotal(self):
-        return f"$ {self.subtotal}"
+        return f"${self.subtotal}"
 
 
 class PedidoDetalle(models.Model):

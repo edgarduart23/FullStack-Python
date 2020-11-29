@@ -43,19 +43,25 @@
                                     <option value="SL">Seleccionar</option>      
                                     <option value="PT">Pendiente</option>
                                     <option value="PD">Pedido</option>
-                                    <option value="FL">Finalizado</option>      
+                                    <option value="TL">Taller</option>
                                 </select>                    
                             {% endif %}
 
                             {% if user.es_taller %}
                             <select class="form-control" name="estado">
                                 <option value="SL">Seleccionar</option>  
-                                <option value="PD">Pedido</option>
+                                <option value="TL">Taller</option>
                                 <option value="FL">Finalizado</option>          
                             </select>                    
                             {% endif %}
                         </td>
-                        <td>{{pedido.subtotal}}</td>
+                        <td>
+                            {% if user.es_taller %}
+                            ---
+                            {% else %}
+                                {{pedido.subtotal}}
+                            {% endif %}
+                        </td>
                         <td>{{pedido.fecha}}</td>
                     </tr>
                 </tbody>

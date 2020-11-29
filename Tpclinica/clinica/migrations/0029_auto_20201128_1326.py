@@ -12,14 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='turnos',
-            name='FechaAlta',
-        ),
-        migrations.RemoveField(
-            model_name='turnos',
-            name='FechaBaja',
-        ),
+        # migrations.RemoveField(
+        #     model_name='turnos',
+        #     name='FechaAlta',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='turnos',
+        #     name='FechaBaja',
+        # ),
         migrations.AlterField(
             model_name='pedido',
             name='estado',

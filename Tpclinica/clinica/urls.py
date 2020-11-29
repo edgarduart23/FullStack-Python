@@ -28,7 +28,12 @@ urlpatterns = [
     path('pedidos/agregar',  views.agregar_pedido, name="agregar_pedido"),
     path('pedidos/eliminar/<int:pedido_id>',  views.eliminar_pedido, name="eliminar_pedido"),
     path('pedidos/actualizar/<int:pedido_id>',  views.actualizar_pedido, name="actualizar_pedido"),
-    path('pedidos/pedido_items/<int:pedido_id>/',  views.pedido_items, name="pedido_items"),
+    path('pedidos/pedido_items/<int:pedido_id>/', views.pedido_items, name="pedido_items"),    
+    path('pedidos/pedido_items/<int:pedido_id>/agregar_item', views.agregar_item, name="agregar_item"),
+    path('pedidos/detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name="detalle_pedido"),
+    path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
+    path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
+
 #  viaje de seba con los generic views 
     path('turnos/', ArchiveIndexView.as_view(model=Turnos, date_field="FechaTurno"), name="turnos"),
     path('turnos/<int:pk>', views.TurnoDetailView.as_view(), name='turnos-detail'),
@@ -36,12 +41,6 @@ urlpatterns = [
     path('turnos/<int:pk>/update/', TurnoUpdate.as_view(), name='turno-update'),
     path('turnos/<int:pk>/delete/', TurnoDelete.as_view(), name='turno-delete'),
     path('turnos/reporte',  views.turnos_reporte, name="turnos_reporte"),
-
-
-    path('pedidos/pedido_items/<int:pedido_id>/agregar_item', views.agregar_item, name="agregar_item"),
-    path('pedidos/detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name="detalle_pedido"),
-    path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
-    path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
 
     ################################################################### Turnos
     #path ('turnos',views.turnos, name="turnos"),

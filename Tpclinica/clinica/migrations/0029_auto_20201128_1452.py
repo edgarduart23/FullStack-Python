@@ -15,14 +15,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='turnos',
-            name='FechaAlta',
-        ),
-        migrations.RemoveField(
-            model_name='turnos',
-            name='FechaBaja',
-        ),
+        # migrations.RemoveField(
+        #     model_name='turnos',
+        #     name='FechaAlta',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='turnos',
+        #     name='FechaBaja',
+        # ),
         migrations.AddField(
             model_name='consulta',
             name='medico',

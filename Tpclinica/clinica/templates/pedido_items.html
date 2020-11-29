@@ -53,13 +53,17 @@
                                 Desconocido
                             {% endif %}
                         </td>
-                        <td>{{pedido.subtotal}}</td>
+                        <td>
+                            {% if user.es_taller %}
+                            ---
+                            {% else %}
+                                {{pedido.subtotal}}
+                            {% endif %}
+                        </td>
                         <td>{{pedido.fecha}}</td>
                     </tr>
                 </tbody>
             </table>
-        <!-- </div> -->
-    <!-- </div> -->
 
     {% if user.es_ventas and pedido.estado == 'PT' %}
     <div class="panel panel-default">
@@ -94,12 +98,16 @@
                     <th >#</th>
                     <th >Tipo</th>
                     <th >Producto</th>
-                    <th >Unitario</th>
                     <th >Cantidad</th>
-                    <th >SubTotal</th>
+                    {% if user.es_ventas %}
+                        <th >Unitario</th>
+                        <th >SubTotal</th>
+                    {% endif %}
                     <th >Pedido Id</th>
                     <th >Producto Id</th>                    
-                    <th >Eliminar</th>                    
+                    {% if user.es_ventas %}
+                        <th >Eliminar</th>                    
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -108,21 +116,27 @@
                             <th scope="row">{{unItem.id}}</th>
                             <td>{{unItem.producto.tipo}}</td>
                             <td>{{unItem.producto.productoView}}</td>
-                            <td>{{unItem.precio}}</td>
                             <td>{{unItem.cantidad}}</td>
-                            <td>{{unItem.subtotal}}</td>
+                            {% if user.es_ventas %}
+                                <td>{{unItem.precio}}</td>
+                                <td>{{unItem.subtotal}}</td>
+                            {% endif %}
                             <td>{{unItem.pedido_id}}</td>
                             <td>{{unItem.producto_id}}</td>
-                            <td >
-                                <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
-                                  <i class="fa fa-edit"></i>
-                                </button> -->
-                                {% if pedido.estado == 'PT' %}
-                                <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                                {% endif %}
-                            </td>
+                            {% if user.es_ventas %}
+                                <td >
+                                    <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
+                                    <i class="fa fa-edit"></i>
+                                    </button> -->
+                                    {% if pedido.estado == 'PT' %}
+                                    <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    {% else %}
+                                    ---
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% empty %}
                         <tr >
