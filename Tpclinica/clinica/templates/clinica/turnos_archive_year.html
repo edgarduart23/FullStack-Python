@@ -2,14 +2,18 @@
 {% block content %}
 
 {% if user.es_secretaria or user.es_medico %}
+<h1>Todos los turnos del año: {{ year|date:"Y" }}</h1>
+
+<h2>Meses con turnos</h2>
 <ul>
     {% for date in date_list %}
-        <li>{{ date|date }}</li>
+    <li>{{ date|date }}</li>
     {% endfor %}
 </ul>
 
 <div>
-    <h1>Todos los turnos del año: {{ year|date:"Y" }}</h1>
+    <h2>Todos los turnos</h2>
+
     {% for obj in object_list %}
         <p>
             {{ obj.Paciente }} - {{ obj.FechaTurno|date:"F j, Y" }}

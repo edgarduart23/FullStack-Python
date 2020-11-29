@@ -1,18 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from .form import (
-    ProductoCreate,
-    PedidoCreate,
-    PedidoDetalleCreate,
-    PedidoUpdate,
-    PedidoView,
-    ConsultaCreate,
-    TurnosCreate,
-    Paciente_Form,
-    Turno_Form,
-)
-from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User, Observacion
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -23,11 +14,11 @@ from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 
 import django_filters
-from .filters import TurnosFilter
+from .filters import TurnosFilter, ObservacionFilter
 import datetime
 from django.contrib.auth.decorators import login_required
 
-from django.views.generic.dates import YearArchiveView, MonthArchiveView
+from django.views.generic.dates import YearArchiveView, MonthArchiveView, DayArchiveView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -182,15 +173,13 @@ def historial(request, paciente_id):
     paciente = Paciente.objects.get(id=paciente_id)
     consultasTotales = Consulta.objects.all()
     consultas = consultasTotales.filter(paciente_id=paciente_id)
-    return render(
-        request,
-        "historial.html",
-        {
-            "consultas": consultas,
-            "paciente": paciente,
-        },
-    )
-
+    observacionesTotales = Observacion.objects.all()
+    observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
+    return render(request, "historial.html",{
+        "consultas": consultas,
+        "paciente": paciente,
+        "observaciones": observaciones,
+    })
 
 def agregar_consulta(request):
     upload = ConsultaCreate()
@@ -641,3 +630,43 @@ class TurnosMonthArchiveView(MonthArchiveView):
     queryset = Turnos.objects.all()
     date_field = "FechaTurno"
     allow_future = True
+
+class TurnosDayArchiveView(DayArchiveView):
+    queryset = Turnos.objects.all()
+    date_field = "FechaTurno"
+    allow_future = True
+
+
+
+class ObservacionListView(generic.ListView):
+    model = Observacion
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        observacion_filtered_list = ObservacionFilter(self.request.GET, queryset=qs)
+        return observacion_filtered_list.qs
+
+
+
+class ObservacionDetailView(generic.DetailView):
+    model = Observacion
+    context_object_name= 'observacion'
+    queryset= Observacion.objects.all()
+    
+    def get_object(self):
+        observacion= super().get_object()
+        observacion.save()
+        return observacion
+
+class ObservacionCreate(generic.CreateView): 
+    model = Observacion
+    fields = '__all__'
+
+
+class ObservacionUpdate(generic.UpdateView):
+    model = Observacion
+    fields = '__all__'
+
+class ObservacionDelete(generic.DeleteView):
+    model = Observacion
+    success_url = reverse_lazy('clinica:turnos/observacion')
