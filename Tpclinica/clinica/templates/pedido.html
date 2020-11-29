@@ -10,62 +10,64 @@
     
     <div class="panel-body">
         <form action="" method = 'POST'>
-            <table class="table table-striped">
-                <thead>
-                 <tr>
-                     <th>#</th>
-                     <th>Vendedor</th>
-                     <th>Paciente</th>
-                     <th>F.Pago</th>
-                     <th>Estado</th>
-                     <th>SubTotal</th>
-                     <th>Fecha</th>
-                 </tr>
-                </thead>
-                <tbody>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <th scope="row">{{unItem.id}}</th>
-                        <td>{{pedido.vendedor}}</td>
-                        <td>{{pedido.paciente}}</td>
-                        <td>{% if pedido.tipo_pago == 'T' %}
-                            Tarjeta de credito
-                            {% elif pedido.tipo_pago == 'B' %}
-                                Billetera virtual  
-                            {% elif pedido.tipo_pago == 'E' %}
-                                Efectivo                                   
-                            {% else %}
-                                Debito
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if user.es_ventas %}                         
-                                <select class="form-control" name="estado">
-                                    <option value="SL">Seleccionar</option>      
-                                    <option value="PT">Pendiente</option>
-                                    <option value="PD">Pedido</option>
-                                    <option value="TL">Taller</option>
-                                </select>                    
-                            {% endif %}
-
-                            {% if user.es_taller %}
-                            <select class="form-control" name="estado">
-                                <option value="SL">Seleccionar</option>  
-                                <option value="TL">Taller</option>
-                                <option value="FL">Finalizado</option>          
-                            </select>                    
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if user.es_taller %}
-                            ---
-                            {% else %}
-                                {{pedido.subtotal}}
-                            {% endif %}
-                        </td>
-                        <td>{{pedido.fecha}}</td>
+                        <th>#</th>
+                        <th>Vendedor</th>
+                        <th>Paciente</th>
+                        <th>F.Pago</th>
+                        <th>Estado</th>
+                        <th>SubTotal</th>
+                        <th>Fecha</th>
                     </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{unItem.id}}</th>
+                            <td>{{pedido.vendedor}}</td>
+                            <td>{{pedido.paciente}}</td>
+                            <td>{% if pedido.tipo_pago == 'T' %}
+                                Tarjeta de credito
+                                {% elif pedido.tipo_pago == 'B' %}
+                                    Billetera virtual  
+                                {% elif pedido.tipo_pago == 'E' %}
+                                    Efectivo                                   
+                                {% else %}
+                                    Debito
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.es_ventas %}                         
+                                    <select class="form-control" name="estado">
+                                        <option value="SL">Seleccionar</option>      
+                                        <option value="PT">Pendiente</option>
+                                        <option value="PD">Pedido</option>
+                                        <option value="TL">Taller</option>
+                                    </select>                    
+                                {% endif %}
+
+                                {% if user.es_taller %}
+                                <select class="form-control" name="estado">
+                                    <option value="SL">Seleccionar</option>  
+                                    <option value="TL">Taller</option>
+                                    <option value="FL">Finalizado</option>          
+                                </select>                    
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.es_taller %}
+                                ---
+                                {% else %}
+                                    {{pedido.subtotal}}
+                                {% endif %}
+                            </td>
+                            <td>{{pedido.fecha}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             {% csrf_token %}
             <button type="submit" class="btn btn-primary btn-xs">Guardar</button>
             {% if mensaje %}
