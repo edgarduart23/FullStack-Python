@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
+from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate
 from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate, TurnosYearArchiveView, TurnosMonthArchiveView
 from . import views
 from .models import Turnos
