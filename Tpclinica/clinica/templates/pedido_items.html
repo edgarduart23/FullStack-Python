@@ -4,7 +4,6 @@
     <!-- <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_item' pedido.id  %}' ">AGREGAR</button>  -->
 
    <div class="container-fluid"></div>       
-   <br>
    <div class="panel panel-default">
        <div class="panel-heading">Detalle del Pedido
            <div class="btn-group pull-right">
@@ -94,8 +93,8 @@
                 <tr>
                     <th >#</th>
                     <th >Tipo</th>
-                    <th >Descripción</th>
-                    <th >Precio</th>
+                    <th >Producto</th>
+                    <th >Unitario</th>
                     <th >Cantidad</th>
                     <th >SubTotal</th>
                     <th >Pedido Id</th>
@@ -108,10 +107,10 @@
                         <tr>
                             <th scope="row">{{unItem.id}}</th>
                             <td>{{unItem.producto.tipo}}</td>
-                            <td>{{unItem.producto.descripcion}}</td>
-                            <td>{{unItem.total}}</td>
+                            <td>{{unItem.producto.productoView}}</td>
+                            <td>{{unItem.precio}}</td>
                             <td>{{unItem.cantidad}}</td>
-                            <td>{{unItem.total}}</td>
+                            <td>{{unItem.subtotal}}</td>
                             <td>{{unItem.pedido_id}}</td>
                             <td>{{unItem.producto_id}}</td>
                             <td >
