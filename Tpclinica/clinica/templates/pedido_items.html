@@ -12,58 +12,59 @@
         </div>
        
         <div class="panel-body">
-            <!-- {{ formPedido.as_p }} -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Vendedor</th>
-                        <th>Paciente</th>
-                        <th>F.Pago</th>
-                        <th>Estado</th>
-                        <th>SubTotal</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">{{unItem.id}}</th>
-                        <td>{{pedido.vendedor}}</td>
-                        <td>{{pedido.paciente}}</td>
-                        <td>{% if pedido.tipo_pago == 'T' %}
-                            Tarjeta de credito
-                            {% elif pedido.tipo_pago == 'B' %}
-                                Billetera virtual  
-                            {% elif pedido.tipo_pago == 'E' %}
-                                Efectivo                                   
-                            {% else %}
-                                Debito
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if pedido.estado == 'PD' %}
-                                Pedido
-                            {% elif pedido.estado == 'PT' %}
-                                Pendiente
-                            {% elif pedido.estado == 'TL' %}
-                                Taller
-                            {% elif pedido.estado == 'FL' %}
-                                Finalizado
-                            {% else %}
-                                Desconocido
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if user.es_taller %}
-                            ---
-                            {% else %}
-                                {{pedido.subtotal}}
-                            {% endif %}
-                        </td>
-                        <td>{{pedido.fecha}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Vendedor</th>
+                            <th>Paciente</th>
+                            <th>F.Pago</th>
+                            <th>Estado</th>
+                            <th>SubTotal</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{unItem.id}}</th>
+                            <td>{{pedido.vendedor}}</td>
+                            <td>{{pedido.paciente}}</td>
+                            <td>{% if pedido.tipo_pago == 'T' %}
+                                Tarjeta de credito
+                                {% elif pedido.tipo_pago == 'B' %}
+                                    Billetera virtual  
+                                {% elif pedido.tipo_pago == 'E' %}
+                                    Efectivo                                   
+                                {% else %}
+                                    Debito
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if pedido.estado == 'PD' %}
+                                    Pedido
+                                {% elif pedido.estado == 'PT' %}
+                                    Pendiente
+                                {% elif pedido.estado == 'TL' %}
+                                    Taller
+                                {% elif pedido.estado == 'FL' %}
+                                    Finalizado
+                                {% else %}
+                                    Desconocido
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.es_taller %}
+                                ---
+                                {% else %}
+                                    {{pedido.subtotal}}
+                                {% endif %}
+                            </td>
+                            <td>{{pedido.fecha}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
     {% if user.es_ventas and pedido.estado == 'PT' %}
     <div class="panel panel-default">
@@ -92,59 +93,61 @@
         <div class="panel-heading">Productos del pedido           
         </div>
         <div class="panel-body">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th >#</th>
-                    <th >Tipo</th>
-                    <th >Producto</th>
-                    <th >Cantidad</th>
-                    {% if user.es_ventas %}
-                        <th >Unitario</th>
-                        <th >SubTotal</th>
-                    {% endif %}
-                    <th >Pedido Id</th>
-                    <th >Producto Id</th>                    
-                    {% if user.es_ventas %}
-                        <th >Eliminar</th>                    
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                    {% for unItem in items %}
-                        <tr>
-                            <th scope="row">{{unItem.id}}</th>
-                            <td>{{unItem.producto.tipo}}</td>
-                            <td>{{unItem.producto.productoView}}</td>
-                            <td>{{unItem.cantidad}}</td>
-                            {% if user.es_ventas %}
-                                <td>{{unItem.precio}}</td>
-                                <td>{{unItem.subtotal}}</td>
-                            {% endif %}
-                            <td>{{unItem.pedido_id}}</td>
-                            <td>{{unItem.producto_id}}</td>
-                            {% if user.es_ventas %}
-                                <td >
-                                    <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
-                                    <i class="fa fa-edit"></i>
-                                    </button> -->
-                                    {% if pedido.estado == 'PT' %}
-                                    <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                    {% else %}
-                                    ---
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% empty %}
-                        <tr >
-                            <td style="text-align:center" colspan="9"><strong>No hay productos aún</strong></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th >#</th>
+                        <th >Tipo</th>
+                        <th >Producto</th>
+                        <th >Cantidad</th>
+                        {% if user.es_ventas %}
+                            <th >Unitario</th>
+                            <th >SubTotal</th>
+                        {% endif %}
+                        <th >Pedido Id</th>
+                        <th >Producto Id</th>                    
+                        {% if user.es_ventas %}
+                            <th >Eliminar</th>                    
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for unItem in items %}
+                            <tr>
+                                <th scope="row">{{unItem.id}}</th>
+                                <td>{{unItem.producto.tipo}}</td>
+                                <td>{{unItem.producto.productoView}}</td>
+                                <td>{{unItem.cantidad}}</td>
+                                {% if user.es_ventas %}
+                                    <td>{{unItem.precio}}</td>
+                                    <td>{{unItem.subtotal}}</td>
+                                {% endif %}
+                                <td>{{unItem.pedido_id}}</td>
+                                <td>{{unItem.producto_id}}</td>
+                                {% if user.es_ventas %}
+                                    <td >
+                                        <!-- <button data-toggle="tooltip" title="Eliminar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' pedido.id %}'">                       
+                                        <i class="fa fa-edit"></i>
+                                        </button> -->
+                                        {% if pedido.estado == 'PT' %}
+                                        <a href="{% url 'clinica:eliminar_producto' unItem.id %}" title="Eliminar" onClick="return confirm('¿Seguro que quieres borrar el producto {{unItem.producto.descripcion}}?');">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                        {% else %}
+                                        ---
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% empty %}
+                            <tr >
+                                <td style="text-align:center" colspan="9"><strong>No hay productos aún</strong></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
            
