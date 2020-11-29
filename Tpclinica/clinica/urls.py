@@ -1,10 +1,9 @@
 from django.urls import path, include
+from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate, TurnosYearArchiveView, TurnosMonthArchiveView, TurnosDayArchiveView, ObservacionDetailView, ObservacionListView, TurnosListView, ObservacionCreate, ObservacionUpdate, ObservacionDelete
 from django.contrib.auth.decorators import login_required
-from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate
-from .views import TurnoCreate, TurnoDelete, TurnoUpdate, PacienteCreate, PacienteDelete, PacienteUpdate, TurnosYearArchiveView, TurnosMonthArchiveView
 from . import views
 from .models import Turnos
-from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
+from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView, DayArchiveView
 
 app_name= "clinica"
 urlpatterns = [
@@ -35,7 +34,7 @@ urlpatterns = [
     path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
 
 #  viaje de seba con los generic views 
-    path('turnos/', ArchiveIndexView.as_view(model=Turnos, date_field="FechaTurno"), name="turnos"),
+    path('turnos/', TurnosListView.as_view(), name="turnos"),
     path('turnos/<int:pk>', views.TurnoDetailView.as_view(), name='turnos-detail'),
     path('turnos/create/', TurnoCreate.as_view(), name='turno-create'),
     path('turnos/<int:pk>/update/', TurnoUpdate.as_view(), name='turno-update'),
@@ -59,4 +58,11 @@ urlpatterns = [
     path('turnos_archivo/<int:year>/<int:month>/', TurnosMonthArchiveView.as_view(month_format='%m'), name="turnos_month_numeric"),
     # Example: /2012/aug/
     path('turnos_archivo/<int:year>/<str:month>/', TurnosMonthArchiveView.as_view(), name="archive_month"),
+    path('turnos_archivo/<int:year>/<str:month>/<int:day>/', TurnosDayArchiveView.as_view(), name="archive_day"),
+    path('observaciones/', views.ObservacionListView.as_view(), name='observacion-list'),
+
+    path('observacion/<int:pk>', views.ObservacionDetailView.as_view(), name='observacion-detail'),
+    path('observacion/create', views.ObservacionCreate.as_view(), name='observacion-create'),
+	path('observacion/update/<int:pk>', views.ObservacionUpdate.as_view(), name='observacion-update'),
+	path('observacion/delete/<int:pk>', views.ObservacionDelete.as_view(), name='observacion-delete'),
 ]
