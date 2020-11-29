@@ -1,5 +1,5 @@
 from django import forms
-from .models import  Producto, Consulta, Pedido, PedidoDetalle, Turnos, Paciente
+from .models import  Producto, Consulta, Pedido, PedidoDetalle, Turnos, Paciente, Observacion
 # from.models import Turnos
 from usuarios.models import User
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
@@ -92,6 +92,10 @@ class Paciente_Form(forms.ModelForm):
         model = Paciente
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
+class Observacion_Form(forms.ModelForm):
+    class Meta:
+        model = Observacion
+        fields = '__all__'
+        widgets = {
+            'Fecha' : DatePickerInput(format='%d/%m/%Y'),
+        }

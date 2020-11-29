@@ -3,6 +3,9 @@
 {% block content %}
     <br>
     <h1> Historial del Paciente: {{paciente.nombre}} {{paciente.apellido}}  </h1>
+
+    <h2> Consultas </h2>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -31,17 +34,53 @@
         </td>
     </tr>
     {% endfor %}  
+    <br>
+
+    <a href="{% url 'clinica:agregar_consulta' %}" class="btn btn-primary">NUEVA CONSULTA</a>
+    <br>
+
+    <table class="table table-striped">
+        <h2> Observaciones </h2>
+
+        <thead>
+        <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Paciente</th>
+            <th scope="col">Observacion</th>
+
+            
+        </tr>
+        </thead>
+        <tbody>
+  
+    {% for unaObservacion in observaciones %}
+    <tr>
+        <th scope="row">{{unaObservacion.Fecha}}</th>
+        <td>{{unaObservacion.Paciente}}</td>
+        <td>{{unaObservacion.Observacion}}</td>
+        <td>
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:observacion-update' unaObservacion.id %}'" >EDITAR</button> 
+            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:observacion-delete' unaObservacion.id %}'">ELIMINAR</button>  
+            
+        </td>
+    </tr>
+    {% endfor %}  
+<br>
+<a href="{% url 'clinica:observacion-create' %}" class="btn btn-primary">NUEVA OBSERVACION</a>
+
+
 </tbody>
 </table>
 
           <a href="{% url 'clinica:pacientes' %}" class="btn btn-primary">VOLVER</a>
-          <a href="{% url 'clinica:agregar_consulta' %}" class="btn btn-secondary">NUEVA CONSULTA</a>
 
         
     
         
         
-           
+          <br>
+
+          <br>
         
     
     

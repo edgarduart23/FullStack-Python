@@ -52,7 +52,7 @@ class Producto(models.Model):
 
 
 class Paciente(models.Model):
-    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="medico-paciente+",blank=True,null=True)
+#    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="medico-paciente+",blank=True,null=True)
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     direccion = models.CharField(max_length=60)
@@ -119,7 +119,7 @@ class Consulta(models.Model):
 #  viaje de seba con los generic views 
 class Turnos(models.Model):
     Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
-#    Medico =models.ForeignKey(User, on_delete=models.SET_NULL,related_name="clinica_medicoid",blank=False,null=True)
+    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="doctor-consulta+",blank=True,null=True)
 
     FechaTurno = models.DateField()
     HoraTurno = models.TimeField()
@@ -134,3 +134,9 @@ class Turnos(models.Model):
     def get_absolute_url(self):
         return reverse('clinica:turnos-detail', kwargs={'pk':self.id})
 
+class Observacion(models.Model):
+    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
+    Fecha = models.DateField(auto_now=True)
+    Observacion = models.TextField()
+    def get_absolute_url(self):
+        return reverse('clinica:observacion-detail', kwargs={'pk':self.id})
