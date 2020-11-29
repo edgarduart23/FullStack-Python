@@ -173,7 +173,6 @@ def historial(request, paciente_id):
     paciente = Paciente.objects.get(id=paciente_id)
     consultasTotales = Consulta.objects.all()
     consultas = consultasTotales.filter(paciente_id=paciente_id)
-<<<<<<< HEAD
     observacionesTotales = Observacion.objects.all()
     observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
     return render(request, "historial.html",{
@@ -181,17 +180,6 @@ def historial(request, paciente_id):
         "paciente": paciente,
         "observaciones": observaciones,
     })
-=======
-    return render(
-        request,
-        "historial.html",
-        {
-            "consultas": consultas,
-            "paciente": paciente,
-        },
-    )
-
->>>>>>> d8490e9ceedb10e9acd632b0ae2f616a8b0256cf
 
 def agregar_consulta(request):
     upload = ConsultaCreate()
