@@ -57,7 +57,7 @@ class PedidoView(forms.ModelForm):
         self.fields['vendedor'].disabled = True
         self.fields['paciente'].disabled = True
         self.fields['tipo_pago'].disabled = True
-        self.fields['estado'].disabled = True
+        # self.fields['estado'].disabled = True
         self.fields['subtotal'].disabled = True
         self.fields['fecha'].disabled = True
     

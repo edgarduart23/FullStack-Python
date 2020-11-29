@@ -3,7 +3,7 @@
 {% block content %}
 <br>
 
-<h1>Producto</h1>
+<h1>Pedido</h1>
 <br>
     <form method = 'POST' enctype="multipart/form-data">
         {% csrf_token %}
@@ -16,6 +16,6 @@
             {% endfor %}
         </table>
         <button type="submit" class="btn btn-primary">CONFIRMAR</button>
-        <a href="{% url 'clinica:productos' %}" class="btn btn-danger">CANCELAR</a>
+        <a href="{% url 'clinica:pedidos' %}" class="btn btn-danger">CANCELAR</a>
     </form>
 {% endblock content %}
