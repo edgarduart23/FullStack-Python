@@ -1,7 +1,9 @@
 from django import forms
-from .models import  Producto, Consulta, Pedido, PedidoDetalle, Turnos
+from .models import  Producto, Consulta, Pedido, PedidoDetalle, Turnos, Paciente
 # from.models import Turnos
 from usuarios.models import User
+from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
+import django_filters
 
 class ProductoCreate(forms.ModelForm):
     class Meta:
@@ -17,13 +19,24 @@ class ProductoCreate(forms.ModelForm):
 class TurnosCreate(forms.ModelForm):
     class Meta:
         model = Turnos
-        fields = '__all__'
+        fields = ['medico', 'Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
+
 #________________________________________________________________________
 
 class ConsultaCreate(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = '__all__'
+        fields = ['motivo', 'diagnostico', 'tratamiento', 'observaciones']
+        widgets = {
+            'fecha' : DatePickerInput(format='%d/%m/%Y'),
+        }
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['medico'].queryset = User.objects.filter(es_medico=True)
 
 class PedidoCreate(forms.ModelForm):
     class Meta:
@@ -49,7 +62,7 @@ class PedidoView(forms.ModelForm):
         self.fields['vendedor'].disabled = True
         self.fields['paciente'].disabled = True
         self.fields['tipo_pago'].disabled = True
-        self.fields['estado'].disabled = True
+        # self.fields['estado'].disabled = True
         self.fields['subtotal'].disabled = True
         self.fields['fecha'].disabled = True
     
@@ -70,3 +83,27 @@ class PedidoDetalleCreate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
+class Turno_Form(forms.ModelForm):
+    class Meta:
+        model = Turnos
+        fields = ['medico', 'Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
+        widgets = {
+            'FechaTurno' : DatePickerInput(format='%d/%m/%Y'),
+            'HoraTurno' : TimePickerInput(),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
+
+class Paciente_Form(forms.ModelForm):
+    class Meta:
+        model = Paciente
+        fields = '__all__'
+
+# class Observacion_Form(forms.ModelForm):
+#     class Meta:
+#         model = Observacion
+#         fields = '__all__'
+#         widgets = {
+#             'Fecha' : DatePickerInput(format='%d/%m/%Y'),
+#         }

@@ -2,8 +2,9 @@
 
 {% block content %}
     <br>
-    <h1>Pacientes asignados al Dr. </h1>
-    
+    <h1>Pacientes </h1>
+    <br>
+    <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:paciente_create'  %}' ">AGREGAR</button> 
     <br>
     <div class="container-fluid"></div>
         
@@ -31,7 +32,9 @@
                             <td>{{unPaciente.email}}</td>
                             <td>
                                 <button type="button" class="btn btn-info" onclick="location.href='{% url 'clinica:historial' unPaciente.id %}'">Ver Historial</button>
-                                
+                                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:paciente_update' unPaciente.id %}'" >EDITAR</button> 
+                                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:paciente_delete' unPaciente.id %}'">ELIMINAR</button>  
+
                             </td>
                         </tr>
                     {% endfor %}    

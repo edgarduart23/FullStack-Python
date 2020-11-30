@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block extrahead %}
+
+{{ form.media }}
+{% endblock %}
+{% block content %}
+<br>
+<h1>Reporte de Asistencias</h1>
+<br>
+
+<form method="get">
+  {% bootstrap_form filter.form %}
+
+
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for turno in filter.qs %}
+    <li>{{ turno.Paciente }} - {{ turno.FechaTurno }} - {{ turno.HoraTurno }} - {{ turno.Asistencia }}</li>
+  {% endfor %}
+  </ul>
+
+{% endblock content %}

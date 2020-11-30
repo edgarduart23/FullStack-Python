@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -9,7 +10,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Clínica Polotic</title>
+
+  <title>Clinica Polotic</title>
 
   <!-- Bootstrap core CSS -->
   <!-- <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> -->
@@ -17,9 +19,13 @@
   <!-- Custom styles for this template -->
   <link href="{% static 'css/small-business.css' %}" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  {% block extrahead %}
+  {% endblock %}
 
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -218,15 +224,6 @@
               <li >
                 <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
               </li>
-              <li >
-                <a href="#">Menú 3</a>
-              </li>
-              <li >
-                <a href="#">Menú 4</a>
-              </li>
-              <li >
-                <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
-              </li>
             {% endif %}
 
             {% if user.es_medico %}
@@ -239,15 +236,6 @@
             <li >
               <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_taller %}
@@ -255,16 +243,7 @@
               <a href="#">Taller</a>
             </li>
             <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
+              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
             {% endif %}
 
@@ -275,32 +254,11 @@
             <li >
               <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
             </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
-            </li>
             {% endif %}
 
             {% if user.es_gerencia %}
             <li >
               <a href="#">Gerencia</a>
-            </li>
-            <li >
-              <a href="#">Menú 1</a>
-            </li>
-            <li >
-              <a href="#">Menú 2</a>
-            </li>
-            <li >
-              <a href="#">Menú 3</a>
-            </li>
-            <li >
-              <a href="#">Menú 4</a>
             </li>
             {% endif %}
             
@@ -323,9 +281,12 @@
     </nav>
   
     <div class="container">
-      
-    {% block content %} {% endblock content %}
- 
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+  </div>
+   
 
   </div>
   <!-- /.container -->

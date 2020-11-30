@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clinica',
     'usuarios',
+    "bootstrap3",
+    "bootstrap_datepicker_plus",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = reverse_lazy('usuarios:login')
+
+LOGOUT_REDIRECT_URL = 'clinica:index'
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}

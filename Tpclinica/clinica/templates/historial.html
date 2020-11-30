@@ -3,6 +3,9 @@
 {% block content %}
     <br>
     <h1> Historial del Paciente: {{paciente.nombre}} {{paciente.apellido}}  </h1>
+
+    <h2> Consultas </h2>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -23,7 +26,8 @@
         <td>{{unaConsulta.motivo}}</td>
         <td>{{unaConsulta.diagnostico}}</td>
         <td>{{unaConsulta.tratamiento}}</td>
-        <td>{{unaConsulta.observacion}}</td>
+        <td>{{unaConsulta.observaciones}}
+        </td>
         <td>
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:modificar_consulta' unaConsulta.id %}'" >EDITAR</button> 
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar_consulta' unaConsulta.id %}'">ELIMINAR</button>  
@@ -31,17 +35,25 @@
         </td>
     </tr>
     {% endfor %}  
+    <br>
+
+
+  
+<br>
+
+
 </tbody>
 </table>
 
           <a href="{% url 'clinica:pacientes' %}" class="btn btn-primary">VOLVER</a>
-          <a href="{% url 'clinica:agregar_consulta' %}" class="btn btn-secondary">NUEVA CONSULTA</a>
 
         
     
         
         
-           
+          <br>
+
+          <br>
         
     
     
