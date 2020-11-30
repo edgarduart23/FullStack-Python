@@ -1,23 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Lista de todos los turnos</h1>
-  <a href="{% url 'clinica:turno-create' %}" class="btn btn-primary">CREAR NUEVO TURNO</a>
+  <h1>Proximos turnos   </h1>
 
   {% if turnos_list %}
-  <ul>
+  <div class="container-fluid"></div>
+        
+            
+  <table class="table table-striped">
+      <thead>
+      <tr>
+          <th scope="col">Paciente</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Doctor</th>
+          <td></td>
+          
+      </tr>
+      </thead>
+      <tbody>
     {% for turnos in turnos_list %}
-      <li>
-        <a href="{{ turnos.get_absolute_url }}">{{ turnos.Paciente }}</a> ({{turnos.FechaTurno}}{{turnos.HoraTurno}})
-      </li>
-
+    <tr>
+      <th scope="row"><a href="{{ turnos.get_absolute_url }}">{{ turnos.Paciente }}</a></th>
+      <td>{{turnos.FechaTurno}}</td>
+      <td>{{turnos.HoraTurno}}</td>
+      <td>{{turnos.medico}}</td>
       <td>
+        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:ver_consulta' turnos.id %}'" >VER CONSULTA</button> 
+
         <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:turno-update' turnos.id %}'" >EDITAR</button> 
         <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:turno-delete' turnos.id %}'">ELIMINAR</button>  
         
     </td>
+ 
+    </tr>
+
+     
     {% endfor %}
-  </ul>
+  </tbody>
+</table>
+
+
+
+</div>
   {% else %}
     <p>No hay turnos pendientes</p>
   {% endif %}       

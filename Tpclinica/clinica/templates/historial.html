@@ -26,7 +26,8 @@
         <td>{{unaConsulta.motivo}}</td>
         <td>{{unaConsulta.diagnostico}}</td>
         <td>{{unaConsulta.tratamiento}}</td>
-        <td>{{unaConsulta.observacion}}</td>
+        <td>{{unaConsulta.observaciones}}
+        </td>
         <td>
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:modificar_consulta' unaConsulta.id %}'" >EDITAR</button> 
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar_consulta' unaConsulta.id %}'">ELIMINAR</button>  
@@ -36,37 +37,9 @@
     {% endfor %}  
     <br>
 
-    <a href="{% url 'clinica:agregar_consulta' %}" class="btn btn-primary">NUEVA CONSULTA</a>
-    <br>
 
-    <table class="table table-striped">
-        <h2> Observaciones </h2>
-
-        <thead>
-        <tr>
-            <th scope="col">Fecha</th>
-            <th scope="col">Paciente</th>
-            <th scope="col">Observacion</th>
-
-            
-        </tr>
-        </thead>
-        <tbody>
   
-    {% for unaObservacion in observaciones %}
-    <tr>
-        <th scope="row">{{unaObservacion.Fecha}}</th>
-        <td>{{unaObservacion.Paciente}}</td>
-        <td>{{unaObservacion.Observacion}}</td>
-        <td>
-            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:observacion-update' unaObservacion.id %}'" >EDITAR</button> 
-            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:observacion-delete' unaObservacion.id %}'">ELIMINAR</button>  
-            
-        </td>
-    </tr>
-    {% endfor %}  
 <br>
-<a href="{% url 'clinica:observacion-create' %}" class="btn btn-primary">NUEVA OBSERVACION</a>
 
 
 </tbody>
