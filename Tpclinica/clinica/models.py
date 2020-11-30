@@ -160,25 +160,11 @@ class PedidoDetalle(models.Model):
 
 
 class Consulta(models.Model):
-    medico = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        related_name="doctor-consulta+",
-        blank=True,
-        null=True,
-    )
-    paciente = models.ForeignKey(
-        Paciente,
-        on_delete=models.CASCADE,
-        related_name="clinica_paciente.nombre+",
-        blank=False,
-        null=True,
-    )
-    fecha = models.DateTimeField(null=True, blank=True)
+    turno = models.ForeignKey("Turnos", on_delete=models.CASCADE, blank=True, null=True)
+    observaciones = models.TextField()
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
     tratamiento = models.CharField(max_length=150)
-    observacion = models.CharField(max_length=150)
 
     def __str__(self):
         return self.motivo
@@ -186,9 +172,14 @@ class Consulta(models.Model):
 
 #  viaje de seba con los generic views
 class Turnos(models.Model):
-    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
-    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="doctor-consulta+",blank=True,null=True)
-
+    Paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, blank=False,null=False)
+    medico = models.ForeignKey(
+         User,
+         on_delete=models.CASCADE,
+        # related_name="doctor-consulta+",
+        blank=False,
+        null=False,
+    )
     FechaTurno = models.DateField()
     HoraTurno = models.TimeField()
     Opciones = (("P", "Pendiente"), ("A", "Asistió"), ("F", "Faltó"))
@@ -197,14 +188,14 @@ class Turnos(models.Model):
     #    FechaBaja = models.DateField(blank=True,null=True)
 
     def _str_(self):
-        return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno} {self.FechaAlta} {self.FechaBaja}"
+        return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno}"
 
     def get_absolute_url(self):
         return reverse('clinica:turnos-detail', kwargs={'pk':self.id})
 
-class Observacion(models.Model):
-    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
-    Fecha = models.DateField(auto_now=True)
-    Observacion = models.TextField()
-    def get_absolute_url(self):
-        return reverse('clinica:observacion-detail', kwargs={'pk':self.id})
+#class Observacion(models.Model):
+#    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
+#    Fecha = models.DateField(auto_now=True)
+#    Consulta = models.ForeignKey(Consulta,  on_delete=models.CASCADE, blank=False,null=True)
+#    def get_absolute_url(self):
+#        return reverse('clinica:observacion-detail', kwargs={'pk':self.id})

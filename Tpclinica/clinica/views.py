@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
-from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User, Observacion
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Turno_Form
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -14,7 +14,7 @@ from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 
 import django_filters
-from .filters import TurnosFilter, ObservacionFilter
+from .filters import TurnosFilter
 import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -171,22 +171,26 @@ class PacienteDetailView(generic.DetailView):
 def historial(request, paciente_id):
     # habria q agregar un if
     paciente = Paciente.objects.get(id=paciente_id)
-    consultasTotales = Consulta.objects.all()
-    consultas = consultasTotales.filter(paciente_id=paciente_id)
-    observacionesTotales = Observacion.objects.all()
-    observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
+    # consultasTotales = Consulta.objects.all()
+    # consultas = consultasTotales.filter(paciente_id=paciente_id)
+    # observacionesTotales = Observacion.objects.all()
+    # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
     return render(request, "historial.html",{
-        "consultas": consultas,
+        # "consultas": consultas,
         "paciente": paciente,
-        "observaciones": observaciones,
+        # "observaciones": observaciones,
     })
 
-def agregar_consulta(request):
+def agregar_consulta(request, turno_id):
+    turno = Turnos.objects.get(id=turno_id)
+
     upload = ConsultaCreate()
     if request.method == "POST":
         upload = ConsultaCreate(request.POST, request.FILES)
         if upload.is_valid():
-            upload.save()
+            f = upload.save(commit=False)
+            f.turno = turno
+            f.save()
             return redirect("clinica:pacientes")
         else:
             return HttpResponse(
@@ -512,7 +516,7 @@ class TurnoDetailView(generic.DetailView):
 
 class TurnoCreate(CreateView):
     model = Turnos
-    fields = ["Paciente", "HoraTurno", "FechaTurno", "Asistencia"]
+    fields = '__all__'
 
     def get_form(self):
         form = super().get_form()
@@ -638,35 +642,43 @@ class TurnosDayArchiveView(DayArchiveView):
 
 
 
-class ObservacionListView(generic.ListView):
-    model = Observacion
+#class ObservacionListView(generic.ListView):
+#    model = Observacion
 
-    def get_queryset(self):
-        qs = self.model.objects.all()
-        observacion_filtered_list = ObservacionFilter(self.request.GET, queryset=qs)
-        return observacion_filtered_list.qs
+#    def get_queryset(self):
+#        qs = self.model.objects.all()
+#        observacion_filtered_list = ObservacionFilter(self.request.GET, queryset=qs)
+#        return observacion_filtered_list.qs
 
 
 
-class ObservacionDetailView(generic.DetailView):
-    model = Observacion
-    context_object_name= 'observacion'
-    queryset= Observacion.objects.all()
+#class ObservacionDetailView(generic.DetailView):
+#    model = Observacion
+#    context_object_name= 'observacion'
+#    queryset= Observacion.objects.all()
     
-    def get_object(self):
-        observacion= super().get_object()
-        observacion.save()
-        return observacion
+#    def get_object(self):
+#        observacion= super().get_object()
+#        observacion.save()
+#        return observacion
 
-class ObservacionCreate(generic.CreateView): 
-    model = Observacion
-    fields = '__all__'
+#class ObservacionCreate(generic.CreateView): 
+#    model = Observacion
+#    fields = '__all__'
 
 
-class ObservacionUpdate(generic.UpdateView):
-    model = Observacion
-    fields = '__all__'
+#class ObservacionUpdate(generic.UpdateView):
+#    model = Observacion
+#    fields = '__all__'
 
-class ObservacionDelete(generic.DeleteView):
-    model = Observacion
-    success_url = reverse_lazy('clinica:turnos/observacion')
+#class ObservacionDelete(generic.DeleteView):
+#    model = Observacion
+#    success_url = reverse_lazy('clinica:turnos/observacion')
+
+def verConsulta(request, turno_id):
+    turno = Turnos.objects.get(id=turno_id)
+    try:
+        consulta = Consulta.objects.get(turno_id=turno.id)
+    except Consulta.DoesNotExist:
+        return render(request, "agregar_consulta.html", {'upload_form': ConsultaCreate()})
+    return redirect("clinica:modificar_consulta", consulta.id)
