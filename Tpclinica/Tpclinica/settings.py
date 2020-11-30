@@ -127,6 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = reverse_lazy('usuarios:login')
 
+LOGOUT_REDIRECT_URL = 'clinica:index'
 
 BOOTSTRAP4 = {
     'include_jquery': True,
