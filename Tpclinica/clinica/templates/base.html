@@ -14,12 +14,8 @@
   <title>Clinica Polotic</title>
 
   <!-- Bootstrap core CSS -->
-  <!-- <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> -->
 
   <!-- Custom styles for this template -->
-  <link href="{% static 'css/small-business.css' %}" rel="stylesheet">
-
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -33,264 +29,184 @@
 </head>
 
 <body>
-  <!-- Page Content -->
-  
-    <!-- Navigation -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'clinica:index' %}">Clinica</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          {% if not user.is_authenticated %}
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'clinica:index' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Nosotros</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contacto</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'usuarios:login' %}">Login</a>     
-          </li>
-          {% endif %}
-          
-          {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin:index' %}">Administrar usuarios</a>
+      <!-- <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="#collapse" data-target="#acolapsar">
+            <span class="sr-only">ToggleNav</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Clínica</a>
+        </div>
+        <div class="collapse nav-bar-collapse" id="acolapsar">
+          <ul class="nav navbar-nav">
+            {% if not user.is_authenticated %}
+              <li class="active">
+                <a href="{% url 'clinica:index' %}">Home
+                  <span class="sr-only">(current)</span>
+                </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'clinica:productos' %}">ABM Productos</a>
+              <li >
+                <a href="#">Nosotros</a>
+              </li>
+              <li >
+                <a href="#">Servicios</a>
+              </li>
+              <li >
+                <a href="#">Contacto</a>
               </li>
             {% endif %}
 
-            {% if user.es_secretaria %}
-              <li class="nav-item">
-                <a class="nav-link" href="#">Secretaria</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Menú 1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Menú 2</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Menú 3</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Menú 4</a>
-              </li>
-            {% endif %}
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                  <li >
+                    <a href="{% url 'admin:index' %}">Administrar usuarios</a>
+                  </li>
+                  <li >
+                    <a href="{% url 'clinica:productos' %}">ABM Productos</a>
+                  </li>
+                {% endif %}
 
-            {% if user.es_medico %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">Médico</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 1</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 2</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 3</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 4</a>
-            </li>
-            {% endif %}
+                {% if user.es_secretaria %}
+                  <li >
+                    <a href="#">Secretaria</a>
+                  </li>
+                  <li >
+                    <a href="{% url 'clinica:turnos' %}">Turnos</a>
+                  </li>
+                  <li >
+                    <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
+                  </li>
+                {% endif %}
 
-            {% if user.es_taller %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">Taller</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 1</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 2</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 3</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 4</a>
-            </li>
-            {% endif %}
+                {% if user.es_medico %}
+                <li >
+                  <a href="#">Médico</a>
+                </li>
+                <li >
+                  <a href="{% url 'clinica:turnos' %}">Turnos</a>
+                </li>
+                <li >
+                  <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
+                </li>
+                {% endif %}
 
-            {% if user.es_ventas %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">Ventas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'clinica:pedidos' %}">Pedidos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 2</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 3</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 4</a>
-            </li>
-            {% endif %}
+                {% if user.es_taller %}
+                <li >
+                  <a href="#">Taller</a>
+                </li>
+                <li >
+                  <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
+                </li>
+                {% endif %}
 
-            {% if user.es_gerencia %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">Gerencia</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 1</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 2</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 3</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menú 4</a>
-            </li>
-            {% endif %}
-            
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'usuarios:logout' %}">User: {{ user.username }} (logout)</a>
-            </li>            
-          {% endif %}
-          
-        </ul>
-      </div>
-    </div>
-  </nav> -->
+                {% if user.es_ventas %}
+                <li >
+                  <a href="#">Ventas</a>
+                </li>
+                <li >
+                  <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
+                </li>
+                {% endif %}
 
-    <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Clínica</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Page 1-1</a></li>
-            <li><a href="#">Page 1-2</a></li>
-            <li><a href="#">Page 1-3</a></li>
+                {% if user.es_gerencia %}
+                <li >
+                  <a href="#">Gerencia</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              
           </ul>
-        </li> -->
-        {% if not user.is_authenticated %}
-          <li class="active">
-            <a href="{% url 'clinica:index' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li >
-            <a href="#">Nosotros</a>
-          </li>
-          <li >
-            <a href="#">Servicios</a>
-          </li>
-          <li >
-            <a href="#">Contacto</a>
-          </li>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-              <li >
-                <a href="{% url 'admin:index' %}">Administrar usuarios</a>
-              </li>
-              <li >
-                <a href="{% url 'clinica:productos' %}">ABM Productos</a>
-              </li>
+          <ul class="nav navbar-nav navbar-right">
+            {% if not user.is_authenticated %}
+              <li><a href="{% url 'usuarios:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% endif %}
-
-            {% if user.es_secretaria %}
-              <li >
-                <a href="#">Secretaria</a>
-              </li>
-              <li >
-                <a href="{% url 'clinica:turnos' %}">Turnos</a>
-              </li>
-              <li >
-                <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
-              </li>
+            {% if user.is_authenticated %}
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{user.username}}</a></li>
+              <li><a href="{% url 'usuarios:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav> -->
 
-            {% if user.es_medico %}
-            <li >
-              <a href="#">Médico</a>
-            </li>
-            <li >
-              <a href="{% url 'clinica:turnos' %}">Turnos</a>
-            </li>
-            <li >
-              <a href="{% url 'clinica:pacientes' %}">Pacientes</a>
-            </li>
-            {% endif %}
+  <div class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#acolapsar">
+                <span class="sr-only">toggleNAv</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Clínica</a>
+        </div>
+        <div class="collapse navbar-collapse" id="acolapsar">
+            <ul class="nav navbar-nav">
+                {% if not user.is_authenticated %}
+                <li class="active"><a href="{% url 'clinica:index' %}">Home<span
+                            class="sr-only">(current)</span></a></li>
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Contacto</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">Administrar Sistema</a></li>
+                <li><a href="{% url 'clinica:productos' %}">ABM Productos</a></li>
+                {% endif %}
+                {% if user.es_secretaria %}
+                <li><a href="#">Secretaria</a></li>
+                <li><a href="{% url 'clinica:turnos' %}">Turnos</a></li>
+                <li><a href="{% url 'clinica:pacientes' %}">Pacientes</a></li>
+                {% endif %}
 
-            {% if user.es_taller %}
-            <li >
-              <a href="#">Taller</a>
-            </li>
-            <li >
-              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
-            </li>
-            {% endif %}
+                {% if user.es_medico %}
+                <li><a href="#">Médico</a></li>
+                <li><a href="{% url 'clinica:turnos' %}">Turnos</a></li>
+                <li><a href="{% url 'clinica:pacientes' %}">Pacientes</a></li>
+                {% endif %}
 
-            {% if user.es_ventas %}
-            <li >
-              <a href="#">Ventas</a>
-            </li>
-            <li >
-              <a href="{% url 'clinica:pedidos' %}">Pedidos</a>
-            </li>
-            {% endif %}
+                {% if user.es_taller %}
+                {% endif %}
 
-            {% if user.es_gerencia %}
-            <li >
-              <a href="#">Gerencia</a>
-            </li>
-            {% endif %}
-            
-            <!-- <li >
-              <a href="{% url 'usuarios:logout' %}">User: {{ user.username }} (logout)</a>
-            </li>             -->
-          {% endif %}
-          
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if not user.is_authenticated %}
-          <li><a href="{% url 'usuarios:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        {% endif %}
-        {% if user.is_authenticated %}
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{user.username}}</a></li>
-          <li><a href="{% url 'usuarios:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% endif %}
-      </ul>
+                {% if user.es_ventas %}
+                <li><a href="#">Ventas</a></li>
+                <li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
+                {% endif %}
+
+                {% if user.es_gerencia %}
+                <li><a href="#">Gerencia</a></li>
+                <li><a href="{% url 'clinica:reportePacientePedido' %}">Reporte Pedidos</a></li>
+                {% endif %}
+
+                {% endif %}
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if not user.is_authenticated %}
+                <li><a href="{% url 'usuarios:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{user.username}}</a></li>
+                <li><a href="{% url 'usuarios:logout' %}"><span
+                            class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+      </div>
     </div>
-    </nav>
+  </div>
   
-    <div class="container">
-
-    <div class="container">
-      {% block content %}
-      {% endblock %}
+  <div class="container">
+    {% block content %}
+    {% endblock %}
   </div>
    
-
-  </div>
-  <!-- /.container -->
-
  
 
   <!-- Bootstrap core JavaScript -->

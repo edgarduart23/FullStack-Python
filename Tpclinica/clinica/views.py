@@ -12,6 +12,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
+from django.db.models import Count
 
 import django_filters
 from .filters import TurnosFilter
@@ -197,7 +198,7 @@ def agregar_consulta(request, turno_id):
                 """your form is wrong, reload on <a href = "{{ url : 'clinica:pacientes' }}" >Recargar</a>"""
             )
     else:
-        return render(request, "agregar_consulta.html", {"upload_form": upload})
+        return render(request, "agregar_consulta.html", {'upload_form': upload, 'mensaje':'Paso por acá 1'})
 
 
 def eliminar_consulta(request, consulta_id):
@@ -485,6 +486,15 @@ def eliminar_producto(request, detalle_pedido_id):
         return render(request,"pedido_items.html",{"pedido": unPedido,"items": items,"productos_disponibles": productos_disponibles,},)
     
     # redireccionar a una página de error
+    return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
+
+def reportePacientePedido(request):
+    #obtengo la semana/mes y recupero los pacientes
+    # redireccionar a una página de 
+    # pedidos = Pedido.objects.values('paciente').annotate()
+    pedidos = Pedido.objects.filter(fechaCreacion__year=2020, fechaCreacion__week=49).order_by("-id")
+    # pedidos = Pedido.objects.filter(fechaCreacion__week=47).order_by("-id")
+    return render(request,"reportepedidos.html",{"pedidos": pedidos},)
     return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 # ------------------------------------Fin Pedidos------------------------------------------------
 
