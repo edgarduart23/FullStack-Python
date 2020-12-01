@@ -70,6 +70,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Agregar producto</div>
         <div class="panel-body">
+            {% if productos_disponibles %}
             <form action="{% url 'clinica:agregar_producto' pedido.id %}" method = 'POST' name="formulario">
                 {% csrf_token %}
                 <label for="">Productos:</label>
@@ -85,6 +86,9 @@
                     </div>
                 <button type="submit" class="btn btn-primary btn-xs">Agregar</button>
             </form>
+            {% else %}
+                No hay producto para agregar
+            {% endif %}
         </div>
     </div>
     {% endif %}
