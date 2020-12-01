@@ -23,6 +23,10 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Paciente</th>
+                            <th scope="col">Tipo de pago</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Subtotal</th>                  
                             <th scope="col">Acciones</th>
                         </tr>
                         </thead>
@@ -30,8 +34,39 @@
                             {% for unPedido in pedidos %}
                                 <tr>
                                     <th scope="row">{{unPedido.id}}</th>
-                                    <td> {{ unPedido}}
+                                    <td> {{ unPedido.paciente}}
                                     </td> 
+                                    <td> 
+                                        {% if unPedido.tipo_pago == 'T' %}
+                                            Tarjeta de credito
+                                        {% elif unPedido.tipo_pago == 'B' %}
+                                            Billetera virtual  
+                                        {% elif unPedido.tipo_pago == 'E' %}
+                                            Efectivo                                   
+                                        {% else %}
+                                            Debito
+                                        {% endif %}</td>
+                                    <td>
+                                        {% if unPedido.estado == 'PD' %}
+                                            Pedido
+                                        {% elif unPedido.estado == 'PT' %}
+                                            Pendiente
+                                        {% elif unPedido.estado == 'TL' %}
+                                            Taller                  
+                                        {% elif unPedido.estado == 'FL' %}
+                                            Finalizado                 
+                                        {% else %}
+                                            Desconocido
+                                        {% endif %}
+                                    </td>
+                                    <td>{{unPedido.fecha}}</td>
+                                    <td>
+                                        {% if user.es_taller %}
+                                        ---
+                                        {% else %}
+                                            {{unPedido.subtotal}}
+                                        {% endif %}
+                                    </td>
 
                                     <td >
                                         <!-- <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
