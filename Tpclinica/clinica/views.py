@@ -531,9 +531,15 @@ def reportePacientePedido(request, filtro):
         listaPedidos = []
         for pedido in pedidos:
             if not listaPedidos.__contains__(pedido.paciente):
+<<<<<<< HEAD
                 listaPedidos.append((pedido.paciente)
 
        return render(request, "reportepedidos.html", {"pedidos": listaPedidos, 'filtro': filtro, 'titulo': titulo},)
+=======
+                listaPedidos.append((pedido.paciente))
+        
+        return render(request, "reportepedidos.html", {"pedidos": listaPedidos,"titulo":titulo},)
+>>>>>>> 1622b429bd574a6469794469c3faf8fb68f120ee
     else:
         return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
@@ -549,10 +555,15 @@ def reporteVentas(request, mes):
         fechaCreacion__month=month).order_by("-vendedor_id")
     vendedores=get_user_model().objects.filter(es_ventas=True)
     # vendedores = User.objects.raw('SELECT * FROM auth_user WHERE es_ventas=1')
+<<<<<<< HEAD
     listaVentas=[]
     detalle=[]
     # monto = get_user_model().objects.get(id=2).ventaMensual(11)
 
+=======
+    listaVentas = []
+    
+>>>>>>> 1622b429bd574a6469794469c3faf8fb68f120ee
     for vendedor in vendedores:
         # controlar el estado del Pedido = PD o FL
         pedidosVendedor=Pedido.objects.filter(
