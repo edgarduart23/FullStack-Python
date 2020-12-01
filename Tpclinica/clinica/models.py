@@ -90,7 +90,7 @@ class Paciente(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return self.nombre
+        return f"{self.apellido}, {self.nombre}"
 
     def get_absolute_url(self):
         return reverse("clinica:pacientes-detail", kwargs={"pk": self.id})
