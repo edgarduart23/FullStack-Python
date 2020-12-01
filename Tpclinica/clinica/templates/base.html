@@ -141,7 +141,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Clínica</a>
+            <a class="navbar-brand" href="{% url 'clinica:index' %}">Clínica</a>
         </div>
         <div class="collapse navbar-collapse" id="acolapsar">
             <ul class="nav navbar-nav">
@@ -152,6 +152,7 @@
                 <li><a href="#">Servicios</a></li>
                 <li><a href="#">Contacto</a></li>
                 {% endif %}
+
                 {% if user.is_authenticated %}
                 {% if user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">Administrar Sistema</a></li>
@@ -186,6 +187,7 @@
                   <ul class="dropdown-menu">
                     <li><a href="{% url 'clinica:reportePacientePedido' 0 %}">Pacientes con pedidos semanal </a></li>
                     <li><a href="{% url 'clinica:reportePacientePedido' 1 %}">Pacientes con pedidos mensual</a></li>
+                    <li><a href="{% url 'clinica:reporteVentas' 0 %}">Ventas mensuales x vendedor</a></li>
                   </ul>
                 </li>
                 {% endif %}

@@ -6,13 +6,15 @@ from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos,
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Turno_Form
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+
 from django.contrib.auth.models import User
 from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 from django.db.models import Count, QuerySet
+
 
 
 import django_filters
@@ -436,42 +438,6 @@ def cambioDeEstado(request, pedido_id):
     # redireccionar a una página de error
     return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 
-def cambioDeEstado00(request, pedido_id):
-    pedido_id = int(pedido_id)
-    try:
-        pedido_sel = Pedido.objects.get(id=pedido_id)
-    except pedido_sel.DoesNotExist:
-        # redireccionar a una página de error
-        return redirect("index")
-    form = PedidoView(request.POST or None, instance=pedido_sel)
-    if form.is_valid():
-        form.save()
-        return redirect("clinica:pedidos")
-    return render(request, "pedido.html", {"form": form})
-
-def cambioDeEstado0(request, pedido_id):
-    # Recuperamos la instancia de la persona
-    instancia = Pedido.objects.get(id=pedido_id)
-
-    # Creamos el formulario con los datos de la instancia
-    form = PedidoCreate(instance=instancia)
-
-    # Comprobamos si se ha enviado el formulario
-    if request.method == "POST":
-        # Actualizamos el formulario con los datos recibidos
-        form = PedidoCreate(request.POST, instance=instancia)
-        # Si el formulario es válido...
-        if form.is_valid():
-            # Guardamos el formulario pero sin confirmarlo,
-            # así conseguiremos una instancia para manejarla
-            instancia = form.save(commit=False)
-            # Podemos guardarla cuando queramos
-            instancia.save()
-            return redirect("clinica:pedidos")
-
-    # Si llegamos al final renderizamos el formulario
-    return render(request, "pedido.html", {"form": form})
-
 @login_required
 def eliminar_producto(request, detalle_pedido_id):
     if request.user.es_ventas:
@@ -531,13 +497,45 @@ def reportePacientePedido(request, filtro):
         listaPedidos = []
         for pedido in pedidos:
             if not listaPedidos.__contains__(pedido.paciente):
-                listaPedidos.append(pedido.paciente)
+                listaPedidos.append((pedido.paciente)
 
-        return render(request, "reportepedidos.html", {"pedidos": listaPedidos,'filtro':filtro, 'titulo':titulo},)
+        return render(request, "reportepedidos.html", {"pedidos": listaPedidos,'titulo':titulo},)
     else:
         return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
-# def productoMasVendidos(request):
+
+def reporteVentas(request, mes):
+    # User = get_user_model()
+    if mes==0:
+        fecha_actual = datetime.date.today()
+        month = fecha_actual.month
+    else:
+        month = mes
+
+    pedidos = Pedido.objects.filter(fechaCreacion__month=month).order_by("-vendedor_id")
+    vendedores = get_user_model().objects.filter(es_ventas=True)
+    # vendedores = User.objects.raw('SELECT * FROM auth_user WHERE es_ventas=1')
+    listaVentas = []
+    detalle = []
+    # monto = get_user_model().objects.get(id=2).ventaMensual(11)
+    
+    for vendedor in vendedores:
+        # controlar el estado del Pedido = PD o FL
+        pedidosVendedor = Pedido.objects.filter(vendedor=vendedor, fechaCreacion__month=month).order_by("-id")
+        ventas = 0        
+        for pedidoVendedor in pedidosVendedor:
+            ventas = ventas + pedidoVendedor.subtotal
+
+        elto = {'vendedor': vendedor, 'ventas': ventas, 'cantidad':pedidosVendedor.__len__()}
+        # elto = ('vendedor'=vendedor, 'ventas'=ventas)
+        listaVentas.append(elto)
+        # if not listaPedidos.__contains__(pedido.vendedor):
+        #     listaPedidos.append(pedido.vendedor)
+        # else:
+        #     listaPedidos.append(pedido.vendedor)
+
+    return render(request, "reporte_ventas.html", {"pedidos": listaVentas, 'vendedores': vendedores},)
+
 
 # ------------------------------------Fin Pedidos------------------------------------------------
 
