@@ -504,33 +504,32 @@ def reportePacientePedido(request, filtro):
         return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
 
-def reporteVentas(request, mes):
+def reporteVentas(request, año):
     # User = get_user_model()
-    if mes==0:
-        fecha_actual = datetime.date.today()
+    fecha_actual = datetime.date.today()
+    month = 12
+    if fecha_actual.year==año:
         month = fecha_actual.month
+    elif fecha_actual.year>año:
+        month = 12
     else:
-        month = mes
+        return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
     pedidos = Pedido.objects.filter(fechaCreacion__month=month).order_by("-vendedor_id")
     vendedores = get_user_model().objects.filter(es_ventas=True)
     # vendedores = User.objects.raw('SELECT * FROM auth_user WHERE es_ventas=1')
     listaVentas = []
     
-    for vendedor in vendedores:
-        # controlar el estado del Pedido = PD o FL
-        pedidosVendedor = Pedido.objects.filter(vendedor=vendedor, fechaCreacion__month=month).order_by("-id")
-        ventas = 0        
-        for pedidoVendedor in pedidosVendedor:
-            ventas = ventas + pedidoVendedor.subtotal
+    for mes in Range(month):
+        for vendedor in vendedores:
+            # controlar el estado del Pedido = PD o FL
+            pedidosVendedor = Pedido.objects.filter(vendedor=vendedor, fechaCreacion__month=mes).order_by("-id")
+            ventas = 0        
+            for pedidoVendedor in pedidosVendedor:
+                ventas = ventas + pedidoVendedor.subtotal
 
-        elto = {'vendedor': vendedor, 'ventas': ventas, 'cantidad':pedidosVendedor.__len__()}
-        # elto = ('vendedor'=vendedor, 'ventas'=ventas)
-        listaVentas.append(elto)
-        # if not listaPedidos.__contains__(pedido.vendedor):
-        #     listaPedidos.append(pedido.vendedor)
-        # else:
-        #     listaPedidos.append(pedido.vendedor)
+            elto = {'mes':mes, 'vendedor': vendedor, 'ventas': ventas, 'cantidad':pedidosVendedor.__len__()}
+            listaVentas.append(elto)
 
     return render(request, "reporte_ventas.html", {"pedidos": listaVentas, 'vendedores': vendedores},)
 

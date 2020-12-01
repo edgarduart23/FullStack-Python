@@ -21,6 +21,7 @@
                         <thead>
                         <tr>
                             <!-- <th >#</th> -->
+                            <th >Mes</th>
                             <th >Vendedor</th>
                             <th >Username</th>
                             <th >Cantidad</th>
@@ -31,6 +32,7 @@
                             {% for unItem in pedidos %}
                                 <tr>
                                     <!-- <th scope="row">{{unItem.vendedor.id}}</th> -->
+                                    <td>{{unItem.vendedor.mes}}</td>
                                     <td> {{ unItem.vendedor.last_name }} {{ unItem.vendedor.first_name }} </td>
                                     <td> {{ unItem.vendedor.username }}</td>
                                     <td>{{ unItem.cantidad }}</td>
