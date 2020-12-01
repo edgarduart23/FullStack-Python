@@ -179,7 +179,15 @@
 
                 {% if user.es_gerencia %}
                 <li><a href="#">Gerencia</a></li>
-                <li><a href="{% url 'clinica:reportePacientePedido' %}">Reporte Pedidos</a></li>
+                
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reportes
+                  <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url 'clinica:reportePacientePedido' 0 %}">Pacientes con pedidos semanal </a></li>
+                    <li><a href="{% url 'clinica:reportePacientePedido' 1 %}">Pacientes con pedidos mensual</a></li>
+                  </ul>
+                </li>
                 {% endif %}
 
                 {% endif %}

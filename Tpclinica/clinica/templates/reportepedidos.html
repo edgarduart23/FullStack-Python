@@ -8,24 +8,21 @@
         <div class="panel panel-default">
             <div class="panel-heading">Listado de Pedidos
                 <!-- <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:index' %}'">Volver</button>  -->
-            <div class="pull-right ">
-                <a class="btn btn-confirm btn-sm" href="{% url 'clinica:pedidos' %}">
-                  <i class="fa fa-refresh"></i>
-                <b>Refrescar</b></a>
-              </div>
+                <div class="pull-right ">
+                    <a class="btn btn-confirm btn-sm" href="{% url 'clinica:index' %}">
+                    <i class="fa fa-refresh"></i>
+                    <b>Volver</b></a>
+                </div>
             </div>
 
             <div class="panel-body">
+
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Paciente</th>
-                            <th scope="col">Tipo de pago</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Subtotal</th>                  
                             <th scope="col">Acciones</th>
                         </tr>
                         </thead>
@@ -33,39 +30,8 @@
                             {% for unPedido in pedidos %}
                                 <tr>
                                     <th scope="row">{{unPedido.id}}</th>
-                                    <td> {{ unPedido.paciente}}
+                                    <td> {{ unPedido}}
                                     </td> 
-                                    <td> 
-                                        {% if unPedido.tipo_pago == 'T' %}
-                                            Tarjeta de credito
-                                        {% elif unPedido.tipo_pago == 'B' %}
-                                            Billetera virtual  
-                                        {% elif unPedido.tipo_pago == 'E' %}
-                                            Efectivo                                   
-                                        {% else %}
-                                            Debito
-                                        {% endif %}</td>
-                                    <td>
-                                        {% if unPedido.estado == 'PD' %}
-                                            Pedido
-                                        {% elif unPedido.estado == 'PT' %}
-                                            Pendiente
-                                        {% elif unPedido.estado == 'TL' %}
-                                            Taller                  
-                                        {% elif unPedido.estado == 'FL' %}
-                                            Finalizado                 
-                                        {% else %}
-                                            Desconocido
-                                        {% endif %}
-                                    </td>
-                                    <td>{{unPedido.fecha}}</td>
-                                    <td>
-                                        {% if user.es_taller %}
-                                        ---
-                                        {% else %}
-                                            {{unPedido.subtotal}}
-                                        {% endif %}
-                                    </td>
 
                                     <td >
                                         <!-- <button data-toggle="tooltip" title="Editar" data-placement="auto" type="button" class="btn btn-sm  " onclick="location.href='{% url 'clinica:detalle_pedido' unPedido.id %}'">                       
