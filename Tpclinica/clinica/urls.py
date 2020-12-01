@@ -32,7 +32,7 @@ urlpatterns = [
     path('pedidos/detalle_pedido/<int:pedido_id>/', views.detalle_pedido, name="detalle_pedido"),
     path('pedidos/agregar_producto/<int:pedido_id>/', views.agregar_producto, name="agregar_producto"),
     path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
-    path('pedidos/reportePacientePedido', views.reportePacientePedido, name="reportePacientePedido"),
+    path('pedidos/reportePacientePedido/<int:filtro>/', views.reportePacientePedido, name="reportePacientePedido"),
 
 #  viaje de seba con los generic views 
     path('turnos/', TurnosListView.as_view(), name="turnos"),
