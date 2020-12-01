@@ -82,7 +82,7 @@ class Producto(models.Model):
 
 
 class Paciente(models.Model):
-#    medico = models.ForeignKey(User,on_delete=models.SET_NULL,related_name="medico-paciente+",blank=True,null=True)
+    medico = models.ForeignKey(User,on_delete=models.SET_NULL, blank=True,null=True)
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     direccion = models.CharField(max_length=60)
@@ -160,11 +160,11 @@ class PedidoDetalle(models.Model):
 
 
 class Consulta(models.Model):
-    turno = models.ForeignKey("Turnos", on_delete=models.CASCADE, blank=True, null=True)
     observaciones = models.TextField()
     motivo = models.CharField(max_length=150)
     diagnostico = models.CharField(max_length=150)
     tratamiento = models.CharField(max_length=150)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, blank=False,null=False)
 
     def __str__(self):
         return self.motivo
@@ -173,13 +173,6 @@ class Consulta(models.Model):
 #  viaje de seba con los generic views
 class Turnos(models.Model):
     Paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, blank=False,null=False)
-    medico = models.ForeignKey(
-         User,
-         on_delete=models.CASCADE,
-        # related_name="doctor-consulta+",
-        blank=False,
-        null=False,
-    )
     FechaTurno = models.DateField()
     HoraTurno = models.TimeField()
     Opciones = (("P", "Pendiente"), ("A", "Asistió"), ("F", "Faltó"))

@@ -147,15 +147,18 @@ def actualizarTurno(request, turno_id):
 
 #########################################################################################################
 
-
+@login_required
 def pacientes(request):
     #    usuario = {'usuario': request.User}
     # NO me deja pasar nunca igual...
     #    if not usuario==True:
     # Aca hay un problema con la url del httpresponse para volver a loguearse si no es medico
     #        return HttpResponse("""Usted no es medico. Si lo es vuelva a <a href = " {{ url : 'usuarios:loguin'}}">loguearse</a> loguearse""")
-    return render(request, "pacientes.html", {"pacientes": Paciente.objects.all()})
-
+    if request.user.es_medico:
+        return render(request, "pacientes.html", {"pacientes": Paciente.objects.filter(medico_id=request.user.id)})
+    if request.user.es_secretaria:
+        return render(request, "pacientes.html", {"pacientes": Paciente.objects.all()})
+    return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 
 class PacienteDetailView(generic.DetailView):
     model = Paciente
@@ -171,15 +174,17 @@ class PacienteDetailView(generic.DetailView):
 def historial(request, paciente_id):
     # habria q agregar un if
     paciente = Paciente.objects.get(id=paciente_id)
-    # consultasTotales = Consulta.objects.all()
-    # consultas = consultasTotales.filter(paciente_id=paciente_id)
-    # observacionesTotales = Observacion.objects.all()
-    # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
+    consultas = Consulta.objects.filter(paciente=paciente)
+
+
+#    consultas = Consulta.objects.filter(turno_id=turno)
+        # observacionesTotales = Observacion.objects.all()
+        # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
     return render(request, "historial.html",{
-        # "consultas": consultas,
-        "paciente": paciente,
-        # "observaciones": observaciones,
-    })
+            "consultas": consultas,
+            "paciente": paciente,
+            # "observaciones": observaciones,
+        })
 
 def agregar_consulta(request, turno_id):
     turno = Turnos.objects.get(id=turno_id)
@@ -188,9 +193,11 @@ def agregar_consulta(request, turno_id):
     if request.method == "POST":
         upload = ConsultaCreate(request.POST, request.FILES)
         if upload.is_valid():
-            f = upload.save(commit=False)
-            f.turno = turno
-            f.save()
+            upload = form.cleaned_data
+            upload['turno']  = turno_id
+            # f = upload.save(commit=False)
+            # f.turno = turno
+            upload.save()
             return redirect("clinica:pacientes")
         else:
             return HttpResponse(
@@ -543,6 +550,11 @@ class PacienteCreate(generic.CreateView):
     model = Paciente
     fields = "__all__"
 
+    # def get_form(self):
+    #     form = super().get_form()
+    #     self.fields['medico'].queryset = User.objects.filter(es_medico=True)
+    #     return form
+
 
 class PacienteUpdate(generic.UpdateView):
     model = Paciente
@@ -675,10 +687,21 @@ class TurnosDayArchiveView(DayArchiveView):
 #    model = Observacion
 #    success_url = reverse_lazy('clinica:turnos/observacion')
 
-def verConsulta(request, turno_id):
-    turno = Turnos.objects.get(id=turno_id)
-    try:
-        consulta = Consulta.objects.get(turno_id=turno.id)
-    except Consulta.DoesNotExist:
-        return render(request, "agregar_consulta.html", {'upload_form': ConsultaCreate()})
-    return redirect("clinica:modificar_consulta", consulta.id)
+# def verConsulta(request, turno_id):
+#     turno = Turnos.objects.get(id=turno_id)
+#     try:
+#         consulta = Consulta.objects.get(turno_id=turno.id)
+#     except Consulta.DoesNotExist:
+#         return redirect("clinica:agregar_consulta", consulta.id)
+
+#         # raise render(request, "agregar_consulta.html", {'upload_form': ConsultaCreate()})
+#     return redirect("clinica:modificar_consulta", consulta.id)
+def secretario(request):
+    return render(request, 'secretario.html')
+
+def medico(request):
+    # usuario = request.User.id()
+    return render(request, 'medico.html')
+
+def pacientes_medico(request, user_id):
+    return render(request, "pacientes_medico.html", {})

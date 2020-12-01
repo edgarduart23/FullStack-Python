@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Proximos turnos   </h1>
+  <h1>Todos los turnos   </h1>
 
   {% if turnos_list %}
   <div class="container-fluid"></div>
@@ -13,7 +13,6 @@
           <th scope="col">Paciente</th>
           <th scope="col">Fecha</th>
           <th scope="col">Hora</th>
-          <th scope="col">Doctor</th>
           <td></td>
           
       </tr>
@@ -26,7 +25,6 @@
       <td>{{turnos.HoraTurno}}</td>
       <td>{{turnos.medico}}</td>
       <td>
-        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:ver_consulta' turnos.id %}'" >VER CONSULTA</button> 
 
         <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:turno-update' turnos.id %}'" >EDITAR</button> 
         <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:turno-delete' turnos.id %}'">ELIMINAR</button>  
