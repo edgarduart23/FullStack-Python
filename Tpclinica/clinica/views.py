@@ -12,6 +12,8 @@ from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
+from django.db.models import Count, QuerySet
+
 
 import django_filters
 from .filters import TurnosFilter
@@ -204,7 +206,7 @@ def agregar_consulta(request, turno_id):
                 """your form is wrong, reload on <a href = "{{ url : 'clinica:pacientes' }}" >Recargar</a>"""
             )
     else:
-        return render(request, "agregar_consulta.html", {"upload_form": upload})
+        return render(request, "agregar_consulta.html", {'upload_form': upload, 'mensaje':'Paso por acá 1'})
 
 
 def eliminar_consulta(request, consulta_id):
@@ -493,6 +495,57 @@ def eliminar_producto(request, detalle_pedido_id):
     
     # redireccionar a una página de error
     return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
+
+def reportePacientePedido(request, filtro):
+    fecha_actual = datetime.date.today()
+    week = fecha_actual.isocalendar()[1]
+    month = fecha_actual.month
+    #obtengo la semana/mes y recupero los pacientes
+    # redireccionar a una página de 
+    # results = Members.objects.raw('SELECT * FROM myapp_members GROUP BY designation')    
+    # pedidos = Pedido.objects.raw('SELECT *, count(id) as "count", SUM(subtotal) as "montoTotal" FROM clinica_pedido GROUP BY paciente_id')
+    
+    # week = 49
+    # fechaCreacion__month=month, 
+    # fechaCreacion__week=week
+    # pedidos = Pedido.objects.filter(fechaCreacion__week=week).order_by("-id") ok
+    # pedidos = Pedido.objects.filter(fechaCreacion__month=month, fechaCreacion__week=week).order_by("-id") ok
+    # pedidos = Pedido.objects.filter(fechaCreacion__year=year, fechaCreacion__week=week).order_by("-id") ok
+
+    # pedidos = Pedido.objects.values('paciente').order_by('paciente_id').annotate(count=Count('id')) no anda
+    # pedidos = Pedido.objects.order_by('paciente').values('paciente')
+    # pedidos = Pedido.objects.group_by('paciente').annotate(cantidad=Count('pedido')).order_by('paciente').distinct() nop
+    # pedidos = Pedido.objects.filter(fechaCreacion__week=week).order_by("-id")
+    # pedidos = Pedido.objects.filter(fechaCreacion__month=month).order_by("-id")
+
+    # query = Pedido.objects.all().query
+    # query.group_by = ['paciente']
+    # pedidos = QuerySet(query=query)
+
+    # pedidos = Pedido.objects.filter(fechaCreacion__year=2020, fechaCreacion__week=49).order_by("-id")
+    # pedidos = Pedido.objects.filter(fechaCreacion__week=47).order_by("-id")
+    filtro = int(filtro)
+    
+    if filtro == 1 or filtro == 0:
+        if filtro == 1:
+            titulo = 'Pacientes que realizaron pedidos en el mes'
+            pedidos = Pedido.objects.filter(fechaCreacion__month=month).order_by("-paciente_id")
+            # return render(request, "reportepedidos.html", {"pedidos": listaPedidos, 'mensaje': 'Mensual venimos del POST', 'filtro':filtro},)
+        if filtro == 0:
+            titulo = 'Pacientes que realizaron pedidos en la semana'
+            pedidos = Pedido.objects.filter(fechaCreacion__week=week).order_by("-paciente_id")
+        
+        listaPedidos = []
+        for pedido in pedidos:
+            if not listaPedidos.__contains__(pedido.paciente):
+                listaPedidos.append(pedido.paciente)
+
+        return render(request, "reportepedidos.html", {"pedidos": listaPedidos,'filtro':filtro, 'titulo':titulo},)
+    else:
+        return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
+
+# def productoMasVendidos(request):
+
 # ------------------------------------Fin Pedidos------------------------------------------------
 
 #  viaje de seba con los generic views

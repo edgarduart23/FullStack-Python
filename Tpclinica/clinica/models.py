@@ -119,14 +119,15 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=2, default="PT", choices=ESTADO)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     fecha = models.DateTimeField(auto_now=True, auto_now_add=False)
+    fechaCreacion = models.DateField(auto_now=True, auto_now_add=False)
 
     def verSubTotal(self):
         return f"${self.subtotal}"
 
 
 class PedidoDetalle(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, blank=True)
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, blank=True, null=True)
+    producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, blank=False, null=True)
+    pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, blank=False, null=True)
     cantidad = models.PositiveIntegerField(default=1)
     precio = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0, blank=True
