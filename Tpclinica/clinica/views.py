@@ -699,22 +699,23 @@ def reportePacientePedido(request, filtro):
 
         if filtro == 1 or filtro == 0:
             listaPacientes = []
+            listaPedidos1 = []
             pacientes = Paciente.objects.all()
             for paciente in pacientes:
                 if filtro == 1:
                     titulo = "Pacientes que realizaron pedidos en el mes"
-                    listaPedidos1 = Pedido.objects.filter(
-                        fechaCreacion__month=month, paciente=paciente, estado="FL"
-                    )
+                    # listaPedidos1 = Pedido.objects.filter(
+                    #     fechaCreacion__month=month, paciente=paciente, estado="FL"
+                    # )
                     listaPedidos2 = Pedido.objects.filter(
                         fechaCreacion__month=month, paciente=paciente, estado="PD"
                     )
 
                 if filtro == 0:
                     titulo = "Pacientes que realizaron pedidos en la semana"
-                    listaPedidos1 = Pedido.objects.filter(
-                        fechaCreacion__week=week, paciente=paciente, estado="FL"
-                    )
+                    # listaPedidos1 = Pedido.objects.filter(
+                    #     fechaCreacion__week=week, paciente=paciente, estado="FL"
+                    # )
                     listaPedidos2 = Pedido.objects.filter(
                         fechaCreacion__week=week, paciente=paciente, estado="PD"
                     )
