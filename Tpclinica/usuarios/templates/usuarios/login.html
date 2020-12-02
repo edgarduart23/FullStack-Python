@@ -1,14 +1,14 @@
 {% extends "usuarios/layout.html" %}
 {% load static %}
 {% block body %}
-    
-    <main role="main" class="container my-auto">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<div class="container">
+    <main role="main" class="container-fluid">
         <div class="row">
-            <div id="login" class="col-lg-4 offset-lg-4 col-md-6 offset-md-3
-                col-12">
-                <h2 class="text-center">Bienvenido de nuevo</h2>
+            <div id="login" class="col-lg-12 offset-lg-12 col-md-12 offset-md-12 ">
+                <h2 class="text-center ">Bienvenido</h2>
                 <img class="img-fluid mx-auto d-block rounded"
-                    src="{% static 'img/logo.jpg' %}" />
+                    src="{% static 'img/login.png' %}" />
                 <br>
                 {% if mensaje %}
                 <div class="text-danger text-sm-center">{{ mensaje }}</div>
@@ -37,6 +37,8 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
  <!--   <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">

@@ -1,7 +1,6 @@
-
 .header {
     
-    min-height: 50px;
+    border-radius: 20px;
 }
 .nav-link{color: #ffffff;}
 .nav-link:hover{color: #c8c9c4;}
@@ -23,7 +22,7 @@
     max-width: 400px;
     height: auto;
   }
-  .body {
+.body {
     background-image: linear-gradient(to top, #c1cfdd 0%, #eceeef 75%, #e5f1fc 100%);
     min-height: 100vh;
     font: normal 16px sans-serif;
@@ -36,13 +35,6 @@
     min-height: 100vh;
     border-radius: 20px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06);
-}
-
-.gallery-container h1 {
-    text-align: center;
-    margin-top: 70px;
-    font-family: 'Droid Sans', sans-serif;
-    font-weight: bold;
 }
 
 .gallery-container p.page-description {
@@ -73,6 +65,8 @@
 .tz-gallery img {
     border-radius: 4px;
 }
+
+
 
 .baguetteBox-button {
     background-color: transparent !important;
