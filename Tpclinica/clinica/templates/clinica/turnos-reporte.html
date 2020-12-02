@@ -6,17 +6,16 @@
 {{ form.media }}
 {% endblock %}
 
-{% if user.es_medico %}
-
 {% block content %}
-<br>
-<h1>Archivo de Pacientes</h1>
-<br>
-<form method="post">
-    {% csrf_token %}
-    {% bootstrap_form filter.form %}
-    <input type="submit" value="Save">
-</form>
+{% if user.es_medico %}    
+    <br>
+    <h1>Archivo de Pacientes</h1>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form filter.form %}
+        <input type="submit" value="Save">
+    </form>
 
 
 {% else %}
