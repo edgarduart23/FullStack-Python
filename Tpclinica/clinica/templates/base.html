@@ -19,7 +19,10 @@
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+  {% load bootstrap3 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+
   {% block extrahead %}
   {% endblock %}
 
@@ -50,8 +53,7 @@
                 <li><a href="#">Servicios</a></li>
                 <li><a href="#">Contacto</a></li>
                 {% endif %}
-                {% if user.is_authenticated %}
-                {% if user.is_superuser %}
+                  {% if user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">Administrar Sistema</a></li>
                 <li><a href="{% url 'clinica:productos' %}">ABM Productos</a></li>
                 {% endif %}
@@ -65,6 +67,7 @@
                 <li><a href="#">Médico</a></li>
                 <li><a href="{% url 'clinica:turnos' %}">Turnos</a></li>
                 <li><a href="{% url 'clinica:pacientes' %}">Pacientes</a></li>
+                <li><a href="{% url 'clinica:turnos_reporte' %}">Archivo Pacientes</a></li>
                 {% endif %}
 
                 {% if user.es_taller %}
@@ -81,14 +84,17 @@
                   <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reportes
                   <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{% url 'clinica:reportePacientePedido' 0 %}">Pacientes con pedidos en la semana </a></li>
+                    <li><a href="{% url 'clinica:reportePacientePedido' 0 %}">Pacientes con pedidos semanal </a></li>
+                    <li><a href="{% url 'clinica:productoMasVendidos'  %}">Productos mas vendido mensual</a></li>
                     <li><a href="{% url 'clinica:reportePacientePedido' 1 %}">Pacientes con pedidos en el mes</a></li>
                     <li><a href="{% url 'clinica:reporteVentas' 0 %}">Ventas mensuales x vendedor</a></li>
+                    <li><a href="{% url 'clinica:reporte_asistencia' %}">Reporte Asistencia Pacientes</a></li>
+
+                    
                   </ul>
                 </li>
                 {% endif %}
 
-                {% endif %}
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -9,7 +9,7 @@ from .form import (
     PedidoView,
     ConsultaCreate,
     TurnosCreate,
-    Paciente_Form,
+    PacienteForm,
 )
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import (
@@ -32,10 +32,12 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 from django.db.models import Count, QuerySet
+from django.contrib.auth import get_user_model
+import operator
 
 
 import django_filters
-from .filters import TurnosFilter
+from .filters import TurnosFilter, ReporteFilter
 import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -143,7 +145,6 @@ def actualizar(request, producto_id):
 
 ####################################################################################################
 
-
 def turnos(request):
     return render(request, "turnos.html", {"turno": Turnos.objects.all()})
 
@@ -189,15 +190,18 @@ def actualizarTurno(request, turno_id):
 
 #########################################################################################################
 
-
+@login_required
 def pacientes(request):
     #    usuario = {'usuario': request.User}
     # NO me deja pasar nunca igual...
     #    if not usuario==True:
     # Aca hay un problema con la url del httpresponse para volver a loguearse si no es medico
     #        return HttpResponse("""Usted no es medico. Si lo es vuelva a <a href = " {{ url : 'usuarios:loguin'}}">loguearse</a> loguearse""")
-    return render(request, "pacientes.html", {"pacientes": Paciente.objects.all()})
-
+    if request.user.es_medico:
+        return render(request, "pacientes.html", {"pacientes": Paciente.objects.filter(medico_id=request.user.id)})
+    if request.user.es_secretaria:
+        return render(request, "pacientes.html", {"pacientes": Paciente.objects.all()})
+    return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 
 class PacienteDetailView(generic.DetailView):
     model = Paciente
@@ -209,34 +213,30 @@ class PacienteDetailView(generic.DetailView):
         paciente.save()
         return paciente
 
-
+@login_required
 def historial(request, paciente_id):
     # habria q agregar un if
     paciente = Paciente.objects.get(id=paciente_id)
-    # consultasTotales = Consulta.objects.all()
-    # consultas = consultasTotales.filter(paciente_id=paciente_id)
-    # observacionesTotales = Observacion.objects.all()
-    # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
-    return render(
-        request,
-        "historial.html",
-        {
-            # "consultas": consultas,
+    consultas = Consulta.objects.filter(paciente=paciente)
+
+
+#    consultas = Consulta.objects.filter(turno_id=turno)
+        # observacionesTotales = Observacion.objects.all()
+        # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
+    return render(request, "historial.html",{
+            "consultas": consultas,
             "paciente": paciente,
             # "observaciones": observaciones,
-        },
-    )
-
-
-def agregar_consulta(request, turno_id):
-    turno = Turnos.objects.get(id=turno_id)
+        })
+@login_required
+def agregar_consulta(request):
 
     upload = ConsultaCreate()
     if request.method == "POST":
         upload = ConsultaCreate(request.POST, request.FILES)
         if upload.is_valid():
+            upload = ConsultaCreate(request.POST, request.FILES)
             f = upload.save(commit=False)
-            f.turno = turno
             f.save()
             return redirect("clinica:pacientes")
         else:
@@ -251,6 +251,7 @@ def agregar_consulta(request, turno_id):
         )
 
 
+@login_required
 def eliminar_consulta(request, consulta_id):
     consulta_id = int(consulta_id)
     try:
@@ -262,6 +263,7 @@ def eliminar_consulta(request, consulta_id):
     return render(request, "eliminar_consulta.html")
 
 
+@login_required
 def modificar_consulta(request, consulta_id):
     consulta_id = int(consulta_id)
     try:
@@ -810,6 +812,41 @@ def reporteVentasAnual(request):
     # return HttpResponseRedirect(reverse("clinica:reporteVentas", args=(anio,)))
     # return redirect("clinica:pedidos" datetime.date.today.month)
 
+def productoMasVendidos(request):
+    fecha_actual = datetime.date.today()
+    month = fecha_actual.month
+    pedidos = Pedido.objects.filter(fechaCreacion__month=month ).filter(estado = 'PD')
+    pedidoDetalle = []
+    #producto = []
+    for pedido in pedidos:
+        pedidoDetal = PedidoDetalle.objects.filter(pedido_id = pedido.id)
+        #pedidoDetalle.append(pedidoDetal)
+        for  pedidoDet in pedidoDetal:
+            pedidoDetalle.append(pedidoDet)
+
+    dic_prod = {}
+    # for prod in pedidoDetalle:
+
+    #     producto = str(prod.producto.pk)
+    #     if producto in dic_prod:
+    #         dic_prod[producto] = dic_prod[producto] + prod.cantidad
+    #     else:
+    #         dic_prod[producto] =  prod.cantidad
+
+    for prod in pedidoDetalle:
+
+        producto = str(prod.producto)
+        if producto in dic_prod:
+            dic_prod[producto] = dic_prod[producto] + prod.cantidad
+        else:
+            dic_prod[producto] =  prod.cantidad        
+   
+    sortedDict = sorted(dic_prod.items(),key=operator.itemgetter(1), reverse= True)
+    #Out: [('fourth', 1), ('third', 2), ('first', 3), ('second', 4)]
+    print(dic_prod)
+    print(sortedDict)
+
+    return render(request, "reporteProductosVendidos.html", {"pedidos": sortedDict})        
 
 # ------------------------------------Fin Pedidos------------------------------------------------
 
@@ -860,14 +897,42 @@ class TurnoDelete(DeleteView):
     success_url = reverse_lazy("clinica:turnos")
 
 
+@login_required
 def turnos_reporte(request):
     filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
-    return render(request, "clinica/turnos-reporte.html", {"filter": filter})
 
+    return render(request, "clinica/turnos-reporte.html", {"filter": filter, "pacientes": pacientes})
 
-class PacienteCreate(generic.CreateView):
-    model = Paciente
-    fields = "__all__"
+@login_required
+def reporte_asistencia(request):
+    filter = ReporteFilter(request.GET, queryset=Turnos.objects.all())
+
+    return render(request, "clinica/reporte-asistencia.html", {"filter": filter})
+
+# class PacienteCreate(generic.CreateView):
+#     model = Paciente
+#     fields = ('medico',)
+
+#     def get_form(self):
+#         User = get_user_model()
+#         form = super().get_form()
+#         self.fields['medico'].queryset = User.objects.filter(es_medico = True)
+#        return form
+
+@login_required
+def PacienteCreate(request):
+    if request.user.es_secretaria:
+        upload = PacienteForm()
+        if request.method == "POST":
+            upload = PacienteForm(request.POST, request.FILES)
+            f = upload.save(commit=False)
+            f.save()
+            return redirect("clinica:pacientes-detail", f.id)
+        else:
+            return render(request, "paciente_form.html", {"upload_form": PacienteForm()})
+    else:
+        return render(request, "paciente_form", {"upload_form": upload})
+
 
 
 class PacienteUpdate(generic.UpdateView):
@@ -999,13 +1064,12 @@ class TurnosDayArchiveView(DayArchiveView):
 #    model = Observacion
 #    success_url = reverse_lazy('clinica:turnos/observacion')
 
+# def verConsulta(request, turno_id):
+#     turno = Turnos.objects.get(id=turno_id)
+#     try:
+#         consulta = Consulta.objects.get(turno_id=turno.id)
+#     except Consulta.DoesNotExist:
+#         return redirect("clinica:agregar_consulta", consulta.id)
 
-def verConsulta(request, turno_id):
-    turno = Turnos.objects.get(id=turno_id)
-    try:
-        consulta = Consulta.objects.get(turno_id=turno.id)
-    except Consulta.DoesNotExist:
-        return render(
-            request, "agregar_consulta.html", {"upload_form": ConsultaCreate()}
-        )
-    return redirect("clinica:modificar_consulta", consulta.id)
+#         # raise render(request, "agregar_consulta.html", {'upload_form': ConsultaCreate()})
+#     return redirect("clinica:modificar_consulta", consulta.id)
