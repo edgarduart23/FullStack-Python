@@ -19,17 +19,17 @@ class ProductoCreate(forms.ModelForm):
 class TurnosCreate(forms.ModelForm):
     class Meta:
         model = Turnos
-        fields = ['medico', 'Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
+        fields = ['Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['medico'].queryset = User.objects.filter(es_medico=True)
 
 #________________________________________________________________________
 
 class ConsultaCreate(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = ['motivo', 'diagnostico', 'tratamiento', 'observaciones']
+        fields = ['paciente', 'motivo', 'diagnostico', 'tratamiento', 'observaciones']
         widgets = {
             'fecha' : DatePickerInput(format='%d/%m/%Y'),
         }
@@ -86,19 +86,27 @@ class PedidoDetalleCreate(forms.ModelForm):
 class Turno_Form(forms.ModelForm):
     class Meta:
         model = Turnos
-        fields = ['medico', 'Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
+        fields = ['Paciente', 'FechaTurno', 'HoraTurno', 'Asistencia']
         widgets = {
             'FechaTurno' : DatePickerInput(format='%d/%m/%Y'),
             'HoraTurno' : TimePickerInput(),
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['medico'].queryset = User.objects.filter(es_medico=True)
 
-class Paciente_Form(forms.ModelForm):
+
+class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = '__all__'
+        # exclude = ('medico',)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico = True)
+
+
+    # def get_form(self):
+    #     form = super().get_form()
+    #     self.fields['medico'].queryset = User.objects.filter(es_medico = True)
+    #     return form
 
 # class Observacion_Form(forms.ModelForm):
 #     class Meta:

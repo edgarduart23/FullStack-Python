@@ -15,6 +15,7 @@ urlpatterns = [
     path('productos/eliminar/<int:producto_id>',  views.eliminar, name="eliminar"),
     path('productos/actualizar/<int:producto_id>',  views.actualizar, name="actualizar"),
     path('pacientes',  views.pacientes, name="pacientes"),
+
     path('historial/<int:paciente_id>',  views.historial, name="historial"),
     path('historial/agregar_consulta',  views.agregar_consulta, name="agregar_consulta"),
     path('historial/eliminar_consulta/<int:consulta_id>',  views.eliminar_consulta, name="eliminar_consulta"),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
     path('pedidos/reportePacientePedido', views.reportePacientePedido, name="reportePacientePedido"),
     path('pedidos/reportePacientePedido/<int:filtro>/', views.reportePacientePedido, name="reportePacientePedido"),
+    path('pedidos/productoMasVendidos/', views.productoMasVendidos, name="productoMasVendidos"),
     path('pedidos/reporteVentas/<int:anio>/', views.reporteVentas, name="reporteVentas"),
     path('pedidos/reporteVentasAnual/', views.reporteVentas, name="reporteVentasAnual"),
 
@@ -44,6 +46,7 @@ urlpatterns = [
     path('turnos/<int:pk>/update/', TurnoUpdate.as_view(), name='turno-update'),
     path('turnos/<int:pk>/delete/', TurnoDelete.as_view(), name='turno-delete'),
     path('turnos/reporte',  views.turnos_reporte, name="turnos_reporte"),
+    path('pacientes/reporte_asistencia',  views.reporte_asistencia, name="reporte-asistencia"),
 
     ################################################################### Turnos
     #path ('turnos',views.turnos, name="turnos"),
@@ -52,7 +55,7 @@ urlpatterns = [
     path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
 
     ##################################################################
-    path('pacientes/create', views.PacienteCreate.as_view(), name='paciente_create'),
+    path('pacientes/create', views.PacienteCreate, name='paciente_create'),
 	path('pacientes/update/<int:pk>', views.PacienteUpdate.as_view(), name='paciente_update'),
 	path('pacientes/delete/<int:pk>', views.PacienteDelete.as_view(), name='paciente_delete'),
     path('pacientes/<int:pk>', views.PacienteDetailView.as_view(), name='pacientes-detail'),
@@ -68,5 +71,6 @@ urlpatterns = [
 #    path('observacion/create', views.ObservacionCreate.as_view(), name='observacion-create'),
 #	path('observacion/update/<int:pk>', views.ObservacionUpdate.as_view(), name='observacion-update'),
 #	path('observacion/delete/<int:pk>', views.ObservacionDelete.as_view(), name='observacion-delete'),
-    path('turnos/ver_consutla/<int:turno_id>', views.verConsulta, name= 'ver_consulta'),
+    # path('turnos/ver_consutla/<int:turno_id>', views.verConsulta, name= 'ver_consulta'),
+
 ]
