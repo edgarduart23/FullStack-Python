@@ -531,15 +531,9 @@ def reportePacientePedido(request, filtro):
         listaPedidos = []
         for pedido in pedidos:
             if not listaPedidos.__contains__(pedido.paciente):
-<<<<<<< HEAD
-                listaPedidos.append((pedido.paciente)
-
-       return render(request, "reportepedidos.html", {"pedidos": listaPedidos, 'filtro': filtro, 'titulo': titulo},)
-=======
                 listaPedidos.append((pedido.paciente))
         
         return render(request, "reportepedidos.html", {"pedidos": listaPedidos,"titulo":titulo},)
->>>>>>> 1622b429bd574a6469794469c3faf8fb68f120ee
     else:
         return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
