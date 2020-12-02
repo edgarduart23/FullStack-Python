@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <br>    
-    <!-- <button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_pedido'  %}' ">AGREGAR</button>  -->
-    <br>
+
     <div class="container-fluid"></div>
         <div class="panel panel-default">
             <div class="panel-heading">Listado de Ventas mensual por vendedor
@@ -21,6 +19,7 @@
                         <thead>
                         <tr>
                             <!-- <th >#</th> -->
+                            <th >Mes</th>
                             <th >Vendedor</th>
                             <th >Username</th>
                             <th >Cantidad</th>
@@ -31,6 +30,7 @@
                             {% for unItem in pedidos %}
                                 <tr>
                                     <!-- <th scope="row">{{unItem.vendedor.id}}</th> -->
+                                    <td>{{unItem.mes}}</td>
                                     <td> {{ unItem.vendedor.last_name }} {{ unItem.vendedor.first_name }} </td>
                                     <td> {{ unItem.vendedor.username }}</td>
                                     <td>{{ unItem.cantidad }}</td>
