@@ -691,7 +691,7 @@ def reportePacientePedido0(request, filtro):
 
 @login_required
 def reportePacientePedido(request, filtro):
-    if request.user.es_gerente:
+    if request.user.es_gerencia:
         fecha_actual = datetime.date.today()
         week = fecha_actual.isocalendar()[1]
         month = fecha_actual.month
@@ -739,7 +739,7 @@ def reportePacientePedido(request, filtro):
 
 @login_required
 def reporteVentas(request, anio):
-    if request.user.es_gerente:
+    if request.user.es_gerencia:
         if anio == 0:
             anio = datetime.date.today().year
 

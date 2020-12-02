@@ -5,9 +5,10 @@
 
 {{ form.media }}
 {% endblock %}
+{% block content %}
 {% if user.es_gerencia %}
 
-{% block content %}
+
 <br>
 <h1>Reporte de Asistencia de los Pacientes</h1>
 <br>
@@ -16,9 +17,6 @@
     {% bootstrap_form filter.form %}
     <input type="submit" value="Save">
 </form>
-
-
-
 
 {% else %}
 <div class="row d-flex justify-content-center">
