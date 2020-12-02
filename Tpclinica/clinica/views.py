@@ -9,7 +9,7 @@ from .form import (
     PedidoView,
     ConsultaCreate,
     TurnosCreate,
-    Paciente_Form,
+    PacienteForm,
 )
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import (
@@ -37,7 +37,7 @@ import operator
 
 
 import django_filters
-from .filters import TurnosFilter
+from .filters import TurnosFilter, ReporteFilter
 import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -145,7 +145,6 @@ def actualizar(request, producto_id):
 
 ####################################################################################################
 
-
 def turnos(request):
     return render(request, "turnos.html", {"turno": Turnos.objects.all()})
 
@@ -214,7 +213,7 @@ class PacienteDetailView(generic.DetailView):
         paciente.save()
         return paciente
 
-
+@login_required
 def historial(request, paciente_id):
     # habria q agregar un if
     paciente = Paciente.objects.get(id=paciente_id)
@@ -229,7 +228,7 @@ def historial(request, paciente_id):
             "paciente": paciente,
             # "observaciones": observaciones,
         })
-
+@login_required
 def agregar_consulta(request):
 
     upload = ConsultaCreate()
@@ -252,6 +251,7 @@ def agregar_consulta(request):
         )
 
 
+@login_required
 def eliminar_consulta(request, consulta_id):
     consulta_id = int(consulta_id)
     try:
@@ -263,6 +263,7 @@ def eliminar_consulta(request, consulta_id):
     return render(request, "eliminar_consulta.html")
 
 
+@login_required
 def modificar_consulta(request, consulta_id):
     consulta_id = int(consulta_id)
     try:
@@ -896,15 +897,17 @@ class TurnoDelete(DeleteView):
     success_url = reverse_lazy("clinica:turnos")
 
 
+@login_required
 def turnos_reporte(request):
     filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
-    if request.user.es_medico:
-        return render(request, "clinica/turnos-reporte.html", {"pacientes": Paciente.objects.filter(medico_id=request.user.id)})
-    if request.user.es_secretaria:
-        return render(request, "clinica/turnos-reporte.html", {"pacientes": Paciente.objects.all()})
-    return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 
-    return render(request, "clinica/turnos-reporte.html", {"filter": filter})
+    return render(request, "clinica/turnos-reporte.html", {"filter": filter, "pacientes": pacientes})
+
+@login_required
+def reporte_asistencia(request):
+    filter = ReporteFilter(request.GET, queryset=Turnos.objects.all())
+
+    return render(request, "clinica/reporte-asistencia.html", {"filter": filter})
 
 # class PacienteCreate(generic.CreateView):
 #     model = Paciente
@@ -916,6 +919,7 @@ def turnos_reporte(request):
 #         self.fields['medico'].queryset = User.objects.filter(es_medico = True)
 #        return form
 
+@login_required
 def PacienteCreate(request):
     if request.user.es_secretaria:
         upload = PacienteForm()

@@ -46,6 +46,7 @@ urlpatterns = [
     path('turnos/<int:pk>/update/', TurnoUpdate.as_view(), name='turno-update'),
     path('turnos/<int:pk>/delete/', TurnoDelete.as_view(), name='turno-delete'),
     path('turnos/reporte',  views.turnos_reporte, name="turnos_reporte"),
+    path('pacientes/reporte_asistencia',  views.reporte_asistencia, name="reporte-asistencia"),
 
     ################################################################### Turnos
     #path ('turnos',views.turnos, name="turnos"),
