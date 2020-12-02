@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 from django.db.models import Count, QuerySet
+import operator
 
 
 import django_filters
@@ -537,7 +538,41 @@ def reportePacientePedido(request, filtro):
     else:
         return render(request, "error.html", {'mensaje': 'Hubo un error al procesar la solicitud'})
 
-# def productoMasVendidos(request):
+def productoMasVendidos(request):
+    fecha_actual = datetime.date.today()
+    month = fecha_actual.month
+    pedidos = Pedido.objects.filter(fechaCreacion__month=month ).filter(estado = 'PD')
+    pedidoDetalle = []
+    #producto = []
+    for pedido in pedidos:
+        pedidoDetal = PedidoDetalle.objects.filter(pedido_id = pedido.id)
+        #pedidoDetalle.append(pedidoDetal)
+        for  pedidoDet in pedidoDetal:
+            pedidoDetalle.append(pedidoDet)
+
+    dic_prod = {}
+    # for prod in pedidoDetalle:
+
+    #     producto = str(prod.producto.pk)
+    #     if producto in dic_prod:
+    #         dic_prod[producto] = dic_prod[producto] + prod.cantidad
+    #     else:
+    #         dic_prod[producto] =  prod.cantidad
+
+    for prod in pedidoDetalle:
+
+        producto = str(prod.producto)
+        if producto in dic_prod:
+            dic_prod[producto] = dic_prod[producto] + prod.cantidad
+        else:
+            dic_prod[producto] =  prod.cantidad        
+   
+    sortedDict = sorted(dic_prod.items(),key=operator.itemgetter(1), reverse= True)
+    #Out: [('fourth', 1), ('third', 2), ('first', 3), ('second', 4)]
+    print(dic_prod)
+    print(sortedDict)
+
+    return render(request, "reporteProductosVendidos.html", {"pedidos": sortedDict})        
 
 # ------------------------------------Fin Pedidos------------------------------------------------
 
