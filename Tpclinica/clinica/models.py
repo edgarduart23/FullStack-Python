@@ -13,7 +13,7 @@ from django.utils import timezone
 class Producto(models.Model):
     descripcion = models.CharField(max_length=100)
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    TIPOS = (("L", "Lente"), ("E", "Estuche"), ("G", "Gotita"), ('A', 'Accesorios'))
+    TIPOS = (("L", "Lente"), ("E", "Estuche"), ("G", "Gotita"), ("A", "Accesorios"))
     tipo = models.CharField(max_length=1, choices=TIPOS, default="L")
     ENFOQUE = (("L", "Lejos"), ("C", "Cerca"))
     enfoque = models.CharField(max_length=1, choices=ENFOQUE, blank=True, null=True)
@@ -22,14 +22,14 @@ class Producto(models.Model):
     armazon = models.BooleanField(default=False)
 
     def __str__(self):
-        if self.tipo == 'E':
-            tipo = 'Estuche'
-        if self.tipo == 'G':
-            tipo =  'Gotita'
-        if self.tipo == 'A':
-            tipo = 'Accesorios'
+        if self.tipo == "E":
+            tipo = "Estuche"
+        if self.tipo == "G":
+            tipo = "Gotita"
+        if self.tipo == "A":
+            tipo = "Accesorios"
         if self.tipo == "L":
-            tipo = 'Lente'
+            tipo = "Lente"
             enfoque = "Cerca"
             if self.enfoque == "L":
                 enfoque = "Lejos"
@@ -41,16 +41,16 @@ class Producto(models.Model):
                 armazon = "c/armazón"
             return f"{self.id} - {tipo} {enfoque} {lado} {armazon} {self.descripcion} ${self.precio} "
         return f"{self.id} - {tipo} {self.descripcion} ${self.precio}"
-    
+
     def productoView(self):
-        if self.tipo == 'E':
-            tipo = 'Estuche'
-        if self.tipo == 'G':
-            tipo =  'Gotita'
-        if self.tipo == 'A':
-            tipo = 'Accesorios'
+        if self.tipo == "E":
+            tipo = "Estuche"
+        if self.tipo == "G":
+            tipo = "Gotita"
+        if self.tipo == "A":
+            tipo = "Accesorios"
         if self.tipo == "L":
-            tipo = 'Lente'
+            tipo = "Lente"
             enfoque = "Cerca"
             if self.enfoque == "L":
                 enfoque = "Lejos"
@@ -90,7 +90,7 @@ class Paciente(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return self.nombre
+        return f"{self.apellido}, {self.nombre}"
 
     def get_absolute_url(self):
         return reverse("clinica:pacientes-detail", kwargs={"pk": self.id})
@@ -126,8 +126,12 @@ class Pedido(models.Model):
 
 
 class PedidoDetalle(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, blank=False, null=True)
-    pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, blank=False, null=True)
+    producto = models.ForeignKey(
+        Producto, on_delete=models.SET_NULL, blank=False, null=True
+    )
+    pedido = models.ForeignKey(
+        Pedido, on_delete=models.SET_NULL, blank=False, null=True
+    )
     cantidad = models.PositiveIntegerField(default=1)
     precio = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0, blank=True
@@ -185,9 +189,10 @@ class Turnos(models.Model):
         return f"{self.id} {self.Paciente} {self.FechaTurno} {self.HoraTurno}"
 
     def get_absolute_url(self):
-        return reverse('clinica:turnos-detail', kwargs={'pk':self.id})
+        return reverse("clinica:turnos-detail", kwargs={"pk": self.id})
 
-#class Observacion(models.Model):
+
+# class Observacion(models.Model):
 #    Paciente = models.ForeignKey(Paciente,  on_delete=models.CASCADE, blank=False,null=True)
 #    Fecha = models.DateField(auto_now=True)
 #    Consulta = models.ForeignKey(Consulta,  on_delete=models.CASCADE, blank=False,null=True)
