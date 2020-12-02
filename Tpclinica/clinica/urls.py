@@ -34,7 +34,8 @@ urlpatterns = [
     path('pedidos/eliminar_producto/<int:detalle_pedido_id>/', views.eliminar_producto, name="eliminar_producto"),
     path('pedidos/reportePacientePedido', views.reportePacientePedido, name="reportePacientePedido"),
     path('pedidos/reportePacientePedido/<int:filtro>/', views.reportePacientePedido, name="reportePacientePedido"),
-    path('pedidos/reporteVentas/<int:mes>/', views.reporteVentas, name="reporteVentas"),
+    path('pedidos/reporteVentas/<int:anio>/', views.reporteVentas, name="reporteVentas"),
+    path('pedidos/reporteVentasAnual/', views.reporteVentas, name="reporteVentasAnual"),
 
 #  viaje de seba con los generic views 
     path('turnos/', TurnosListView.as_view(), name="turnos"),
