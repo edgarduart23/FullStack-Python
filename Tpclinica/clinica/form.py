@@ -29,7 +29,7 @@ class TurnosCreate(forms.ModelForm):
 class ConsultaCreate(forms.ModelForm):
     class Meta:
         model = Consulta
-        fields = [ 'motivo', 'diagnostico', 'tratamiento', 'observaciones']
+        fields = ['paciente', 'motivo', 'diagnostico', 'tratamiento', 'observaciones']
         widgets = {
             'fecha' : DatePickerInput(format='%d/%m/%Y'),
         }
@@ -93,12 +93,20 @@ class Turno_Form(forms.ModelForm):
         }
 
 
-class Paciente_Form(forms.ModelForm):
+class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = '__all__'
-        exclude = ('medico',)
+        # exclude = ('medico',)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['medico'].queryset = User.objects.filter(es_medico = True)
 
+
+    # def get_form(self):
+    #     form = super().get_form()
+    #     self.fields['medico'].queryset = User.objects.filter(es_medico = True)
+    #     return form
 
 # class Observacion_Form(forms.ModelForm):
 #     class Meta:

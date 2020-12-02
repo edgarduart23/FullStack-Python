@@ -11,12 +11,12 @@
 
 <form  method="post">
 {% csrf_token %}
-{% bootstrap_form form %}
+{% bootstrap_form upload_form %}
 <input  type="submit"  value="Submit"  />
 </form>
 <br>
 <br>
-<button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:pacientes'  %}'" >VOLVER</button> 
+<button type="button" class="btn btn-primary" onclick="location.href='{% url 'clinica:medico'  %}'" >VOLVER</button> 
 <br>
 <br>
 {% endblock content %}

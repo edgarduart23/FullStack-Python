@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Paciente_Form
+from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, PacienteForm
 from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
 from .form import ProductoCreate, PedidoCreate, PedidoDetalleCreate, PedidoUpdate, PedidoView, ConsultaCreate, TurnosCreate, Turno_Form
 from django.shortcuts import get_object_or_404, render
@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from django import forms
 from django.db.models import Count, QuerySet
-
+from django.contrib.auth import get_user_model
 
 import django_filters
 from .filters import TurnosFilter
@@ -188,18 +188,15 @@ def historial(request, paciente_id):
             # "observaciones": observaciones,
         })
 
-def agregar_consulta(request, turno_id):
-    turno = Turnos.objects.get(id=turno_id)
+def agregar_consulta(request):
 
     upload = ConsultaCreate()
     if request.method == "POST":
         upload = ConsultaCreate(request.POST, request.FILES)
         if upload.is_valid():
-            upload = form.cleaned_data
-            upload['turno']  = turno_id
-            # f = upload.save(commit=False)
-            # f.turno = turno
-            upload.save()
+            upload = ConsultaCreate(request.POST, request.FILES)
+            f = upload.save(commit=False)
+            f.save()
             return redirect("clinica:pacientes")
         else:
             return HttpResponse(
@@ -597,16 +594,37 @@ class TurnoDelete(DeleteView):
 
 def turnos_reporte(request):
     filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
+    if request.user.es_medico:
+        return render(request, "clinica/turnos-reporte.html", {"pacientes": Paciente.objects.filter(medico_id=request.user.id)})
+    if request.user.es_secretaria:
+        return render(request, "clinica/turnos-reporte.html", {"pacientes": Paciente.objects.all()})
+    return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
+
     return render(request, "clinica/turnos-reporte.html", {"filter": filter})
 
-class PacienteCreate(generic.CreateView):
-    model = Paciente
-    fields = "__all__"
+# class PacienteCreate(generic.CreateView):
+#     model = Paciente
+#     fields = ('medico',)
 
-    # def get_form(self):
-    #     form = super().get_form()
-    #     self.fields['medico'].queryset = User.objects.filter(es_medico=True)
-    #     return form
+#     def get_form(self):
+#         User = get_user_model()
+#         form = super().get_form()
+#         self.fields['medico'].queryset = User.objects.filter(es_medico = True)
+#        return form
+
+def PacienteCreate(request):
+    if request.user.es_secretaria:
+        upload = PacienteForm()
+        if request.method == "POST":
+            upload = PacienteForm(request.POST, request.FILES)
+            f = upload.save(commit=False)
+            f.save()
+            return redirect("clinica:pacientes-detail", f.id)
+        else:
+            return render(request, "paciente_form.html", {"upload_form": PacienteForm()})
+    else:
+        return render(request, "paciente_form", {"upload_form": upload})
+
 
 
 class PacienteUpdate(generic.UpdateView):

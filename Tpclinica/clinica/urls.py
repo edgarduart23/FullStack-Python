@@ -15,6 +15,7 @@ urlpatterns = [
     path('productos/eliminar/<int:producto_id>',  views.eliminar, name="eliminar"),
     path('productos/actualizar/<int:producto_id>',  views.actualizar, name="actualizar"),
     path('pacientes',  views.pacientes, name="pacientes"),
+
     path('historial/<int:paciente_id>',  views.historial, name="historial"),
     path('historial/agregar_consulta',  views.agregar_consulta, name="agregar_consulta"),
     path('historial/eliminar_consulta/<int:consulta_id>',  views.eliminar_consulta, name="eliminar_consulta"),
@@ -49,7 +50,7 @@ urlpatterns = [
     path('turnos/eliminar/<int:turno_id', views.borrarTurno, name ="borrarTurno"),
 
     ##################################################################
-    path('pacientes/create', views.PacienteCreate.as_view(), name='paciente_create'),
+    path('pacientes/create', views.PacienteCreate, name='paciente_create'),
 	path('pacientes/update/<int:pk>', views.PacienteUpdate.as_view(), name='paciente_update'),
 	path('pacientes/delete/<int:pk>', views.PacienteDelete.as_view(), name='paciente_delete'),
     path('pacientes/<int:pk>', views.PacienteDetailView.as_view(), name='pacientes-detail'),

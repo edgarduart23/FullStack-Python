@@ -5,6 +5,11 @@
     <h1> Historial del Paciente: {{paciente.nombre}} {{paciente.apellido}}  </h1>
 
     <h2> Consultas </h2>
+<br>
+{% if user.es_medico  %}
+
+<button type="button" class="btn btn-success" onclick="location.href='{% url 'clinica:agregar_consulta'  %}' ">AGREGAR</button> 
+{% endif  %}<br>
 
     <table class="table table-striped">
         <thead>
@@ -29,9 +34,12 @@
         <td>{{unaConsulta.observaciones}}
         </td>
         <td>
+            {% if user.es_medico  %}
+
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'clinica:modificar_consulta' unaConsulta.id %}'" >EDITAR</button> 
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'clinica:eliminar_consulta' unaConsulta.id %}'">ELIMINAR</button>  
-            
+            {% endif  %}<br>
+
         </td>
     </tr>
     {% endfor %}  
