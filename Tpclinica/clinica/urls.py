@@ -71,6 +71,5 @@ urlpatterns = [
 #	path('observacion/update/<int:pk>', views.ObservacionUpdate.as_view(), name='observacion-update'),
 #	path('observacion/delete/<int:pk>', views.ObservacionDelete.as_view(), name='observacion-delete'),
     # path('turnos/ver_consutla/<int:turno_id>', views.verConsulta, name= 'ver_consulta'),
-    path('secretario/', views.secretario, name='secretario'),
-    path('medico/', views.medico, name='medico'),
+
 ]
