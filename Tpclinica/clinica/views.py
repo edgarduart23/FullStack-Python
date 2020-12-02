@@ -689,118 +689,119 @@ def reportePacientePedido0(request, filtro):
             request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
         )
 
-
+@login_required
 def reportePacientePedido(request, filtro):
-    fecha_actual = datetime.date.today()
-    week = fecha_actual.isocalendar()[1]
-    month = fecha_actual.month
-    filtro = int(filtro)
+    if request.user.es_gerente:
+        fecha_actual = datetime.date.today()
+        week = fecha_actual.isocalendar()[1]
+        month = fecha_actual.month
+        filtro = int(filtro)
 
-    if filtro == 1 or filtro == 0:
-        listaPacientes = []
-        pacientes = Paciente.objects.all()
-        for paciente in pacientes:
-            if filtro == 1:
-                titulo = "Pacientes que realizaron pedidos en el mes"
-                listaPedidos1 = Pedido.objects.filter(
-                    fechaCreacion__month=month, paciente=paciente, estado="FL"
-                )
-                listaPedidos2 = Pedido.objects.filter(
-                    fechaCreacion__month=month, paciente=paciente, estado="PD"
-                )
+        if filtro == 1 or filtro == 0:
+            listaPacientes = []
+            pacientes = Paciente.objects.all()
+            for paciente in pacientes:
+                if filtro == 1:
+                    titulo = "Pacientes que realizaron pedidos en el mes"
+                    listaPedidos1 = Pedido.objects.filter(
+                        fechaCreacion__month=month, paciente=paciente, estado="FL"
+                    )
+                    listaPedidos2 = Pedido.objects.filter(
+                        fechaCreacion__month=month, paciente=paciente, estado="PD"
+                    )
 
-            if filtro == 0:
-                titulo = "Pacientes que realizaron pedidos en la semana"
-                listaPedidos1 = Pedido.objects.filter(
-                    fechaCreacion__week=week, paciente=paciente, estado="FL"
-                )
-                listaPedidos2 = Pedido.objects.filter(
-                    fechaCreacion__week=week, paciente=paciente, estado="PD"
-                )
+                if filtro == 0:
+                    titulo = "Pacientes que realizaron pedidos en la semana"
+                    listaPedidos1 = Pedido.objects.filter(
+                        fechaCreacion__week=week, paciente=paciente, estado="FL"
+                    )
+                    listaPedidos2 = Pedido.objects.filter(
+                        fechaCreacion__week=week, paciente=paciente, estado="PD"
+                    )
 
-            total = 0
-            for pedido in listaPedidos1:
-                total = total + pedido.subtotal
+                total = 0
+                for pedido in listaPedidos1:
+                    total = total + pedido.subtotal
 
-            for pedido in listaPedidos2:
-                total = total + pedido.subtotal
+                for pedido in listaPedidos2:
+                    total = total + pedido.subtotal
 
-            cantidad = listaPedidos1.__len__() + listaPedidos2.__len__()
+                cantidad = listaPedidos1.__len__() + listaPedidos2.__len__()
 
-            if cantidad > 0:
-                listaPacientes.append(
-                    {"paciente": paciente, "total": total, "cantidad": cantidad}
-                )
+                if cantidad > 0:
+                    listaPacientes.append(
+                        {"paciente": paciente, "total": total, "cantidad": cantidad}
+                    )
+
+            return render(request,"reportepedidos.html",{"pacientes": listaPacientes, "titulo": titulo, "week": week, "mes": month},)
+    
+    return render(request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"})
+
+@login_required
+def reporteVentas(request, anio):
+    if request.user.es_gerente:
+        if anio == 0:
+            anio = datetime.date.today().year
+
+        fecha_actual = datetime.date.today()
+        month = 12
+        if fecha_actual.year == anio:
+            month = fecha_actual.month
+        elif fecha_actual.year > anio:
+            month = 12
+        else:
+            # recargar con un error adecuado
+            return render(
+                request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
+            )
+
+        # pedidos=Pedido.objects.filter(fechaCreacion__month=month).order_by("-vendedor_id")
+        vendedores = get_user_model().objects.filter(es_ventas=True)
+        listaVentas = []
+        meses = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+        ]
+
+        rango = range(1, month + 1)
+        for mes in rango:
+            for vendedor in vendedores:
+                # controlar el estado del Pedido = PD o FL
+                pedidosVendedor = Pedido.objects.filter(
+                    vendedor=vendedor, fechaCreacion__month=mes
+                ).order_by("-id")
+                ventas = 0
+                for pedidoVendedor in pedidosVendedor:
+                    ventas = ventas + pedidoVendedor.subtotal
+
+                elto = {
+                    "mes": meses[mes - 1],
+                    "vendedor": vendedor,
+                    "ventas": ventas,
+                    "cantidad": pedidosVendedor.__len__(),
+                }
+                listaVentas.append(elto)
 
         return render(
             request,
-            "reportepedidos.html",
-            {"pacientes": listaPacientes, "titulo": titulo, "week": week, "mes": month},
+            "reporte_ventas.html",
+            {"pedidos": listaVentas, "vendedores": vendedores},
         )
-    else:
-        return render(
-            request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
-        )
-
-
-def reporteVentas(request, anio):
-    if anio == 0:
-        anio = datetime.date.today().year
-
-    fecha_actual = datetime.date.today()
-    month = 12
-    if fecha_actual.year == anio:
-        month = fecha_actual.month
-    elif fecha_actual.year > anio:
-        month = 12
     else:
         # recargar con un error adecuado
         return render(
             request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
         )
-
-    # pedidos=Pedido.objects.filter(fechaCreacion__month=month).order_by("-vendedor_id")
-    vendedores = get_user_model().objects.filter(es_ventas=True)
-    listaVentas = []
-    meses = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-    ]
-
-    rango = range(1, month + 1)
-    for mes in rango:
-        for vendedor in vendedores:
-            # controlar el estado del Pedido = PD o FL
-            pedidosVendedor = Pedido.objects.filter(
-                vendedor=vendedor, fechaCreacion__month=mes
-            ).order_by("-id")
-            ventas = 0
-            for pedidoVendedor in pedidosVendedor:
-                ventas = ventas + pedidoVendedor.subtotal
-
-            elto = {
-                "mes": meses[mes - 1],
-                "vendedor": vendedor,
-                "ventas": ventas,
-                "cantidad": pedidosVendedor.__len__(),
-            }
-            listaVentas.append(elto)
-
-    return render(
-        request,
-        "reporte_ventas.html",
-        {"pedidos": listaVentas, "vendedores": vendedores},
-    )
 
 
 def reporteVentasAnual(request):
