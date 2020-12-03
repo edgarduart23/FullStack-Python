@@ -10,18 +10,11 @@ from .form import (
     ConsultaCreate,
     TurnosCreate,
     PacienteForm,
-)
-from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
-from .form import (
-    ProductoCreate,
-    PedidoCreate,
-    PedidoDetalleCreate,
-    PedidoUpdate,
-    PedidoView,
-    ConsultaCreate,
-    TurnosCreate,
     Turno_Form,
 )
+
+from .models import Producto, Paciente, Consulta, Pedido, PedidoDetalle, Turnos, User
+
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -67,7 +60,8 @@ def productos(request):
         return render(request, "productos.html", {"productos": Producto.objects.all()})
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -79,7 +73,8 @@ def producto(request, producto_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -101,7 +96,8 @@ def agregar(request):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -119,7 +115,8 @@ def eliminar(request, producto_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -131,7 +128,8 @@ def actualizar(request, producto_id):
             producto_sel = Producto.objects.get(id=producto_id)
         except Producto.DoesNotExist:
             return redirect("index")
-        producto_form = ProductoCreate(request.POST or None, instance=producto_sel)
+        producto_form = ProductoCreate(
+            request.POST or None, instance=producto_sel)
         if producto_form.is_valid():
             producto_form.save()
             return redirect("clinica:productos")
@@ -139,7 +137,8 @@ def actualizar(request, producto_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -203,6 +202,7 @@ def pacientes(request):
         return render(request, "pacientes.html", {"pacientes": Paciente.objects.all()})
     return render(request, "error.html", {'mensaje': 'No tiene permiso para acceder al sitio'})
 
+
 class PacienteDetailView(generic.DetailView):
     model = Paciente
     context_object_name = "paciente"
@@ -213,6 +213,7 @@ class PacienteDetailView(generic.DetailView):
         paciente.save()
         return paciente
 
+
 @login_required
 def historial(request, paciente_id):
     # habria q agregar un if
@@ -221,13 +222,15 @@ def historial(request, paciente_id):
 
 
 #    consultas = Consulta.objects.filter(turno_id=turno)
-        # observacionesTotales = Observacion.objects.all()
-        # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
-    return render(request, "historial.html",{
-            "consultas": consultas,
-            "paciente": paciente,
-            # "observaciones": observaciones,
-        })
+    # observacionesTotales = Observacion.objects.all()
+    # observaciones = observacionesTotales.filter(Paciente_id=paciente_id)
+    return render(request, "historial.html", {
+        "consultas": consultas,
+        "paciente": paciente,
+        # "observaciones": observaciones,
+    })
+
+
 @login_required
 def agregar_consulta(request):
 
@@ -286,7 +289,8 @@ def pedidos(request):
         return render(
             request,
             "pedidos.html",
-            {"pedidos": Pedido.objects.filter(vendedor=request.user).order_by("-id")},
+            {"pedidos": Pedido.objects.filter(
+                vendedor=request.user).order_by("-id")},
         )
     if request.user.es_taller:
         # return render(request,"pedidos.html",{"pedidos": Pedido.objects.filter(estado="TL" ).order_by("-id")},)
@@ -303,7 +307,8 @@ def pedidos(request):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -327,7 +332,8 @@ def pedido(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -353,14 +359,16 @@ def agregar_pedido(request):
                 return redirect("clinica:detalle_pedido", f.id)
             else:
                 return render(
-                    request, "agregar_pedido.html", {"upload_form": PedidoCreate()}
+                    request, "agregar_pedido.html", {
+                        "upload_form": PedidoCreate()}
                 )
         else:
             return render(request, "agregar_pedido.html", {"upload_form": upload})
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -384,7 +392,8 @@ def eliminar_pedido(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -410,7 +419,8 @@ def actualizar_pedido(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -428,7 +438,8 @@ def pedido_items(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -455,7 +466,8 @@ def agregar_item(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -470,10 +482,12 @@ def detalle_pedido(request, pedido_id):
         # formPedido = PedidoView(instance=unPedido)
         # if (request.user.is_authenticated):
         #     formPedido.fields['estado'].disabled = False
-        items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by("-id")
+        items = PedidoDetalle.objects.filter(
+            pedido_id=unPedido.id).order_by("-id")
         # hay que obtener sólo los productos que no están en el pedido
         productosPedido = items.values_list("producto")
-        productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+        productos_disponibles = Producto.objects.exclude(
+            id__in=productosPedido)
 
         if request.user.es_taller and (
             not (unPedido.estado == "TL" or unPedido.estado == "FL")
@@ -500,7 +514,8 @@ def detalle_pedido(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -530,10 +545,12 @@ def agregar_producto(request, pedido_id):
             unPedido.save()
             # formPedido = PedidoView(instance=unPedido)
             # formPedido.fields['estado'].disabled = False
-            items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by("-id")
+            items = PedidoDetalle.objects.filter(
+                pedido_id=unPedido.id).order_by("-id")
             # hay que obtener sólo los productos que no están en el pedido
             productosPedido = items.values_list("producto")
-            productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+            productos_disponibles = Producto.objects.exclude(
+                id__in=productosPedido)
             return HttpResponseRedirect(
                 reverse("clinica:detalle_pedido", args=(pedido_id,))
             )
@@ -550,7 +567,8 @@ def agregar_producto(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -595,7 +613,8 @@ def cambioDeEstado(request, pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -609,9 +628,11 @@ def eliminar_producto(request, detalle_pedido_id):
         )
         unPedido.save()
         detalle.delete()
-        items = PedidoDetalle.objects.filter(pedido_id=unPedido.id).order_by("-id")
+        items = PedidoDetalle.objects.filter(
+            pedido_id=unPedido.id).order_by("-id")
         productosPedido = items.values_list("producto")
-        productos_disponibles = Producto.objects.exclude(id__in=productosPedido)
+        productos_disponibles = Producto.objects.exclude(
+            id__in=productosPedido)
 
         return render(
             request,
@@ -625,7 +646,8 @@ def eliminar_producto(request, detalle_pedido_id):
 
     # redireccionar a una página de error
     return render(
-        request, "error.html", {"mensaje": "No tiene permiso para acceder al sitio"}
+        request, "error.html", {
+            "mensaje": "No tiene permiso para acceder al sitio"}
     )
 
 
@@ -662,13 +684,13 @@ def reportePacientePedido0(request, filtro):
     if filtro == 1 or filtro == 0:
         if filtro == 1:
             titulo = "Pacientes que realizaron pedidos en el mes"
-            pedidos = Pedido.objects.filter(fechaCreacion__month=month).order_by(
+            pedidos = Pedido.objects.filter(fechaCreacion__month=month, estado="PD").order_by(
                 "-paciente_id"
             )
             # return render(request, "reportepedidos.html", {"pedidos": listaPedidos, 'mensaje': 'Mensual venimos del POST', 'filtro':filtro},)
         if filtro == 0:
             titulo = "Pacientes que realizaron pedidos en la semana"
-            pedidos = Pedido.objects.filter(fechaCreacion__week=week).order_by(
+            pedidos = Pedido.objects.filter(fechaCreacion__week=week, estado="PD").order_by(
                 "-paciente_id"
             )
 
@@ -686,8 +708,10 @@ def reportePacientePedido0(request, filtro):
         )
     else:
         return render(
-            request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
+            request, "error.html", {
+                "mensaje": "Hubo un error al procesar la solicitud"}
         )
+
 
 @login_required
 def reportePacientePedido(request, filtro):
@@ -704,6 +728,7 @@ def reportePacientePedido(request, filtro):
             for paciente in pacientes:
                 if filtro == 1:
                     titulo = "Pacientes que realizaron pedidos en el mes"
+
                     # listaPedidos1 = Pedido.objects.filter(
                     #     fechaCreacion__month=month, paciente=paciente, estado="FL"
                     # )
@@ -734,9 +759,10 @@ def reportePacientePedido(request, filtro):
                         {"paciente": paciente, "total": total, "cantidad": cantidad}
                     )
 
-            return render(request,"reportepedidos.html",{"pacientes": listaPacientes, "titulo": titulo, "week": week, "mes": month},)
-    
+            return render(request, "reportepedidos.html", {"pacientes": listaPacientes, "titulo": titulo, "week": week, "mes": month},)
+
     return render(request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"})
+
 
 @login_required
 def reporteVentas(request, anio):
@@ -753,7 +779,8 @@ def reporteVentas(request, anio):
         else:
             # recargar con un error adecuado
             return render(
-                request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
+                request, "error.html", {
+                    "mensaje": "Hubo un error al procesar la solicitud"}
             )
 
         # pedidos=Pedido.objects.filter(fechaCreacion__month=month).order_by("-vendedor_id")
@@ -801,7 +828,8 @@ def reporteVentas(request, anio):
     else:
         # recargar con un error adecuado
         return render(
-            request, "error.html", {"mensaje": "Hubo un error al procesar la solicitud"}
+            request, "error.html", {
+                "mensaje": "Hubo un error al procesar la solicitud"}
         )
 
 
@@ -814,16 +842,18 @@ def reporteVentasAnual(request):
     # return HttpResponseRedirect(reverse("clinica:reporteVentas", args=(anio,)))
     # return redirect("clinica:pedidos" datetime.date.today.month)
 
+
 def productoMasVendidos(request):
     fecha_actual = datetime.date.today()
     month = fecha_actual.month
-    pedidos = Pedido.objects.filter(fechaCreacion__month=month ).filter(estado = 'PD')
+    pedidos = Pedido.objects.filter(
+        fechaCreacion__month=month).filter(estado='PD')
     pedidoDetalle = []
     #producto = []
     for pedido in pedidos:
-        pedidoDetal = PedidoDetalle.objects.filter(pedido_id = pedido.id)
-        #pedidoDetalle.append(pedidoDetal)
-        for  pedidoDet in pedidoDetal:
+        pedidoDetal = PedidoDetalle.objects.filter(pedido_id=pedido.id)
+        # pedidoDetalle.append(pedidoDetal)
+        for pedidoDet in pedidoDetal:
             pedidoDetalle.append(pedidoDet)
 
     dic_prod = {}
@@ -841,18 +871,21 @@ def productoMasVendidos(request):
         if producto in dic_prod:
             dic_prod[producto] = dic_prod[producto] + prod.cantidad
         else:
-            dic_prod[producto] =  prod.cantidad        
-   
-    sortedDict = sorted(dic_prod.items(),key=operator.itemgetter(1), reverse= True)
+            dic_prod[producto] = prod.cantidad
+
+    sortedDict = sorted(
+        dic_prod.items(), key=operator.itemgetter(1), reverse=True)
     #Out: [('fourth', 1), ('third', 2), ('first', 3), ('second', 4)]
     print(dic_prod)
     print(sortedDict)
 
-    return render(request, "reporteProductosVendidos.html", {"pedidos": sortedDict})        
+    return render(request, "reporteProductosVendidos.html", {"pedidos": sortedDict})
 
 # ------------------------------------Fin Pedidos------------------------------------------------
 
 #  viaje de seba con los generic views
+
+
 class TurnosListView(generic.ListView):
     model = Turnos
 
@@ -901,9 +934,28 @@ class TurnoDelete(DeleteView):
 
 @login_required
 def turnos_reporte(request):
-    filter = TurnosFilter(request.GET, queryset=Turnos.objects.all())
+    # medico = request.user
+    # pacientes = Paciente.objects.filter(medico=medico)
+    # pacientes_mostrar = []
+    # for paciente in pacientes:
+    #     filtro = Turnos.objects.filter(Paciente=paciente.paciente_id)
+    #     if (list.isEmpty()):
+    #         pacientes_mostrar
 
-    return render(request, "clinica/turnos-reporte.html", {"filter": filter, "pacientes": pacientes})
+    filter = TurnosFilter(request.GET)
+    context = {
+        "filter": filter,
+        "pacientes": pacientes,
+    }
+    return render(request, "clinica/turnos-reporte.html", context)
+
+
+@login_required
+def reporte_asistencia(request):
+    filter = ReporteFilter(request.GET, queryset=Turnos.objects.all())
+
+    return render(request, "clinica/reporte-asistencia.html", {"filter": filter})
+
 
 @login_required
 def reporte_asistencia(request):
@@ -921,6 +973,7 @@ def reporte_asistencia(request):
 #         self.fields['medico'].queryset = User.objects.filter(es_medico = True)
 #        return form
 
+
 @login_required
 def PacienteCreate(request):
     if request.user.es_secretaria:
@@ -934,7 +987,6 @@ def PacienteCreate(request):
             return render(request, "paciente_form.html", {"upload_form": PacienteForm()})
     else:
         return render(request, "paciente_form", {"upload_form": upload})
-
 
 
 class PacienteUpdate(generic.UpdateView):

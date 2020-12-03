@@ -9,10 +9,13 @@
             <div class="panel-heading">Listado de Pedidos
                 <!-- <button type="button" class="btn btn-info btn-xs" onclick="location.href='{% url 'clinica:index' %}'">Volver</button>  -->
             <div class="pull-right ">
+                {% if user.es_ventas %}
                 <a class="btn btn-confirm btn-sm" href="{% url 'clinica:agregar_pedido' %}">
                   <i class="fa fa-plus"></i>
                 <b>Nuevo Pedido</b></a>
+                {%endif%}
               </div>
+              
             </div>
 
             <div class="panel-body">

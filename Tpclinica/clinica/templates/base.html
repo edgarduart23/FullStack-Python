@@ -71,6 +71,8 @@
                 {% endif %}
 
                 {% if user.es_taller %}
+                <li><a href="#">Taller</a></li>
+                <li><a href="{% url 'clinica:pedidos' %}">Pedidos</a></li>
                 {% endif %}
 
                 {% if user.es_ventas %}

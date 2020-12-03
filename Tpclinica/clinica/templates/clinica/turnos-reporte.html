@@ -6,18 +6,23 @@
 {{ form.media }}
 {% endblock %}
 
+
 {% block content %}
-{% if user.es_medico %}    
-    <br>
-    <h1>Archivo de Pacientes</h1>
-    <br>
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form filter.form %}
-        <input type="submit" value="Save">
-    </form>
+{% if user.es_medico %}
 
+<br>
+<h1>Archivo de Pacientes</h1>
+<br>
 
+<form method="get">
+    {{  filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+    {% for turno in filter.qs %}
+    <li>{{ turno.Paciente }} - {{ turno.FechaTurno }} - {{ turno.Asistencia }}</li>
+    {% endfor %}
+  </ul>
 {% else %}
 <div class="row d-flex justify-content-center">
     <div class="col-8">
@@ -26,4 +31,3 @@
 </div>
 {% endif %}
 {% endblock %}
-

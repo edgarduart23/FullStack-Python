@@ -1,29 +1,24 @@
 {% extends 'base.html' %}
-{% load bootstrap3 %}
-
 {% block extrahead %}
 
-{{ form.media }}
+{{ filter.media }}
 {% endblock %}
 {% block content %}
 {% if user.es_gerencia %}
 
-
 <br>
-<h1>Reporte de Asistencia de los Pacientes</h1>
+<h1>Reporte de Asistencias</h1>
 <br>
-<form method="post">
-    {% csrf_token %}
-    {% bootstrap_form filter.form %}
-    <input type="submit" value="Save">
-</form>
 
-{% else %}
-<div class="row d-flex justify-content-center">
-    <div class="col-8">
-        <h1 class="text-center my-5 lead">No tienes permisos. </h1>
-    </div>
-</div>
-{% endif %}
-{% endblock %}
-
+<form method="get">
+    {{  filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+      <h2>Resultados:</h2>
+  {% for turno in filter.qs %}
+    <li>{{ turno.Paciente }} - {{ turno.FechaTurno }} - {{ turno.Asistencia }}</li>
+  {% endfor %}
+  </ul>
+{% endif%}
+{% endblock content %}
