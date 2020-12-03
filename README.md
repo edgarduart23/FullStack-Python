@@ -1,16 +1,14 @@
 # T.P-FullStack-Python-Javascript-Django
 
-Curso a distancia ofrecido por Polotics
-edgar2145151515
-mariano 25570703 gfdgfdgdgfhfgh 1111
-modificación agrgada 20/11/2020 09:43hs
-modificación agrgada 23/11/2020 15:34hs
+#Curso a distancia ofrecido por Polotics Misionoes
+
+#Integrantes: Mariano Aguirre, Edgardo Duarte, Sebastián Dávila, Melisa Madeloine Cruz Martinez. 
 
 https://es.stackoverflow.com/questions/930/roles-de-usuarios-en-django
 Pasos para crear usuarios
 
 $ python manage.py createsuperuser
-username: polotic
+username: admin
 pass: 1234
 
 Creamos usuarios
