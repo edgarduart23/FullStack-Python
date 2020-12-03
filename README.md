@@ -1,8 +1,8 @@
 # T.P-FullStack-Python-Javascript-Django
 
-#Curso a distancia ofrecido por Polotics Misionoes
+# Curso a distancia ofrecido por Polotics Misionoes
 
-#Integrantes: Mariano Aguirre, Edgardo Duarte, Sebastián Dávila, Melisa Madeloine Cruz Martinez. 
+# Integrantes: Mariano Aguirre, Edgardo Duarte, Sebastián Dávila, Melisa Madeloine Cruz Martinez. 
 
 https://es.stackoverflow.com/questions/930/roles-de-usuarios-en-django
 Pasos para crear usuarios
