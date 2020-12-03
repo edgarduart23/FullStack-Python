@@ -1,6 +1,6 @@
 # T.P-FullStack-Python-Javascript-Django
 
-# Curso a distancia ofrecido por Polotics Misionoes
+# Curso a distancia ofrecido por Polotics Misiones
 
 # Integrantes: Mariano Aguirre, Edgardo Duarte, Sebastián Dávila, Melisa Madeloine Cruz Martinez. 
 
